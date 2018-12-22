@@ -1,5 +1,5 @@
 ! ##########################################################################################################
-! Augmented Fourth						Brian Uri!, llamaboy@vt.edu
+! Augmented Fourth						Brian Uri!, brian@urizone.net
 ! See Aug4.inf for Copyright Information
 !
 ! Misc.inf
@@ -313,12 +313,12 @@ switch (menu_item)
 	font on;
 	print "^Of course, this list isn't definitive. If a command makes sense during the game, it is fairly likely that the game will understand it.^";
 	3: style bold;	print "Augmented Fourth^";		style roman;
-	print "by Brian Uri!, llamaboy@@64vt.edu^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. Thanks go to Graham Nelson for Inform and the rec.arts.int-fiction crowd for answering my cornucopia of questions. A pat on the back goes out to Michael Gentry as well, for his first IF effort, Anchorhead. Seeing and testing it made me realize that even big games can be completed with a little patience and effort. Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and gamma-testers, Vincent Lynch and Phil Swinbank, without whom this piece of IF would not be nearly as polished as it is. All remaining bugs are my own damned fault.^^";
-	print "The Augmented Fourth story file and source code are copyright (c) 2000 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. Consider this game commentware; if you would like to reimburse me, please send any and all constructive criticism or comments about the game (including bugs) to the above e-mail address.^^Augmented Fourth has no in-game hint system per se. If you need a vague nudge, help can be found by thinking, reading the materials in the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail me at the above address; I will usually respond within a day or so. The price for unlimited hints is a promise to send me a little feedback about the game once you've completed it.^";
+	print "by Brian Uri!^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. Thanks go to Graham Nelson for Inform and the rec.arts.int-fiction crowd for answering my cornucopia of questions. A pat on the back goes out to Michael Gentry as well, for his first IF effort, Anchorhead. Seeing and testing it made me realize that even big games can be completed with a little patience and effort. Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and gamma-testers, Vincent Lynch and Phil Swinbank, without whom this piece of IF would not be nearly as polished as it is. All remaining bugs are my own damned fault.^^";
+	print "The Augmented Fourth story file and source code are copyright (c) 2000-2009 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. Consider this game commentware; if you would like to reimburse me, please send any and all constructive criticism or comments about the game (including bugs) to the above e-mail address.^^Augmented Fourth has no in-game hint system per se. If you need a vague nudge, help can be found by thinking, reading the materials in the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail me at the above address; I will usually respond within a day or so. The price for unlimited hints is a promise to send me a little feedback about the game once you've completed it.^";
 	style bold;		print "^About the Author^";		style roman;
-	print "The author is currently a fourth-year student at Virginia Tech. He is double majoring in Music Composition and Computer Science, and occasionally finishes projects that he starts. His next work of interactive fiction will be a musical comedy based on the life of Genghis Khan.^";
+	print "When Augmented Fourth was created, the author was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. As of 2009, he is now a software engineer employed in Reston, Virginia. His next work of interactive fiction will be a musical comedy based on the life of Genghis Khan.^";
 	style bold;		print "^Release Notes^";		style roman;
-	print "Augmented Fourth was written over four months (from February '98 to April '98, and finally finished in January '00). It is truly a testament to the powers of procrastination. Testing was carried out over two months in February and March '00.^^Release 1 (April 1, 2000) is the initial public release of Augmented Fourth.^";
+	print "Augmented Fourth was originally released on April 1, 2000 (Release 1). That year, it was a finalist in two categories of XYZZY Awards: Best Puzzles and Best NPC (The King). Reviews of the game have been collected at the author's site: http://www.urizone.net/^^Release 2 (July 21, 2009) corrects a few minor bugs that always irritated the author, but not enough to render him willing to fix them during the previous nine years.";
 	}
 ];
 
@@ -711,11 +711,11 @@ before [;
 		self.waitCount++;
 		switch (self.waitCount)
 			{
-			2: "Winter changes into spring...eventually of course.";
-			3: "You wait around for a few moments.";
-			4: "The minutes tick by.";
-			5: "You waste a few more turns. ";
-			6: "You tap your foot impatiently.";
+			4: "Winter changes into spring...eventually of course.";
+			5: "You wait around for a few moments.";
+			6: "The minutes tick by.";
+			7: "You waste a few more turns. ";
+			8: "You tap your foot impatiently.";
 			default: "Time passes...";
 			}
 	WaveHands: "You wave from the wrist, fingers together and palm slightly cupped.";
@@ -872,6 +872,8 @@ before [;
 	Eat: "The key should be safe enough without resorting to swallowing it. ";
 	Insert: if (second == RWKeyhole)
 			<<Unlock second self>>; 
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Swing, Wave: "You wave the key around. ";
 	];
 
@@ -954,6 +956,8 @@ before [x;
 			}
 		if (self notin player)
 			"You need to be holding the sheet music, or have learned it, before you can play it. ";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Smell: "The sheet music smells faintly of vellum. ";
 	Take: if (self notin player)
 			{
@@ -971,6 +975,8 @@ Class PuzzlePiece
 class	InvObj,
 with	slot,
 before [;
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Smell: "You detect no unique aromas from the piece. ";
 	Taste: "It tastes papery. ";
 	Touch: "The puzzle piece is smooth to the touch. ";

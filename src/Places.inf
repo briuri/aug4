@@ -1,5 +1,5 @@
 ! ##########################################################################################################
-! Augmented Fourth						Brian Uri!, llamaboy@vt.edu
+! Augmented Fourth						Brian Uri!, brian@urizone.net
 ! See Aug4.inf for Copyright Information
 !
 ! Places.inf
@@ -116,6 +116,7 @@
 !	LLPine
 !	LLPlaque
 !	LLRocks	(found_in LibraryLane LeonineHouse PavedRoad MazeEntrance VolcanoCenter EastHouse 	FinneyHouse FishPond)
+!	LLSkylight
 ! LowerHall (LH2)
 !	LH2Balcony
 !	LH2Staircase
@@ -2822,6 +2823,18 @@ each_turn [;
 		],
 	found_in Library LibraryLane;
 
+	RoomObj LLSkylight "skylights" LibraryLane
+	with	name "skylight" "sky" "light" "skylights",
+	description "Skylights dot the roof every twenty feet or so. They are far out of your reach.",
+	before [;
+		Attack: "You can't reach them from here.";
+		Close: "The skylights are closed already.";
+		Knock: "You can't reach them from here.";
+		Open, Touch: "They can't be reached from down here, but regardless of that, they're probably just extra scenery added to the building for effect.";
+		StandUnder: "You can't stand under the skylights while you're outside.";
+		],
+	has pluralname;
+	
 	RoomObj LLPath "path" LibraryLane
 	with	name "road" "path" "lane",
 	description "The path is lined with tiny pine trees and runs from the north to the south.",
@@ -2929,27 +2942,21 @@ cant_go "You can go up the stairs here, or east and southeast.";
 		Listen: "You put your ear up to the statue but hear nothing unusual.";
 		LookUnder: "It's doubtful that you'd be able to move the statue aside to look underneath it.";
 		Pull, Push: "The statue cannot be moved; it is too heavy.";
-		Search: "The arm carrying the granite mallets seems to be loose.";
+		Search: "You discover nothing unusual about the statue.";
 		];
 
 	RoomObj LH2StatueArm "statue's arm" LowerHall
 	class	GraniteObj,
 	with	name "arm" "hand" "mallets" "keyboard" "pair",
-		description "The arm of the statue carries a granite pair of keyboard mallets. It seems to be loose.",
+		description "The arm of the statue carries a granite pair of keyboard mallets, frozen in time as if downbeat is imminent.",
 	before [;
 		Cut: if (second == jigSaw)
 			"The blade of the jigsaw is not sturdy enough to slice through the statue.";
-		Pull, Push, Turn: if (self hasnt firstTime)
-				{
-				give self firstTime;
-				"The statue's arm moves a fraction of an inch. For a moment, you hear the sound of heavy machinery, but it stops too soon to determine where the sound came from.";
-				}
-			"You tug on the statue's arm again and hear the sound of machinery close by.";
+		Pull, Push, Turn: "You tug on the statue's arm but it does not budge.";
 		Search: "There is a hairline crack around the shoulder of the statue's arm.";
 		Squeeze: "You shake the statue's hand firmly.";
 		Take: "You can't seem to remove the arm or the granite mallets from the rest of the statue.";
-		],
-	has	~firstTime;	! Never pulled / Pulled
+		];
 
 ! ######################
 ! ### Magic Lab (ML) ###
@@ -3693,7 +3700,7 @@ has	~firstTime;	! Never visited / Visited
 		return i;
 		],
 		rockCount 0,
-	description "The rock pile against the south wall consists mostly of massive chunks of granite, although you do see a heavy rock of more manageable size close to the top.",
+	description "The rock pile against the south wall consists mostly of massive chunks of granite, although you do see a few heavy rocks of more manageable size close to the top.",
 	before [;
 		Climb, Empty, Lift, Pull, Push: "Upsetting the rock pile would be extremely dangerous, especially when you're standing next to it.";
 		Eat: "These rocks are much, much, much more than you can chew.";
@@ -4416,7 +4423,9 @@ e_to [; if (PBHole notin PitBottom)
 		}
 	return (NarrowPass);
 	],
-out_to "You seem to be trapped in a pit at the moment.",
+out_to [;
+		<<Go e_obj>>;
+	],
 cant_go "You seem to be trapped in a pit at the moment.",
 each_turn [;
 	if (pitGuards in PitBottom)
@@ -4456,7 +4465,7 @@ has	~flag ~firstTime;
 		print_ret (string) random("It is currently careening off the sides of the pit in a mad dash for the bottom.", "There is a trumpet case falling from the sky. On any other day, that might seem peculiar. ");
 		],
 	before [;
-		Catch: "The force of catching the case from that high up would pound you into the mud like a nail.";
+		Catch: "The force of catching the case at its current speed would pound you into the mud like a nail.";
 		Examine: rfalse;
 		StandUnder: "Standing under a large falling trumpet case would be suicide! ";
 		default: "The case is too high up to do that.";

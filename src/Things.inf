@@ -1,5 +1,5 @@
 ! ##########################################################################################################
-! Augmented Fourth						Brian Uri!, llamaboy@vt.edu
+! Augmented Fourth						Brian Uri!, brian@urizone.net
 ! See Aug4.inf for Copyright Information
 !
 ! Things.inf
@@ -17,7 +17,6 @@
 !	darkPlay(): Trumpet routines for OfficeDark
 !	endPlay(key): The menu for standard songs used in the Endgame
 !	endPlayNew(key): The menu for medley songs in the Endgame
-!	fizzle(): Returns the chance of success for playing a song correctly
 !	listSongs(): Prints out the names for the playing menu
 !	oneSong(song): Trumpet routines when the player only knows one song
 !	playEnd(key): Parses the selection of standard music in the Endgame
@@ -92,6 +91,8 @@ before [key x;
 	Insert: if (second == SQHole or QETrapdoor)
 			"That would not be a good idea.";
 	Open: "You peek in all of the slides but find nothing interesting.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Rub: "You shine your trumpet diligently.";
 	Search: "A cursory search of the trumpet finds nothing unexpected.";
 	Smell: "The trumpet has a pleasing scent of polish tinged with oil.";
@@ -155,12 +156,6 @@ endPlayNew [key x;
 	print "^";
 	return (x);
 	],
-fizzle [x;
-	x = 50 + (Improvement.count) * 20;
-	if (random(100) <= x)
-		rfalse;
-	rtrue;
-	],
 listSongs [;
 	if (SongBag --> 0)
 		print "   (O) Ode to a Duck: Summons a duck^";
@@ -190,8 +185,6 @@ oneSong [;
 			" Leonine claps and laughs. ~Told ya you'd have some fun!~";
 		"";
 		}
-	if (self.fizzle())			! Fizzling
-		print_ret (string) random("~Ode to a Duck~ sounds wrong from the moment you start it, and sure enough, nothing happens. ", "You miss an accidental at a crucial point in ~Ode to a Duck~, and the effect is lost. ", "You play the song, ~Ode to a Duck~ as best as you can, but something goes wrong somewhere, because nothing happens. ", "You give ~Ode to a Duck~ your best effort, but the last note is horribly out of tune. Nothing happens. ");
 	if (theDuck in location || parent(theDuck) in location)		! Duck here already
 		"The melody from ~Ode to a Duck~ echoes through the air but nothing happens.";
 	give theDuck ~asleep;
@@ -241,8 +234,6 @@ playEndNew [key;
 playPick [song;
 	if (SongBag --> (song - 1))
 		{
-		if (trumpet.fizzle())
-			print_ret (string) random("The melody sounds wrong from the moment you start it, and sure enough, nothing happens. ", "You miss an accidental at a crucial point in the song, and the effect is lost. ", "You play the song as best as you can, but something goes wrong somewhere, because nothing happens. ", "You give the song your best effort, but the last note is horribly out of tune. Nothing happens. ");
 		switch (song)
 			{
 			DUCK: <<Duck location>>;
@@ -283,8 +274,6 @@ playSong [key song;
 	if (song == 0)
 		rfalse;
 	print "^";
-	if (self.fizzle())
-		print_ret (string) random("The melody sounds wrong from the moment you start it, and sure enough, nothing happens. ", "You miss an accidental at a crucial point in the song, and the effect is lost. ", "You play the song as best as you can, but something goes wrong somewhere, because nothing happens. ", "You give the song your best effort, but the last note is horribly out of tune. Nothing happens. ");
 	switch (song)
 		{
 		DUCK: <<Duck location>>;
@@ -532,6 +521,8 @@ before [;
 	Lift: "The armadillo is quite light.";
 	Listen: "You put your ear up to the wooden armadillo's mouth but it does not speak.";
 	Open: "The armadillo has no secret panels to open.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Search: "You find nothing untoward about the wooden armadillo.";
 	Squeeze: "You give the armadillo a friendly squeeze.";
 	Touch: "The armadillo feels like it's made out of a soft wood.";
@@ -596,6 +587,8 @@ before [;
 	Drink: "The cup is empty.";
 	Empty: "The cup is already empty.";
 	Fill: "You need to specify what you wish to fill the cup with.";
+	PutUnder: if (second == theDuck)
+			"It's highly unlikely that the duck would lay an egg in the cup.";
 	Smell: "The cup has no scent.";
 	Taste: "Licking the cup leaves an odd tang on your tongue.";
 	],
@@ -633,6 +626,8 @@ before [;
 			"You put the cup of mud on ", (the) second, ".";
 			}
 		"Putting things on ", (the) second, " would achieve nothing.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Receive: "The cup is already full.";
 	Search: "You run your fingers through mud, but you don't find anything.";
 	Smell: "The mud smells about as unappetizing as it looks.";
@@ -691,6 +686,8 @@ before [;
 		if (second == MHFudge)
 			"That would spoil a perfectly good brownie.";
 		"Putting things on ", (the) second, " would achieve nothing.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Receive: "The cup is already full.";
 	Smell: "There is no discernible scent to the water.";
 	Take: if (onotheld_mode == 0 || noun notin player)
@@ -731,8 +728,6 @@ before [;
 			}
 		"The door is already closed.";
 	Attack: "From the looks of it, this door is no strange to dents and scratches, but it seems to have held up pretty well.";
-	Drop: move self to parent(player);
-		"You gently set the door down.";
 	Enter: if (self notin RWDepression)
 			"The door leads nowhere.";
 		<<Go e_obj>>;
@@ -779,6 +774,8 @@ before [;
 			}
 		"The door is already open.";
 	Pull, Push, PushDir: "Moving the door around won't help.";
+	PutUnder: if (second == theDuck)
+			"Doing that would not make the duck any more a-door-able.";
 	Remove: if (self in RWDepression)
 			"The door seems to have become a permanent part of the marble face.";
 	Search: "You scan the surface of the door, but find nothing untoward.";
@@ -901,13 +898,17 @@ before [;
 				"The rock doesn't quite clear the edges of the trapdoor.";
 			"The trapdoor is closed.";
 			}
+	PutUnder: if (second == QEScale)
+			{
+			"There isn't quite enough room underneath the platform for the rock.";
+			}
 	Push, Pull, PushDir: if (self in player)
 			"You are carrying the rock.";
 		"The rock is too uneven to roll with much success. You'd be better off carrying it.";
 	Remove: if (self in SQScale)
 		<<Take self>>;
 	Take: if (self in player)
-			"You're already carrying the rock.";
+			"You're already carrying a rock.";
 		if (child(player) ~= nothing)
 			"You're carrying too much to pick up the rock.";
 		print "You struggle underneath the weight of the rock.";
@@ -1139,6 +1140,8 @@ description [;
 before [;
 	Catch: "You toss the ring up in the air and catch it.";
 	Eat: "The ring doesn't look appetizing.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Take: if (self hasnt firstTime)
 			{
 			score = score + 1;
@@ -1161,6 +1164,8 @@ description [;
 	"You can't make out what it says from here.";
 	],
 before [;
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Take: if (self hasnt firstTime)
 			{
 			give self firstTime;
@@ -1180,6 +1185,8 @@ before [;
 		"You gently set the mirror down.";
 	Enter: "You try to step through the mirror, but it would seem that you're in the wrong adventure.";
 	Examine, Search: "You gaze into the mirror, but unlock no secrets.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Hang: if (player in VaultDoor)
 			<<Insert self VDFrame>>;
 	Touch: "You touch your reflection.";
@@ -1251,6 +1258,8 @@ before [;
 			}
 	Pull: if (self hasnt firstTime)
 			<<Take self>>;
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Take: if (self hasnt firstTime)
 			{
 			give self firstTime;
@@ -1278,6 +1287,8 @@ before [;
 			}
 		<<Tie self second>>;
 	JumpOver: "Using the length of rubber as a skipping rope, you do a quick set of jumps.";
+	PutUnder: if (second == theDuck)
+			"The duck would probably resent being used as a paperweight.";
 	Smell: "The smell of rubber is intermingled with the leftover scent of the quarry where it was found.";
 	Swing, Wave: "Swinging the rubber length through the air produces a whirring sound.";
 	Take: if (self hasnt firstTime)
@@ -1693,6 +1704,7 @@ topics [w;
 		67, 'xylophone', 'mallets': "Xylophone:^A percussion instrument consisting of a set of graduated, tuned wooden bars supported at nodal points and struck with padded mallets.";
 		68, 'control', 'room': "Control Room:^Hmm...this entry has been purged.";
 		69, 'maze', 'dread': "Maze of Dread:^This maze separates Snoobar's house from the rest of the community. Tales have been told of people entering and never returning, although most tales are probably tall, given the lack of visitors to the community.";
+		70, 'catkins', 'diet': "Catkins Diet:^A weight-loss solution which involves food prepared by the brothers and sisters of a kitten, but only on alternating days.";
 		}
 	];
 
@@ -2532,6 +2544,7 @@ orders [w;
 	Climb: if (location == EastHouse && noun == EHSlingshot or EHTree)
 				"Leonine climbs up the tree, but hops down when it creaks alarmingly under his weight.";
 	DigRoom: "~Whatever do I need a hole for?~";
+	Eat: "~Nah... I'm on the Catkins diet!~";
 	Enter: switch (location)
 			{
 			EastHouse: if (noun == EHWindow)
@@ -2745,7 +2758,7 @@ askAbout [w;
 		'amoshtuff', 'butler': "~Ah, that's the butler of Madame Fou-llama. I never get to talk to her anymore since she put up that Security Maze.~";
 		'avalon': "Leonine frowns. ~That was gonna be the name of my community, but it was already taken!~";
 		'banana', 'peeled': "~Very good for the body! I have at least one every meal.~";
-		'bank', 'fifth', 'key', 'safe': "~Every community must have a bank! I even have an account there... actually it's a group account since there's only one safe.~";
+		'bank', 'fifth': "~Every community must have a bank! I even have an account there... actually it's a group account since there's only one safe.~";
 		'community', 'odd', 'nolava', 'volcano': "~Don't you love it? I should found communities more often!~";
 		'devices': "~Oh, I have all sorts of devices.~ He scratches his head. ~I sure wish I could remember what they did...~";
 		'door': if (location == MagicLab)
@@ -2780,6 +2793,7 @@ askAbout [w;
 		'leonine', 'wizard', 'founder', 'magician', 'self', 'himself': "Leonine snaps his fingers and his name appears across his chest. ~That's me!~";
 		'library': "~That is our community's contribution to higher learning! It's up the road from my house.~";
 		'lights', 'balls': "~That's a very delicate experiment. It's best if you leave it be!~";
+		'key', 'safe': "Leonine's brow wrinkles. ~Oh, you must mean the communal safe at the bank! I used to have an account there so I probably have the last key in existence!~";
 		'magic', 'lab': "~Don't stay in my magic lab too long, you might go insane... I know I haven't.~";
 		'manual', 'building', 'codes': "~Yup, Ahtha was an organized coot. He kept a written record of all the projects he undertook in the Odd Community and kept it in his office.~";
 		'maze', 'dread', 'security', 'fou-llama^s', 'foullama^s': "~There's two mazes in the Odd Community... one is outside of Madame Fou-llama's estate and the other is on the way to Snoobar's house.~";

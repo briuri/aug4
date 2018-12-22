@@ -1,13 +1,13 @@
 ! ##########################################################################################################
-! Augmented Fourth						Brian Uri!, llamaboy@vt.edu
-! Version 1.0							Inform 6.21 / 6/10 Libraries
+! Augmented Fourth						Brian Uri!, brian@urizone.net
+! Version 2							Inform 6.21 / 6/10 Libraries
 !
 ! WANTED: Amateur musicians to serve the Royal Court. Must provide own instrument and be inured to 
 ! copious constructive criticism. Impress your friends! Meet the King! Apply in person at the Castle,
 ! located on the south side of the volcano in sunny Central Papoosen.
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright ©2000 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. 
+! are copyright ©2000-2009 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. 
 ! Consider this game commentware; if you would like to reimburse me, please send any and all constructive 
 ! criticism or comments about the game to the above e-mail address.
 !
@@ -21,10 +21,9 @@
 !	Includes
 !	Extended Grammar
 !
-! - Prepare to bow down before the new god of inefficient coding and redundant data structures. This is a
-! good example of how not to code your first game. The next one will be more efficient, I promise! You'd
-! almost think I didn't know about the after property in some cases. I'm making the source available mainly
-! for anyone curious about the LetterMaze and other halfway decent constructs.
+! - This is a good example of how not to code your first game. You'd almost think I didn't know about the 
+! after property in some cases. I'm making the source available mainly for anyone curious about the LetterMaze 
+! and other halfway decent constructs.
 ! - Though it's embarassing to look at, I learned gads by making so many mistakes and missteps. There's really
 ! no better way to learn Inform than to hack away and trip over yourself several times. Also, I'm making this
 ! publically available, because I think it's a great learning tool to study other people's code, regardless
@@ -33,11 +32,18 @@
 ! - These source files are screen width unfriendly. To keep the routine structure visible, I tend to group
 ! strings into single calls, which often extend for miles beyond the end of the screen. I have no problems
 ! coding like this, but you may wish to turn on Word Wrap.
-! - All coding was done with Super Note Tab v2.63e
+! - All coding was done with Super Note Tab v2.63e, and 5.7b
+!
+! Open Issues:
+! - When using the viewscope, the room descriptions still appear as first-person, describing smells and such.
+! - It would be neat if you could see into Moilan's house, the widow's private quarters, or the flood quarry
+!   with the viewscope.
+! - If you empty the cup of mud or water indoors, it is absorbed into the ground. When NPCs are present, they
+!   do not notice.
 !
 ! ##########################################################################################################
 
-Release 1;					! Current Release Number
+Release 2;					! Current Release Number
 
 ! #####################
 ! ### Abbreviations ###
@@ -65,9 +71,9 @@ Constant LITERAL 7;
 Constant MODULATE 8;
 Constant Story "Augmented Fourth";		! Game Title
 #IFDEF DEBUG;
-	Constant Headline "^An Interactive Performance^(c) 2000 by Brian Uri!, llamaboy@@64vt.edu^Type ~help~ at any time for game information.^^POST-RELEASE VERSION 4/13^^";	! Headline with testing info
+	Constant Headline "^An Interactive Performance^(c) 2000-2009 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^^POST-RELEASE VERSION 7/21^^";	! Headline with testing info
 #IFNOT;
-	Constant Headline "^An Interactive Performance^(c) 2000 by Brian Uri!, llamaboy@@64vt.edu^Type ~help~ at any time for game information.^";					! Headline without testing info
+	Constant Headline "^An Interactive Performance^(c) 2000-2009 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^";					! Headline without testing info
 #ENDIF;
 
 ! ###############
@@ -349,6 +355,8 @@ Verb "practice" "practise"
 	* noun				-> Practice;
 Extend "pronouns" replace
 	*				-> Pronoun;
+Extend "put"
+	* noun "under" noun		-> PutUnder;
 Verb "quack"
 	*				-> Quack
 	* 'at' noun			-> Quack;
@@ -479,7 +487,7 @@ print "^The vast majority of bugs that cause interpreter crashes should be fixed
 style bold;	print "^Writing Comments^";		style roman;
 print "^If you employ the SCRIPT function while you test, you may wish to write comments during your play session. Comments can be added to the transcript with the ` key (the tilde key without SHIFT). You must have a space after the ` for it to work properly. For example, ";
 font off; 	print "^^` This puzzle is too hard.";	font on;
-print "^^Well, that's everything in a nutshell. If you have any further questions or require gentle nudges in the right direction, feel free to contact me at llamaboy@@64vt.edu. Augmented Fourth was designed to be fairly linear, but open enough for exploration. It definitely does not have the breadth or scope of some other heavyweight IF titles, and I tried to make the puzzles range from moderately easy to moderately difficult. Again, thanks for taking time out of your busy schedules to help with testing. All testers will, of course, be mentioned in the credits, and one lucky tester may get the chance to be entered in a drawing to be selected as a finalist competing for a chance to win a new car!^";
+print "^^Well, that's everything in a nutshell. If you have any further questions or require gentle nudges in the right direction, feel free to contact me. Augmented Fourth was designed to be fairly linear, but open enough for exploration. It definitely does not have the breadth or scope of some other heavyweight IF titles, and I tried to make the puzzles range from moderately easy to moderately difficult. Again, thanks for taking time out of your busy schedules to help with testing. All testers will, of course, be mentioned in the credits, and one lucky tester may get the chance to be entered in a drawing to be selected as a finalist competing for a chance to win a new car!^";
 print "^Regards,^Brian Uri!^";
 ];
 
@@ -492,8 +500,6 @@ wn = consult_from;
 w = NextWord();
 switch (w)
 	{
-	'fizzle': Improvement.count = 3;
-		"Trumpet Improvement cheat.";
 	'inv': move cupMud to player;
 		move mirror to player;
 		move herring to player;
@@ -890,6 +896,10 @@ trumpet.playPick(song);
 
 [PlughSub;
 "A hollow voice asks, ~How do you pronounce that, anyways?~ ";
+];
+
+[PutUnderSub;
+"That doesn't seem to accomplish anything.";
 ];
 
 [QuackSub topic;
