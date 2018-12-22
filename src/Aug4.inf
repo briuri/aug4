@@ -1,18 +1,61 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian@urizone.net
-! Version 2							Inform 6.21 / 6/10 Libraries
+! Release 3								Inform 6.21 / 6/10 Libraries
 !
-! WANTED: Amateur musicians to serve the Royal Court. Must provide own instrument and be inured to 
-! copious constructive criticism. Impress your friends! Meet the King! Apply in person at the Castle,
-! located on the south side of the volcano in sunny Central Papoosen.
+! ### Copyright ####
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright ©2000-2009 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. 
-! Consider this game commentware; if you would like to reimburse me, please send any and all constructive 
-! criticism or comments about the game to the above e-mail address.
+! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
+! constructive criticism or comments about the game to the above e-mail address.
 !
-! Aug4.inf
-! In THIS file, you will find:
+! ### Note from the Author ###
+!
+! I'm making this code available in the hopes that it will help or inspire someone else to start
+! their own Interactive Fiction work. I learned gads by simple diving in, making mistakes, and studying
+! the coding styles of various authors in the IF Archive. However, I make no guarantees about the
+! quality or correctness of the code. Source code does not age well, especially Inform 6 source code 
+! from the only game I've ever written.
+!
+! The source code is split up into four separate files:
+!	- Aug4.inf contains general purpose stuff like constants, verbs, and defaults.
+!	- Misc.inf contains shared base classes, custom functions, and tricky code.
+! 	- Places.inf contains all of the rooms and scenery objects.
+!	- Things.inf contains inventory, books, and NPCs. 
+! To keep routine structure visible, I grouped some strings into single calls, which often extended for miles
+! beyond the width of the screen. I had no problems coding like this in the year 2000, but you may wish to 
+! turn on Word Wrap.
+!
+! ### Changes Log ###
+!
+! Release 1 (April 1, 2000):
+! 	- This was the initial public release.
+! Release 2 (July 21, 2009):
+!	- Fixed a crash bug caused by examining an object in the Fifth Bank of Nolava.
+!	- Removed a maddening red herring from Finney's House.
+!	- Removed the random, unenjoyable "chance to fail" from attempts to play your trumpet.
+!	- Added several default verb actions and new verbs suggested by players.
+!	- Added a few more gentle hints to one of Leonine's puzzles.
+!	- Cleaned up source code formatting.
+! Release 3 (July 2, 2013):
+!	- Fixed various bugs related to the "Lively Jig" sheet music.
+!	- Fixed descriptive text related to the gender of the duck and Madame Fou-llama.
+!	- Added synonyms for various scenery and inventory objects.
+!	- Added a few more gentle hints to the Silver Key puzzle.
+!	- Added a gentle hint to the Bank puzzle.
+!	- Cleaned up source code formatting.
+!
+! ### Open Issues ###
+!
+!	- When using the viewscope, room descriptions still appear in the first-person (describing smells and 
+!	  such).
+!   - It would be fun to see into Moilan's house, the widow's private quarters, or the flood quarry with the
+!	  viewscope.
+!	- If you empty the cup of mud/water indoors, it is absorbed into the ground. Also, NPCs do not notice.
+!	- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
+!
+! ### Aug4.inf File Contents ###
+!
 !	Abbreviations
 ! 	Game Constants
 !	Global Variables
@@ -20,48 +63,30 @@
 !	Replacements
 !	Includes
 !	Extended Grammar
-!
-! - This is a good example of how not to code your first game. You'd almost think I didn't know about the 
-! after property in some cases. I'm making the source available mainly for anyone curious about the LetterMaze 
-! and other halfway decent constructs.
-! - Though it's embarassing to look at, I learned gads by making so many mistakes and missteps. There's really
-! no better way to learn Inform than to hack away and trip over yourself several times. Also, I'm making this
-! publically available, because I think it's a great learning tool to study other people's code, regardless
-! of how bad it looks. I definitely learned a lot by studying the coding styles of the various authors in the
-! source directory of ftp.gmd.de.
-! - These source files are screen width unfriendly. To keep the routine structure visible, I tend to group
-! strings into single calls, which often extend for miles beyond the end of the screen. I have no problems
-! coding like this, but you may wish to turn on Word Wrap.
-! - All coding was done with Super Note Tab v2.63e, and 5.7b
-!
-! Open Issues:
-! - When using the viewscope, the room descriptions still appear as first-person, describing smells and such.
-! - It would be neat if you could see into Moilan's house, the widow's private quarters, or the flood quarry
-!   with the viewscope.
-! - If you empty the cup of mud or water indoors, it is absorbed into the ground. When NPCs are present, they
-!   do not notice.
-!
 ! ##########################################################################################################
 
-Release 2;					! Current Release Number
+Release 3;					! Current Release Number
 
 ! #####################
 ! ### Abbreviations ###
 ! #####################
 
-Abbreviate ". " ", " " the " "The" "You" "Leonine" "ing" "Mullog" "you" "and" "Odd Communit" "Papoosen" " th" " to" " of" " granite" " st" " in" " fr" " wa" " ma" " lo" " li" " abo" " hi" " wh" " so" " mo" " with" " is" " wo" " pla" " sh" " de" " duck" " mu" " be" " out" " fi" " cl" " ho" " have" " ch" " noth" " tr" " up" " cou" " qu" " hea" " si" " pu" " doo" "'t see" " pa" " for" " back" " di" " can" " bu" " are" " on" " un" "..." " ro";
+Abbreviate ". " ", " " the " "The" "You" "Leonine" "ing" "Mullog" "you" "and" "Odd Communit" "Papoosen" " th" " to" " of" 
+	" granite" " st" " in" " fr" " wa" " ma" " lo" " li" " abo" " hi" " wh" " so" " mo" " with" " is" " wo" " pla" " sh" " de" 
+	" duck" " mu" " be" " out" " fi" " cl" " ho" " have" " ch" " noth" " tr" " up" " cou" " qu" " hea" " si" " pu" " doo" 
+	"'t see" " pa" " for" " back" " di" " can" " bu" " are" " on" " un" "..." " ro";
 
 ! ######################
 ! ### Game Constants ###
 ! ######################
 
-Constant AMUSING_PROVIDED;			! Display Full Score and Amusing after Win
-Constant DEATH_MENTION_UNDO;		! Show UNDO after death
-Constant MAX_CARRIED 10;			! Inventory Limit
-Constant MAX_SCORE 70;			! Maximum Possible Score
-Constant NO_PLACES;				! Removes the PLACES and OBJECTS verbs
-Constant WITHOUT_DIRECTIONS;		! Removes default directions
-Constant DUCK 1;				! Constants for the 8 Songs
+Constant AMUSING_PROVIDED;				! Display Full Score and Amusing after Win
+Constant DEATH_MENTION_UNDO;			! Show UNDO after death
+Constant MAX_CARRIED 10;				! Inventory Limit
+Constant MAX_SCORE 70;					! Maximum Possible Score
+Constant NO_PLACES;						! Removes the PLACES and OBJECTS verbs
+Constant WITHOUT_DIRECTIONS;			! Removes default directions
+Constant DUCK 1;						! Constants for the 8 Songs
 Constant RAIN 2;
 Constant HEAVY 3;
 Constant JIG 4;
@@ -71,9 +96,11 @@ Constant LITERAL 7;
 Constant MODULATE 8;
 Constant Story "Augmented Fourth";		! Game Title
 #IFDEF DEBUG;
-	Constant Headline "^An Interactive Performance^(c) 2000-2009 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^^POST-RELEASE VERSION 7/21^^";	! Headline with testing info
+	! Headline with testing info
+	Constant Headline "^^DEBUG IS ENABLED!!!^^";	
 #IFNOT;
-	Constant Headline "^An Interactive Performance^(c) 2000-2009 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^";					! Headline without testing info
+	! Headling without testing info
+	Constant Headline "^An Interactive Performance^(c) 2000-2013 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^";
 #ENDIF;
 
 ! ###############
@@ -88,8 +115,8 @@ Global gBook;			! Which book is being consulted.
 ! ##################
 
 Attribute asleep;		! NPC Flag
-Attribute firstTime;		! Actions triggered on first visit Flag
-Attribute flag;		! All-Purpose Flag (like general but faster to type ;) )
+Attribute firstTime;	! Actions triggered on first visit Flag
+Attribute flag;			! All-Purpose Flag (like general but faster to type ;) )
 Attribute happy;		! NPC Flag
 Attribute novisit;		! If Leonine can visit the room.
 
@@ -166,100 +193,100 @@ Include "Grammar";	! Inform Library
 ! ##########################################################################################################
 
 Verb meta "about"
-	*				-> Help;
+	*						-> Help;
 Verb "apologize"
-	*				-> Sorry;
+	*						-> Sorry;
 Verb "beg"
 	* "for" noun			-> Pray
 	* noun "for" noun		-> AskFor;
 Verb "bribe"
-	* noun				-> Bribe;
+	* noun					-> Bribe;
 Verb "bitch"
-	*				-> Strong
-	* topic			-> Strong;
+	*						-> Strong
+	* topic					-> Strong;
 Verb "build" "construct"
-	* noun				-> Construct;
+	* noun					-> Construct;
 Verb "cachinnate"
-	*				-> Cachinnate;
+	*						-> Cachinnate;
 Verb "carve" "rip" "saw" "tear" 
-	* noun				-> Cut
+	* noun					-> Cut
 	* noun "with" held		-> Cut;
 Verb "catch"
-	* noun				-> Catch;
+	* noun					-> Catch;
 Extend "climb"
-	* "in" noun			-> Climb
-	* "on" noun			-> Climb
+	* "in" noun				-> Climb
+	* "on" noun				-> Climb
 	* "through" noun		-> Climb
 	* "down" noun			-> ClimbDown;
 Verb "continue"
-	* "falling"			-> KeepFall;
+	* "falling"				-> KeepFall;
 Verb "cook"
-	* noun				-> Burn;
+	* noun					-> Burn;
 Verb "count"
-	* noun				-> Count;
+	* noun					-> Count;
 Extend "cut"
-	* noun "with" held		-> Cut
+	* noun "with" held			-> Cut
 	* "down" noun "with" held	-> Cut;
 Verb "dance"
-	*				-> Dance;
+	*						-> Dance;
 Verb "dent" "kick"
-	* noun				-> Attack;
+	* noun					-> Attack;
 Extend only "die" replace
-	*				-> Suicide;
+	*						-> Suicide;
 Extend "dig" replace
-	*				-> DigRoom
-	* noun				-> Dig
+	*						-> DigRoom
+	* noun					-> Dig
 	* noun 'with' held		-> Dig
 	* "through"/"in" noun	-> Dig
-	* "hole"			-> DigRoom
+	* "hole"				-> DigRoom
 	* "hole" "in" noun		-> Dig;
 Extend "disrobe" first
-	*				-> Undress;
+	*						-> Undress;
 Extend "dive"
-	* "in" noun			-> Enter;
+	* "in" noun				-> Enter;
 Extend "drink" last
 	* "trumpet" "oil"		-> DrinkOil;
 Extend "eat" replace
-	* noun				-> Eat;
+	* noun					-> Eat;
 Verb "echo"
-	*				-> Echo;
+	*						-> Echo;
 Verb "enlarge" "widen"
-	* noun				-> Enlarge;
+	* noun					-> Enlarge;
 Extend "examine" first
-	* "me"				-> MeLook;
+	* "me"					-> MeLook;
 Verb "fall"
-	*				-> Fall;
+	*						-> Fall;
 Extend "feel" first
 	* "me"/"self"			-> MeFeel;
 Extend "fill"	
 	* noun "with" noun		-> Insert reverse;
 Verb "fire" "launch" "shoot"
-	* noun				-> Fire
+	* noun					-> Fire
 	* noun "at" noun		-> Fire;
 Verb "flail"
-	*				-> Flail
-	* 'helplessly'		-> Flail;
+	*						-> Flail
+	* 'helplessly'			-> Flail;
 Verb "fly"	
-	*				-> Fly;
+	*						-> Fly;
 Verb "follow"
-	* topic			-> Follow;
+	* topic					-> Follow;
 Verb "forget"
-	* topic			-> Forget;
+	* topic					-> Forget;
 Verb "frotz" "rezrov" "plover" "zork" "abracadabra"	
-	*				-> Frotz;
+	*						-> Frotz;
 Extend "get" replace
-	* 'out'/'off'/'up'		-> Exit
-	* multi			-> Take
-	* 'in'/'into' noun		-> Enter
-	* 'on'/'onto' noun		-> Climb
-	* 'off' noun			-> GetOff
+	* 'out'/'off'/'up'			-> Exit
+	* multi						-> Take
+	* 'in'/'into' noun			-> Enter
+	* 'on'/'onto' noun			-> Climb
+	* 'off' noun				-> GetOff
 	* multiinside 'from' noun	-> Remove
-	* "out" "of" noun		-> Exit;
+	* "out" "of" noun			-> Exit;
 Verb "glock"
-	*				-> Glock
+	*					-> Glock
 	* noun				-> Glock;
 Extend "go"
-	* "down" noun			-> Enter
+	* "down" noun		-> Enter
 	* "to" noun			-> Enter;
 Verb "grab" "grasp"
 	* "at" noun			-> Take
@@ -269,37 +296,37 @@ Verb "greet"
 Verb "hang"
 	* noun				-> Hang;
 Verb "health" "diagnose"
-	*				-> Health;
+	*					-> Health;
 Verb "hello"
 	* "sailor"			-> Frotz;
 Verb "hide"
-	*				-> Hide;
+	*					-> Hide;
 Verb "hum"
-	*				-> Hum
-	* topic			-> SingX;
+	*					-> Hum
+	* topic				-> SingX;
 Verb meta "help"
-	*				-> Help;
+	*					-> Help;
 Extend "jump"		
-	* "in"/"on" noun		-> Jump
-	* "off" noun			-> JumpOff;
+	* "in"/"on" noun	-> Jump
+	* "off" noun		-> JumpOff;
 Verb "keep"
 	* "falling"			-> KeepFall
-	* "on" "falling"		-> KeepFall;
+	* "on" "falling"	-> KeepFall;
 Verb "kw"
 	* "stop"			-> KeywordOff
-	* topic			-> Keyword;
+	* topic				-> Keyword;
 Extend "kill" first
-	* "me"/"self"			-> Suicide;
+	* "me"/"self"		-> Suicide;
 Extend 'kill'
-	* topic			-> Attack;
+	* topic				-> Attack;
 Verb "knock"
-	* "on"/"at" noun		-> Knock;
+	* "on"/"at" noun	-> Knock;
 Extend "lock" first
 	* noun				-> LockKey;
 Extend "look"	first	
 	* "up"				-> LookUp
 	* "down"			-> LookDown
-	* "at" "me"/"self"		-> MeLook;
+	* "at" "me"/"self"	-> MeLook;
 Extend "look" last
 	* "on" noun			-> Examine
 	* "up" noun			-> Search
@@ -307,7 +334,7 @@ Extend "look" last
 Verb "learn" "memorize" "memorise"
 	* noun				-> Learn;
 Verb "lose"
-	*				-> Lose;
+	*					-> Lose;
 Verb "lower"	
 	* noun				-> Lower;
 Verb "lick"
@@ -317,19 +344,19 @@ Verb "lift" "raise" "elevate"
 	* "up" noun			-> Lift;
 Verb "make"
 	* noun "bigger"/"larger"	-> Enlarge
-	* noun				-> Construct
-	* topic			-> Construct
-	* "hole" "in" noun		-> Dig
-	* "hole"			-> DigRoom;
+	* noun						-> Construct
+	* topic						-> Construct
+	* "hole" "in" noun			-> Dig
+	* "hole"					-> DigRoom;
 Verb "ni"
 	*				-> Ni;
 Verb "nictitate"
 	*				-> Nictitate;
 Verb "noodle"
-	* 'on' noun			-> Play;
+	* 'on' noun		-> Play;
 Extend "notify" replace
 	*				-> Notify
-	* "on"				-> Notify
+	* "on"			-> Notify
 	* "off"			-> Notify;
 Verb "nu"
 	*				-> Nu;
@@ -338,749 +365,700 @@ Verb "odysseus"
 Verb "pandiculate"
 	*				-> Pandiculate;
 Verb "peer"
-	* "in" noun			-> Search;
+	* "in" noun		-> Search;
 Verb "pet"
-	* noun				-> Touch;
+	* noun			-> Touch;
 Extend "pick" last
-	* noun				-> Pick;
+	* noun			-> Pick;
 Verb "pour"
 	* noun "on"/"in" noun	-> Insert;
 Verb "play"
-	* noun				-> Play
-	* topic			-> PlayX;
+	* noun					-> Play
+	* topic					-> PlayX;
 Verb "plugh"
-	*				-> Plugh;
+	*						-> Plugh;
 Verb "practice" "practise"
-	*				-> Practice
-	* noun				-> Practice;
+	*						-> Practice
+	* noun					-> Practice;
 Extend "pronouns" replace
-	*				-> Pronoun;
+	*						-> Pronoun;
 Extend "put"
 	* noun "under" noun		-> PutUnder;
 Verb "quack"
-	*				-> Quack
-	* 'at' noun			-> Quack;
+	*						-> Quack
+	* 'at' noun				-> Quack;
 Verb "reach"
 	* "for" noun			-> Take
-	* 'in' noun			-> Search;
+	* 'in' noun				-> Search;
 Extend "read" replace
-	* noun				-> Read
+	* noun						-> Read
 	* "about" topic "in" noun	-> Consult
-	* topic "in" noun		-> Consult;
+	* topic "in" noun			-> Consult;
 Extend "remove" first
-	* "clothes"/"clothing"	-> Undress;
+	* "clothes"/"clothing"		-> Undress;
 Verb "roll"
-	* noun				-> Push
-	* noun noun			-> PushDir;
+	* noun						-> Push
+	* noun noun					-> PushDir;
 Verb "ruminate"
-	*				-> Ruminate;
+	*							-> Ruminate;
 Extend "say" first
-	* 'odysseus'			-> Odysseus;
+	* 'odysseus'				-> Odysseus;
 Verb "scream" "shriek"
-	*				-> Shout;
+	*							-> Shout;
 Verb "shake"
-	* noun				-> Wave;
+	* noun						-> Wave;
 Extend only "shout" replace
-	*				-> Shout
-	* 'at' noun			-> Shout;
+	*						-> Shout
+	* 'at' noun				-> Shout;
 Extend "sing" last
-	* topic			-> SingX;
+	* topic					-> SingX;
 Verb "slide"
-	* noun				-> Push
-	* noun noun			-> PushDir
+	* noun					-> Push
+	* noun noun				-> PushDir
 	* noun 'to' noun		-> Transfer;
 Extend "smell" first
 	* "me"/"self"			-> MeSmell;
 Extend "stand"
-	* "under" noun		-> StandUnder;
+	* "under" noun			-> StandUnder;
 Verb "stop"
 	* "falling"/"fall"		-> StopFall;
 Verb "stretch"
-	* noun				-> Stretch;
+	* noun					-> Stretch;
 Extend "swim"
-	* "in" noun			-> Swim;
+	* "in" noun				-> Swim;
 Extend "take" first
 	* "off" "clothes"		-> Undress
 	* "off" "clothing"		-> Undress;
 Verb "talk"
-	* "to" noun			-> Talk;
+	* "to" noun				-> Talk;
 Extend "taste" first
 	* "me"/"self"			-> MeEat;
 Extend "think"
-	* "happy" "thoughts"		-> Think;
+	* "happy" "thoughts"	-> Think;
 Extend "throw"
 	* held "through" noun	-> ThrowAt;
 Verb "time" "hour"
-	* 				-> Time;
+	* 						-> Time;
 Verb "tip"
 	* "over" noun			-> Push;
 Extend "touch" first
 	* "me"/"self"			-> MeFeel;
 Verb "tune"
-	* noun				-> Tune;
+	* noun					-> Tune;
 Verb "ululate"
-	*				-> Ululate;
+	*						-> Ululate;
 Verb "undress"
-	*				-> Undress;
+	*						-> Undress;
 Extend "unlock" first
-	* noun				-> UnlockKey;
+	* noun					-> UnlockKey;
 Verb "vandalize" "deface"
-	* noun				-> Cut
+	* noun					-> Cut
 	* noun "with" held		-> Cut;
 Verb "wash"
-	* noun				-> Rub;
+	* noun					-> Rub;
 Verb "water"
-	* noun				-> Irrigate;
+	* noun					-> Irrigate;
 Verb "where"
-	* IsAmAre			-> Where
-	* IsAmAre topic		-> Where;
+	* IsAmAre				-> Where
+	* IsAmAre topic			-> Where;
 Verb "whistle"
-	*				-> Whistle;
+	*						-> Whistle;
 Verb "who" "what"
-	* IsAmAre			-> WhoWhat
-	* IsAmAre topic		-> WhoWhat;
+	* IsAmAre				-> WhoWhat
+	* IsAmAre topic			-> WhoWhat;
 Verb "wobble" "jiggle"
-	* noun				-> Push;
+	* noun					-> Push;
 Verb "win"
-	*				-> Win
-	* "game"			-> Win;
+	*						-> Win
+	* "game"				-> Win;
 Verb "yank"
-	* noun				-> Pull
-	* 'on' noun			-> Pull;
+	* noun					-> Pull
+	* 'on' noun				-> Pull;
 Verb "yawn"
-	*				-> Yawn;
+	*						-> Yawn;
 Verb "yell"
-	*				-> Shout;
+	*						-> Shout;
 Verb "xyzzy"
-	*				-> Xyzzy;
+	*						-> Xyzzy;
 IFDEF DEBUG;
-Verb meta "beta" "gamma"
-	*				-> Beta;
-Verb meta "`"
-	* topic			-> Comment;
 Verb meta "cheat"
-	* topic			-> Cheat;
+	* topic					-> Cheat;
 ENDIF;
 
-IFDEF DEBUG;			! Beta-testing commands should only compile in DEBUG mode
-[BetaSub;
-style bold;	print "^Beta & Gamma Testing Information^";	style roman;
-print "^Hello there, and thanks for volunteering your time and energy to testing Augmented Fourth! This is my first work of interactive fiction and now I am asking each of you to do your best at tearing it to shreds so it will ultimately be a better experience.^";
-print "^If you are a seasoned tester, you are quite welcome to follow your standard method of testing. If, however, you have never tested before, I have included a list of things to be on the lookout for. Your reports will be better organized if you send bugs or comments in several large reports instead of bug by bug. You are welcome to send reports as often as you'd like, and at least one report per week would be nice, just so I can keep track of everyone. If you are a new tester, a good example report can be found at http://www.xyzzynews.com/xyzzy.8f.html .^";
-print "^The following is a list of things to look out for, in order of relative importance.^";
-style bold;	print "^Non-Default Messages and Unrecognized Words^";		style roman;
-print "^It's always fun to try something and receive something other than a plain vanilla ~You can't do that.~. I think I've been fairly thorough in taking most actions into account, but if you try an action and you think it should have something other than the default reply, please let me know. This also includes alternate solutions to puzzles, and actions or dialogue that would make the NPCs more enjoyable. Any noun or verb that you think -should- work, -should- be implemented in the final version. Be on the lookout for objects that need a description or some interaction, as well as other words that should be valid but aren't.^";
-style bold;	print "^Book Entries^";	style roman;
-print "^There are a few books scattered here and there throughout the game which provide background information or subtle hints on some puzzles. A majority of the proper nouns in the game can be looked up in the reference book at the Library. If you think some word in the game deserves an entry, let me know. This goes especially for the Music Dictionary you will find. It contains a few musical terms that should enlighten the average non-musician (since some puzzles require knowledge of a few musical ideas). Of course, since I'm a musician, I can't tell whether I've provided enough information or not. If the only instrument you've ever played is the radio, please tell me if the musical information provided is too sparse.^";
-style bold;	print "^Grammar, Spelling, and Typographical Errors^";		style roman;
-print "^This section includes visual cues such as too much whitespace or errant line breaks, as well as common spelling or grammar mistakes. This also includes wrong factual information, and actions that don't do what they are intended to do (i.e. EAT FISH results in ~You don't see a marmoset here.~).^";
-style bold;	print "^Coherency of Theme, Style, and Story^";		style roman;
-print "^This is one area which I'd like to get a good deal of feedback in. In later rounds of testing, I'd like to hear your opinions about the prose, story, ambience, and any other facet of the game. Be as open as you want; don't be afraid to criticize. I may not agree with your view, but I will definitely take everything I hear into consideration!^";
-style bold;	print "^Stress-Testing Puzzles^";		style roman;
-print "^This entails beating the proverbial stuffing out of any complex puzzle situations in the game, trying to break them, replay them, and alter their states, to shake out any loose ends.^";
-style bold;	print "^Completability^";		style roman;
-print "^I have played through the game on several occasions, but I want to make sure that there are no actions whose function disables the completion of the game. Mind you, I don't mean actions that INTENTIONALLY prevent a win (i.e. DROP ALL IN BOTTOMLESS PIT), but required actions that should work but don't.^";
-style bold;	print "^Unexpected and Oddball Actions^";		style roman;
-print "^~When I take fifty pamphlets and leave two in each room, the duck speaks English when summoned.~ This includes any actions that are so oddball and off-the-wall that no sane player would ever consider them, except beta-testers of course ;) I know that some beta-testers are better at this than others, so devote your time to the other areas, if this just isn't your thing.^";
-style bold;	print "^Errors and Crashes^";	style roman;
-print "^The vast majority of bugs that cause interpreter crashes should be fixed by now, but let me know if they pop up.^";
-style bold;	print "^Writing Comments^";		style roman;
-print "^If you employ the SCRIPT function while you test, you may wish to write comments during your play session. Comments can be added to the transcript with the ` key (the tilde key without SHIFT). You must have a space after the ` for it to work properly. For example, ";
-font off; 	print "^^` This puzzle is too hard.";	font on;
-print "^^Well, that's everything in a nutshell. If you have any further questions or require gentle nudges in the right direction, feel free to contact me. Augmented Fourth was designed to be fairly linear, but open enough for exploration. It definitely does not have the breadth or scope of some other heavyweight IF titles, and I tried to make the puzzles range from moderately easy to moderately difficult. Again, thanks for taking time out of your busy schedules to help with testing. All testers will, of course, be mentioned in the credits, and one lucky tester may get the chance to be entered in a drawing to be selected as a finalist competing for a chance to win a new car!^";
-print "^Regards,^Brian Uri!^";
-];
-
-[CommentSub;		! Add beta-test comments into the transcript.
-rtrue;
-];
-
+IFDEF DEBUG;		! Cheat command should only compile in DEBUG mode
 [CheatSub w;		! Give essential goodies to the player.
-wn = consult_from;
-w = NextWord();
-switch (w)
-	{
-	'inv': move cupMud to player;
-		move mirror to player;
-		move herring to player;
-		move lostRing to player;
-		move boxKey to player;
-		move doorKey to player;
-		move endDoor to player;
-		move rubber to player;
-		move instructions to player;
-		"Inventory Cheat.";
-	'leo': give Leonine firstTime;
-		move Leonine to Void;
-		give Leonine general;
-		StartDaemon(Leonine);
-		"Leonine Daemon started.";
-	'songs': SongBag --> 1 = 1;
-		SongBag --> 2 = 1;
-		SongBag --> 3 = 1;
-		SongBag --> 4 = 1;
-		SongBag --> 5 = 1;
-		SongBag --> 6 = 1;
-		SongBag --> 7 = 1;
-		"All songs learned.";
-	'tpt': move trumpet to player;
-		give trumpet flag;
-		"Trumpet given magic.";
-	default: "[Syntax: CHEAT xxxxx]";
+	wn = consult_from;
+	w = NextWord();
+	switch (w) {
+		'inv': move cupMud to player;
+			move mirror to player;
+			move herring to player;
+			move lostRing to player;
+			move boxKey to player;
+			move doorKey to player;
+			move endDoor to player;
+			move rubber to player;
+			move instructions to player;
+			"Inventory Cheat.";
+		'leo': give Leonine firstTime;
+			move Leonine to Void;
+			give Leonine general;
+			StartDaemon(Leonine);
+			"Leonine Daemon started.";
+		'songs': SongBag --> 1 = 1;
+			SongBag --> 2 = 1;
+			SongBag --> 3 = 1;
+			SongBag --> 4 = 1;
+			SongBag --> 5 = 1;
+			SongBag --> 6 = 1;
+			SongBag --> 7 = 1;
+			"All songs learned.";
+		'tpt': move trumpet to player;
+			give trumpet flag;
+			"Trumpet given magic.";
+		default: "[Syntax: CHEAT xxxxx]";
 	}
 ];
 ENDIF;
 
 [BribeSub;
-"You can't bribe ", (the) noun, ".";
+	"You can't bribe ", (the) noun, ".";
 ];
 
 [BurnSub;
-"You don't have anything to make a fire with.";
+	"You don't have anything to make a fire with.";
 ];
 
 [CachinnateSub;
-"You laugh noisily.";
+	"You laugh noisily.";
 ];
 
 [CatchSub;
-"Catching ", (the) noun, " would not accomplish much.";
+	"Catching ", (the) noun, " would not accomplish much.";
 ];
 
 [ClimbDownSub;
-"You can't climb down ", (the) noun, ".";
+	"You can't climb down ", (the) noun, ".";
 ];
 
 [ColourSub;
-if (NPCinRoom())
-	(AffectNPC(COLOUR));
-else
-	"You play a melody brimming with runs and arpeggios. The world around you seems a little brighter but nothing else happens.";
+	if (NPCinRoom())
+		(AffectNPC(COLOUR));
+	else
+		"You play a melody brimming with runs and arpeggios. The world around you seems a little brighter but nothing else happens.";
 ];
 
 [ConstructSub;
-"You cannot build that.";
+	"You cannot build that.";
 ];
 
 [ConsultSub;
-if (~~(noun ofclass BookObj))
-	"You can't look things up in there.";
-noun.consult();
-rtrue;
+	if (~~(noun ofclass BookObj))
+		"You can't look things up in there.";
+	noun.consult();
+	rtrue;
 ];
 
 [CountSub;
-"You practice your number skills.";
+	"You practice your number skills.";
 ];
 
 [DanceSub;
-"You shuffle your feet to an unheard melody.";
+	"You shuffle your feet to an unheard melody.";
 ];
 
 [DigRoomSub;
-"Unless you have a treasure map, digging here would be a waste of time.";
+	"Unless you have a treasure map, digging here would be a waste of time.";
 ];
 
 [DrinkOilSub;
-"You don't have any on you, but drinking trumpet oil is not particularly beneficial to your health anyhow.";
+	"You don't have any on you, but drinking trumpet oil is not particularly beneficial to your health anyhow.";
 ];
 
 [DuckSub;
-if (theDuck in location || parent(theDuck) in location)
-	"The melody echoes through the air but nothing happens.";
-if (fishBomb in location || fishBomb in player)
-	"Oddly, no ducks arrive at your call. Perhaps self-preservation ranks higher than magical summoning.";
-give theDuck ~asleep;
-move theDuck to location;
-"As soon as you sound the final cadence, a duck appears in front of you.";
+	if (theDuck in location || parent(theDuck) in location)
+		"The melody echoes through the air but nothing happens.";
+	if (fishBomb in location || fishBomb in player)
+		"Oddly, no ducks arrive at your call. Perhaps self-preservation ranks higher than magical summoning.";
+	give theDuck ~asleep;
+	move theDuck to location;
+	"As soon as you sound the final cadence, a duck appears in front of you.";
 ];
 
 [EchoSub;
-"A hollow voice says, ~Echo...~.";
+	"A hollow voice says, ~Echo...~.";
 ];
 
 [EnlargeSub;
-"You can't make ", (the) noun, " any larger.";
+	"You can't make ", (the) noun, " any larger.";
 ];
 
 [FallSub;
-"Summer is much more pleasant.";
+	"Summer is much more pleasant.";
 ];
 
 [FireSub;
-if (noun == player)
-	"You cannot shoot yourself.";
-"", (The) noun, " cannot be fired.";
+	if (noun == player)
+		"You cannot shoot yourself.";
+	"", (The) noun, " cannot be fired.";
 ];
 
 [FlailSub;
-"That would just make you look foolish.";
+	"That would just make you look foolish.";
 ];
 
 [FlySub;
-"You flap your arms determinedly, but gravity defeats you.";
+	"You flap your arms determinedly, but gravity defeats you.";
 ];
 
 [FollowSub;
-"[To follow someone, simply go in the direction they did once they leave the area.]";
+	"(To follow someone, simply go in the direction they did once they leave the area)";
 ];
 
 [ForgetSub song w;
-wn = consult_from;
-w = NextWord();
-switch (w)
-	{
-	'ode', 'duck': song = DUCK;
-	'rainy', 'day', 'rain': song = RAIN;
-	'heavy', 'heart': song = HEAVY;
-	'lively', 'jig': song = JIG;
-	'springtime', 'love': song = LOVE;
-	'dab', 'colour', 'indigo': song = COLOUR;
-	'literal', 'melody': song = LITERAL;
-	'modulate', 'modulation', 'spirit': song = MODULATE;
-	'song', 'songs', 'music', 'tune', 'tunes': "There's no reason to forget any music.";
-	default: "You don't know that particular ditty.";
+	wn = consult_from;
+	w = NextWord();
+	switch (w) {
+		'ode', 'duck': song = DUCK;
+		'rainy', 'day', 'rain': song = RAIN;
+		'heavy', 'heart': song = HEAVY;
+		'lively', 'jig': song = JIG;
+		'springtime', 'love': song = LOVE;
+		'dab', 'colour', 'indigo': song = COLOUR;
+		'literal', 'melody': song = LITERAL;
+		'modulate', 'modulation', 'spirit': song = MODULATE;
+		'song', 'songs', 'music', 'tune', 'tunes': "There's no reason to forget any music.";
+		default: "You don't know that particular ditty.";
 	}
-if (SongBag --> (song - 1))
-	"You've always had a hard time forgetting music after learning it. Today is no exception.";
-"You don't know that particular ditty.";
+	if (SongBag --> (song - 1) || (song == JIG && JigMusic in player))
+		"You've always had a hard time forgetting music after learning it. Today is no exception.";
+	"You don't know that particular ditty.";
 ];
 
 [FrotzSub;
-"Nothing happens. You get the feeling that perhaps you're in the wrong game.";
+	"Nothing happens. You get the feeling that perhaps you're in the wrong game.";
 ];
 
 [GlockSub;
-"You swallow in large gulps, but nothing happens.";
+	"You swallow in large gulps, but nothing happens.";
 ];
 
 [GreetSub;
-"You say hello.";
+	"You say hello.";
 ];
 
 [HangSub;
-"You can't hang that here.";
+	"You can't hang that here.";
 ];
 
 [HealthSub;
-switch (location)
-	{
-	FallingPit: "You feel a little gravitationally inclined at the moment.";
-	PitBottom: if (PitBottom hasnt flag)
-			"Other than being a little sore, you are thankfully unharmed.";
-	Maze: "You feel disoriented and confused.";
-	default: print_ret (string) random("You are feeling fine. A serious wound from a gold-tined pitchfork could probably kill you. ", "You are feeling pretty good at the moment. ", "You feel pretty good. ");
+	switch (location) {
+		FallingPit: "You feel a little gravitationally inclined at the moment.";
+		PitBottom: if (PitBottom hasnt flag)
+				"Other than being a little sore, you are thankfully unharmed.";
+		Maze: "You feel disoriented and confused.";
+		default: print_ret (string) random("You are feeling fine. A serious wound from a gold-tined pitchfork could probably kill you. ", 
+			"You are feeling pretty good at the moment. ", "You feel pretty good. ");
 	}
 ];
 
 [HeavySub;
-if (NPCinRoom())
-	AffectNPC(HEAVY);
-else
-	"The threnody seems to weigh upon your soul, but no physical effects can be seen.";
+	if (NPCinRoom())
+		AffectNPC(HEAVY);
+	else
+		"The threnody seems to weigh upon your soul, but no physical effects can be seen.";
 ];
 
 [HelpSub;
-DoMenu(HelpPrint, HelpMenu, HelpInfo);
+	DoMenu(HelpPrint, HelpMenu, HelpInfo);
 ];
 
 [HideSub;
-if (NPCinRoom())
-	"You can't hide while someone's watching.";
-"There's nobody to hide from.";
+	if (NPCinRoom())
+		"You can't hide while someone's watching.";
+	"There's nobody to hide from.";
 ];
 
 [HumSub;
-"You hum a little ditty to yourself.";
+	"You hum a little ditty to yourself.";
 ];
 
 [IrrigateSub;
-"That doesn't need water.";
+	"That doesn't need water.";
 ];
 
 [JigSub;
-if (NPCinRoom())
-	AffectNPC(JIG);
-else
-	"You play a lively toe-tapping gigue, which puts you in a brighter mood. However, nothing else happens.";
+	if (NPCinRoom())
+		AffectNPC(JIG);
+	else
+		"You play a lively toe-tapping gigue, which puts you in a brighter mood. However, nothing else happens.";
 ];
 
 [JumpOffSub;
-"There's no reason to jump off ", (the) noun, ".";
+	"There's no reason to jump off ", (the) noun, ".";
 ];
 
 [KeepFallSub;
-"You aren't falling at the moment.";
+	"You aren't falling at the moment.";
 ];
 
 [KeywordSub;
-wn = consult_from;
-if (NextWord() == 'close' && NextWord() == 'book')
-	gBook.endConsult();
-else
-	gBook.consult();
+	wn = consult_from;
+	if (NextWord() == 'close' && NextWord() == 'book')
+		gBook.endConsult();
+	else
+		gBook.consult();
 ];
 
 [KeywordOffSub;
-gBook.endConsult();
+	gBook.endConsult();
 ];
 
 [KnockSub;
-if (noun has animate)
-	"That wouldn't be very courteous.";
-"You rap on ", (the) noun, ". There is no reply.";
+	if (noun has animate)
+		"That wouldn't be very courteous.";
+	"You rap on ", (the) noun, ". There is no reply.";
 ];
 
 [LearnSub;
-"That's not something you can easily learn.";
+	"That's not something you can easily learn.";
 ];
 
 [LiftSub;
-"", (The) noun, " can't be lifted.";
+	"", (The) noun, " can't be lifted.";
 ];
 
 [LiteralSub;
-"The marcato accents of the song jar your thoughts but nothing seems to happen. Perhaps you should play it near one of the many large purple vault doors in the area.";
+	"The marcato accents of the song jar your thoughts but nothing seems to happen. Perhaps you should play it near one of the many large purple vault doors in the area.";
 ];
 
 [LockKeySub;
-if (noun == BSafe)
-	{
-	if (boxKey in player)
-		{
-		print "(with the copper key)^";
-		<<Lock BSafe boxKey>>;
+	if (noun == BSafe) {
+		if (boxKey in player) {
+			print "(with the copper key)^";
+			<<Lock BSafe boxKey>>;
 		}
-	else
-		"You don't seem to have the proper key.";
+		else
+			"You don't seem to have the proper key.";
 	}
-else if (noun == endDoor)
-	{
-	if (doorKey in player)
-		"The door is already locked.";
-	else
-		"The keyhole seems to have disappeared.";
+	else if (noun == endDoor) {
+		if (doorKey in player)
+			"The door is already locked.";
+		else
+			"The keyhole seems to have disappeared.";
 	}
-else if (noun == PADoor)
-	<<Lock PADoor>>;
-else
-	"That doesn't seem to be something you can lock.";
+	else if (noun == PADoor)
+		<<Lock PADoor>>;
+	else
+		"That doesn't seem to be something you can lock.";
 ];
 
 [LookUpSub;
-"You crane your neck looking up.";
+	"You crane your neck looking up.";
 ];
 
 [LookDownSub;
-"You look down at your feet.";
+	"You look down at your feet.";
 ];
 
 [LoseSub;
-style bold;
-print "^^    *** You have won...or lost, actually ***^^^";
-style roman;
-"Somewhere in the back of your mind, a hollow voice snickers and mutters, ~Heh...loser.~ ";
+	style bold;
+	print "^^    *** You have won...or lost, actually ***^^^";
+	style roman;
+	"Somewhere in the back of your mind, a hollow voice snickers and mutters, ~Heh...loser.~ ";
 ];
 
 [LoveSub;
-if (NPCinRoom())
-	AffectNPC(LOVE);
-else
-	"A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though.";
+	if (NPCinRoom())
+		AffectNPC(LOVE);
+	else
+		"A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though.";
 ];
 
 [LowerSub;
-"", (The) noun, " can't be lowered.";
+	"", (The) noun, " can't be lowered.";
 ];
 
 [MeEatSub;
-"You lick your arm.";
+	"You lick your arm.";
 ];
 
 [MeFeelSub;
-"You feel like you always have.";
+	"You feel like you always have.";
 ];
 
 [MeLookSub;
-if (player in OfficeDark)
-	"You can't see yourself.";
-if (player in FallingPit or PitBottom or NarrowPass or StoneQuarry or QuarryEntrance)
-	"You're looking a bit worse for the wear.";
-"You're looking quite spiffy today.";
+	if (player in OfficeDark)
+		"You can't see yourself.";
+	if (player in FallingPit or PitBottom or NarrowPass or StoneQuarry or QuarryEntrance)
+		"You're looking a bit worse for the wear.";
+	"You're looking quite spiffy today.";
 ];
 
 [MeSmellSub;
-"You sniff yourself.";
+	"You sniff yourself.";
 ];
 
 [ModulateSub;
-"The melody jumps from E major to Bb minor and back again, providing a welcome change of pace from dull diatonic dances. However, nothing seems to have been affected.";
+	"The melody jumps from E major to Bb minor and back again, providing a welcome change of pace from dull diatonic dances. However, nothing seems to have been affected.";
 ];
 
 [NiSub;
-"Very good.";
+	"Very good.";
 ];
 
 [NictitateSub;
-"You wink.";
+	"You wink.";
 ];
 
 [NuSub;
-"No, no. ~NI~. ~Eneeh~.";
+	"No, no. ~NI~. ~Eneeh~.";
 ];
 
 [NotifySub;
-print "Notify is now set to ~", (string) random("Only When Scored", "Papoosen-Controlled", "Grey Platypus", "Flannel Hat", "Squinky the Orangutan", "Might Be On/Might Be Off", "You'll Never Know", "Dit-Dah-Dit");
-"~ mode.";
+	print "Notify is now set to ~", (string) random("Only When Scored", "Papoosen-Controlled", "Grey Platypus", "Flannel Hat", "Squinky the Orangutan", 
+		"Might Be On/Might Be Off", "You'll Never Know", "Dit-Dah-Dit");
+	"~ mode.";
 ];
 
 [OdysseusSub;
-"If there were a cyclops nearby, no doubt it'd be fleeing in terror.";
+	"If there were a cyclops nearby, no doubt it'd be fleeing in terror.";
 ];
 
 [PandiculateSub;
-"You yawn widely.";
+	"You yawn widely.";
 ];
 
 [PickSub;
-"You can't pick that.";
+	"You can't pick that.";
 ];
 
 [PracticeSub;
-if ((noun == trumpet && trumpet in player) || (noun == nothing && trumpet in player))
-	"You practice on the trumpet for a few minutes.";
-if (noun == trumpet && trumpet notin player)
-	"You aren't holding the trumpet.";
-if (noun == OHXylophone or MSPiano)
-	"You wouldn't know where to begin.";
-if (noun == nothing)
-	"You'll have to specify what you want to practice.";
-"You can't practice that.";
+	if ((noun == trumpet && trumpet in player) || (noun == nothing && trumpet in player))
+		"You practice on the trumpet for a few minutes.";
+	if (noun == trumpet && trumpet notin player)
+		"You aren't holding the trumpet.";
+	if (noun == OHXylophone or MSPiano)
+		"You wouldn't know where to begin.";
+	if (noun == nothing)
+		"You'll have to specify what you want to practice.";
+	"You can't practice that.";
 ];
 
 [PronounSub;
-LibraryMessages.nounCount++;
-if (LibraryMessages.nounCount == 1)
-	print "Pronouns: pl. n. A group of nouns which have scored more than fifty points.^";
-<<Pronouns>>;
+	LibraryMessages.nounCount++;
+	if (LibraryMessages.nounCount == 1)
+		print "Pronouns: pl. n. A group of nouns which have scored more than fifty points.^";
+	<<Pronouns>>;
 ];
 
 [PlaySub;
-"You can't play that.";
+	"You can't play that.";
 ];
 
 [PlayXSub song w;
-if (trumpet notin player)
-	"You can't play a song without your trumpet.";
-if (player in Endgame or UpperBalcony)
-	<<Play trumpet>>;
-wn = consult_from;
-w = NextWord();
-switch (w)
-	{
-	'ode', 'duck': song = DUCK;
-	'rainy', 'day', 'rain': song = RAIN;
-	'heavy', 'heart': song = HEAVY;
-	'lively', 'jig': song = JIG;
-	'springtime', 'love': song = LOVE;
-	'dab', 'colour', 'indigo': song = COLOUR;
-	'literal', 'melody': song = LITERAL;
-	'modulate', 'modulation', 'spirit': song = MODULATE;
-	'song', 'songs', 'music', 'tune', 'tunes': <<Play trumpet>>;
-	default: "You don't know that particular ditty.";
+	if (trumpet notin player)
+		"You can't play a song without your trumpet.";
+	if (player in Endgame or UpperBalcony)
+		<<Play trumpet>>;
+	wn = consult_from;
+	w = NextWord();
+	switch (w) {
+		'ode', 'duck': song = DUCK;
+		'rainy', 'day', 'rain': song = RAIN;
+		'heavy', 'heart': song = HEAVY;
+		'lively', 'jig': song = JIG;
+		'springtime', 'love': song = LOVE;
+		'dab', 'colour', 'indigo': song = COLOUR;
+		'literal', 'melody': song = LITERAL;
+		'modulate', 'modulation', 'spirit': song = MODULATE;
+		'song', 'songs', 'music', 'tune', 'tunes': <<Play trumpet>>;
+		default: "You don't know that particular ditty.";
 	}
-if (song == DUCK && trumpet.countSongs() == 1)		! No magic before meeting Leonine
-	<<Play trumpet>>;
-trumpet.playPick(song);
+	if (song == DUCK && trumpet.countSongs() == 1)		! No magic before meeting Leonine
+		<<Play trumpet>>;
+	trumpet.playPick(song);
 ];
 
 [PlughSub;
-"A hollow voice asks, ~How do you pronounce that, anyways?~ ";
+	"A hollow voice asks, ~How do you pronounce that, anyways?~ ";
 ];
 
 [PutUnderSub;
-"That doesn't seem to accomplish anything.";
+	"That doesn't seem to accomplish anything.";
 ];
 
 [QuackSub topic;
-if (theDuck notin location && parent(theDuck) ~= location)
-	"You quack, feeling foolish.";
-topic = 'quack';
-<<Answer topic theDuck>>;
+	if (theDuck notin location && parent(theDuck) ~= location)
+		"You quack, feeling foolish.";
+	topic = 'quack';
+	<<Answer topic theDuck>>;
 ];
 
 [RainSub;
-"The melody echoes through the air but nothing happens. You sense that something is missing.";
+	"The melody echoes through the air but nothing happens. You sense that something is missing.";
 ];
 
 [ReadSub;
-<<Examine noun>>;
+	<<Examine noun>>;
 ];
 
 [RuminateSub;
-"You ponder the events of the day.";
+	"You ponder the events of the day.";
 ];
 
 [ShoutSub;
-"You shout as loud as you can. Nothing happens, but your blood pressure goes down a bit.";
+	"You shout as loud as you can. Nothing happens, but your blood pressure goes down a bit.";
 ];
 
 [SingXSub song w;
-wn = consult_from;
-w = NextWord();
-switch (w)
-	{
-	'ode', 'duck': song = DUCK;
-	'rainy', 'day', 'rain': song = RAIN;
-	'heavy', 'heart': song = HEAVY;
-	'lively', 'jig': song = JIG;
-	'springtime', 'love': song = LOVE;
-	'dab', 'colour', 'indigo': song = COLOUR;
-	'literal', 'melody': song = LITERAL;
-	'modulate', 'modulation', 'spirit': song = MODULATE;
-	'song', 'songs', 'music': <<Sing>>;
-	default: "You don't know that particular ditty.";
+	wn = consult_from;
+	w = NextWord();
+	switch (w) {
+		'ode', 'duck': song = DUCK;
+		'rainy', 'day', 'rain': song = RAIN;
+		'heavy', 'heart': song = HEAVY;
+		'lively', 'jig': song = JIG;
+		'springtime', 'love': song = LOVE;
+		'dab', 'colour', 'indigo': song = COLOUR;
+		'literal', 'melody': song = LITERAL;
+		'modulate', 'modulation', 'spirit': song = MODULATE;
+		'song', 'songs', 'music': <<Sing>>;
+		default: "You don't know that particular ditty.";
 	}
-if (SongBag --> (song - 1))
-	{
-	switch (song)
-		{
-		DUCK: "You hum the tune from ~Ode to a Duck~, but nothing happens.";
-		RAIN: "You hum the tune from ~Rainy Day~, but nothing happens.";
-		HEAVY: "You hum the tune from ~Heavy Heart~, but nothing happens.";
-		JIG: "You hum the tune from ~Lively Jig~, but nothing happens.";
-		LOVE: "You hum the tune from ~Springtime Love~, but nothing happens.";
-		COLOUR: "You hum the tune from ~Dab of Colour~, but nothing happens.";
-		LITERAL: "You hum the tune from ~Literal Melody~, but nothing happens.";
-		MODULATE: "You hum the tune from ~Spirit of Modulation~, but nothing happens.";
+	if (SongBag --> (song - 1) || (song == JIG && JigMusic in player)) {
+		switch (song) {
+			DUCK: "You hum the tune from ~Ode to a Duck~, but nothing happens.";
+			RAIN: "You hum the tune from ~Rainy Day~, but nothing happens.";
+			HEAVY: "You hum the tune from ~Heavy Heart~, but nothing happens.";
+			JIG: "You hum the tune from ~Lively Jig~, but nothing happens.";
+			LOVE: "You hum the tune from ~Springtime Love~, but nothing happens.";
+			COLOUR: "You hum the tune from ~Dab of Colour~, but nothing happens.";
+			LITERAL: "You hum the tune from ~Literal Melody~, but nothing happens.";
+			MODULATE: "You hum the tune from ~Spirit of Modulation~, but nothing happens.";
 		}
 	}
-"You don't know that particular ditty.";
+	"You don't know that particular ditty.";
 ];
 
 [StandUnderSub;
-"You can't stand underneath ", (the) noun, ".";
+	"You can't stand underneath ", (the) noun, ".";
 ];
 
 [StretchSub;
-"Stretching ", (the) noun, " would serve no purpose.";
+	"Stretching ", (the) noun, " would serve no purpose.";
 ];
 
 [StopFallSub;
-"You aren't falling at the moment.";
+	"You aren't falling at the moment.";
 ];
 
 [SuicideSub;
-deadflag = 1;
-"With great determination, you will yourself to die. As your life ebbs away, your last thought is one of amazement at the power of the human mind. You wonder if you could just have easily won by thinking about it...";
+	deadflag = 1;
+	print "With great determination, you will yourself to die. As your life ebbs away, your last thought is one of amazement at the power of the human mind.";
+	" You wonder if you could just have easily won by thinking about it...";
 ];
 
 [TalkSub;
-"Talking to ", (the) noun, " accomplishes nothing.";
+	"Talking to ", (the) noun, " accomplishes nothing.";
 ];
 
 [TimeSub;
-print "It's ";
-switch (Cutscenes.count)
-	{
-	0: print "dawn";
-	1: print "early morning";
-	2: print "midmorning";
-	3: print "around noontime";
-	4: print "sometime in the afternoon";
-	5: print "late afternoon";
-	6: print "evening";
-	7: print "sunset";
+	print "It's ";
+	switch (Cutscenes.count) {
+		0: print "dawn";
+		1: print "early morning";
+		2: print "midmorning";
+		3: print "around noontime";
+		4: print "sometime in the afternoon";
+		5: print "late afternoon";
+		6: print "evening";
+		7: print "sunset";
 	}
-" in Central Papoosen.";
+	" in Central Papoosen.";
 ];
 
 [TuneSub;
-"You cannot seem to tune that.";
+	"You cannot seem to tune that.";
 ];
 
 [TurnSub;
-if (ObjectIsUntouchable(noun))
-	return;
-if (noun has static)
-	return L__M(##Turn,1,noun);
-if (noun has scenery)
-	"There's no reason to turn ", (the) noun, ".";
-if (noun == player)
-	"You turn around.";
-if (noun has animate)
-	return L__M(##Pull,4,noun);
-L__M(##Turn,3,noun);
+	if (ObjectIsUntouchable(noun))
+		return;
+	if (noun has static)
+		return L__M(##Turn,1,noun);
+	if (noun has scenery)
+		"There's no reason to turn ", (the) noun, ".";
+	if (noun == player)
+		"You turn around.";
+	if (noun has animate)
+		return L__M(##Pull,4,noun);
+	L__M(##Turn,3,noun);
 ];
 
 [UlulateSub;
-"You wail loudly.";
+	"You wail loudly.";
 ];
 
 [UndressSub;
-"Wrong game. Papoosen doesn't even have any interstates.";
+	"Wrong game. Papoosen doesn't even have any interstates.";
 ];
 
 [UnlockKeySub;
-if (noun == BSafe)
-	{
-	if (boxKey in player)
-		{
-		print "(with the copper key)^";
-		<<Unlock BSafe boxKey>>;
+	if (noun == BSafe) {
+		if (boxKey in player) {
+			print "(with the copper key)^";
+			<<Unlock BSafe boxKey>>;
 		}
-	else
-		"You don't seem to have the proper key.";
+		else
+			"You don't seem to have the proper key.";
 	}
-else if (noun == endDoor && endDoor has lockable)
-	{
-	if (doorKey in player)
-		{
-		print "(with the silver key)^";
-		<<Unlock endDoor doorKey>>;
+	else if (noun == endDoor && endDoor has lockable) {
+		if (doorKey in player) {
+			print "(with the silver key)^";
+			<<Unlock endDoor doorKey>>;
 		}
-	else
-		"You don't seem to have the proper key.";
+		else
+			"You don't seem to have the proper key.";
 	}
-else if (noun == PADoor)
-	<<Open PADoor>>;
-else
-	"That doesn't seem to be something you can unlock.";
+	else if (noun == PADoor)
+		<<Open PADoor>>;
+	else
+		"That doesn't seem to be something you can unlock.";
 ];
 
 [WhereSub;
-"(To ask this kind of question, try something like JOHN, WHERE IS JIM?) ";
+	"(To ask this kind of question, try something like JOHN, WHERE IS JIM?) ";
 ];
 
 [WhistleSub;
-"You whistle like a songbird.";
+	"You whistle like a songbird.";
 ];
 
 [WhoWhatSub;
-"(To ask this kind of question, try something like JOHN, WHAT IS A TRUMPET?) ";
+	"(To ask this kind of question, try something like JOHN, WHAT IS A TRUMPET?) ";
 ];
 
 [WinSub;
-style bold;
-print "^^    *** You have won ***^^^";
-style roman;
-"Somewhere in the back of your mind, a hollow voice snickers and mutters, ~Heh...not bloody likely.~ ";
+	style bold;
+	print "^^    *** You have won ***^^^";
+	style roman;
+	"Somewhere in the back of your mind, a hollow voice snickers and mutters, ~Heh...not bloody likely.~ ";
 ];
 
 [XyzzySub;
-ControlRoom.lastRoom = location;
-if (ControlRoom.visits == 10)
-	{
-	ControlRoom.visits++;
-	"Nothing happens. But a hollow voice in the back of your mind, which sounds suspiciously like Lenny the Head Gnome mutters, ~Heh...fool.~ ";
+	ControlRoom.lastRoom = location;
+	if (ControlRoom.visits == 10) {
+		ControlRoom.visits++;
+		"Nothing happens. But a hollow voice in the back of your mind, which sounds suspiciously like Lenny the Head Gnome mutters, ~Heh...fool.~ ";
 	}
-else
-	if (ControlRoom.visits > 10)
-		"A hollow voice in the back of your mind mutters, ~Heh...fool.~ ";
-print "You feel a tugging sensation at the tips of your toes. Without warning, you suddenly wink out of existence...^";
-PlayerTo(ControlRoom);
+	else
+		if (ControlRoom.visits > 10)
+			"A hollow voice in the back of your mind mutters, ~Heh...fool.~ ";
+	print "You feel a tugging sensation at the tips of your toes. Without warning, you suddenly wink out of existence...^";
+	PlayerTo(ControlRoom);
 ];
 
 [YawnSub;
-"You yawn widely.";
+	"You yawn widely.";
 ];

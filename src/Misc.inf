@@ -1,54 +1,62 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian@urizone.net
-! See Aug4.inf for Copyright Information
+! Release 3								Inform 6.21 / 6/10 Libraries
 !
-! Misc.inf
-! In THIS file, you will find:
+! ### Copyright ####
+!
+! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
+! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
+! constructive criticism or comments about the game to the above e-mail address.
+!
+! See Aug4.inf for a note from the author and the changes log.
+!
+! ### Misc.inf File Contents ###
+!
 !	Arrays
 !	Methods
 !	Misc. Objects
 !	Wall Removal
 !	New Classes
 !	New Derived Classes
-!
 ! ##########################################################################################################
 
 ! ##############
 ! ### Arrays ###
 ! ##############
 
-Array MazePath string 		"xxxxxxxxxxxxxxx";	! Arrays used by the LetterTracker
+Array MazePath string 			"xxxxxxxxxxxxxxx";	! Arrays used by the LetterTracker
 Array AllTheMoose string		"ALLTHEMOOSExxxx";
 Array AllTheSameShit string		"ALLTHESAMESHITx";
-Array AllTooFine string		"ALLTOOFINExxxxx";
-Array AMaleMoose string		"AMALEMOOSExxxxx";
-Array AMooseHit string		"AMOOSEHITxxxxxx";
-Array Amoshtuff string		"AMOSHTUFFxxxxxx";
+Array AllTooFine string			"ALLTOOFINExxxxx";
+Array AMaleMoose string			"AMALEMOOSExxxxx";
+Array AMooseHit string			"AMOOSEHITxxxxxx";
+Array Amoshtuff string			"AMOSHTUFFxxxxxx";
 Array ASeason string			"ASEASONxxxxxxxx";
-Array ASellout string		"ASELLOUTxxxxxxx";
-Array AStiffFine string		"ASTIFFFINExxxxx";
-Array FouLlama string		"FOULLAMAxxxxxxx";
-Array FoulThief string		"FOULTHIEFxxxxxx";
-Array FineNose string		"FINENOSExxxxxxx";
-Array FineNoose string		"FINENOOSExxxxxx";
+Array ASellout string			"ASELLOUTxxxxxxx";
+Array AStiffFine string			"ASTIFFFINExxxxx";
+Array FouLlama string			"FOULLAMAxxxxxxx";
+Array FoulThief string			"FOULTHIEFxxxxxx";
+Array FineNose string			"FINENOSExxxxxxx";
+Array FineNoose string			"FINENOOSExxxxxx";
 Array FullSet string			"FULLSETxxxxxxxx";
 
-Array CText string 128;	! Used for centering text
+Array CText string 128;			! Used for centering text
 
-Array HelpPoints table	! Array used in the Help Menu
+Array HelpPoints table			! Array used in the Help Menu
 [;
-"Playing Augmented Fourth";
-"Summary of Commands";
-"About Augmented Fourth";
+	"Playing Augmented Fourth";
+	"Summary of Commands";
+	"About Augmented Fourth";
 ];
 
-Array InstPoints table				! Array used in Instructions Menu
+Array InstPoints table			! Array used in Instructions Menu
 [;
-"Introduction to Interactive Fiction";
-"Moving Around and Talking";
-"Manipulating Things";
-"Miscellaneous Commands";
-"Commands Specific to Augmented Fourth";
+	"Introduction to Interactive Fiction";
+	"Moving Around and Talking";
+	"Manipulating Things";
+	"Miscellaneous Commands";
+	"Commands Specific to Augmented Fourth";
 ];
 
 ! ##########################################################################################################
@@ -56,7 +64,7 @@ Array InstPoints table				! Array used in Instructions Menu
 ! 
 ! AffectNPC(SongConstant): If player plays a song in a room with an NPC, the NPC can react.
 ! Amusing(): Provides the Full Score List and Amusing Things to Do
-! BeforeParsing(): Checks for divertment into Consult Mode of BookObj
+! BeforeParsing(): Checks for diversion into Consult Mode of BookObj
 ! Center(text, bold): Centers text on a line
 ! ChooseObjects(obj, code): Removes scenery objects from "verb ALL"
 ! DirectionName(direction): Outputs labels for the cardinal directions for Leonine's movement.
@@ -78,469 +86,501 @@ Array InstPoints table				! Array used in Instructions Menu
 ! ##########################################################################################################
 
 [AffectNPC song obj;
-objectloop (obj ofclass NPC)
-	{
-	if (obj in location || parent(obj) in location)
-		{
-		switch (song)
-			{
-			COLOUR: <<Colour obj>>;
-			HEAVY: <<Heavy obj>>;
-			JIG: <<Jig obj>>;
-			LOVE: <<Love obj>>;
+	objectloop (obj ofclass NPC) {
+		if (obj in location || parent(obj) in location) {
+			switch (song) {
+				COLOUR: <<Colour obj>>;
+				HEAVY: <<Heavy obj>>;
+				JIG: <<Jig obj>>;
+				LOVE: <<Love obj>>;
 			}	
 		}
 	}
 ];
 
 [Amusing;
-style bold;	print "Full Score^";	style roman;
-print "1  Enlarging the hole in Orchestra Pit^";
-print "1  Putting the heavy rock on the quarry elevator^";
-print "3  Opening the trapdoor in the Quarry^";
-print "2  Playing the trumpet in the darkness^";
-print "1  Taking the rubber from the Old Quarry^";
-print "1  Taking the black puzzle piece from Paved Road^";
-print "1  Tying the rubber to the Y-shaped tree at East of House^";
-print "1  Shooting the black puzzle piece from the slingshot^";
-print "1  Taking the white puzzle piece from the Music Salon^";
-print "2  Solving the jigsaw puzzle in the Workshop^";
-print "3  Cutting the jig music with the jigsaw^";
-print "1  Taking the ~Rainy Day~ music from the Magic Lab^";
-print "1  Taking the Safe Key from Leonine^";
-print "2  Spelling ~Foullama~ in the Letter Maze^";
-print "1  Taking the gold ring from the Front Yard^";
-print "2  Telling widow Foullama about Amoshtuff's diary.^";
-print "2  Playing ~Springtime Love~ for the widow and the butler.^";
-print "2  Spelling ~Amoshtuff~ in the Letter Maze (with the gold ring)^";
-print " 1 Spelling ~Amoshtuff~ in the Letter Maze (without the gold ring)^";
-print "3  Playing ~Rainy Day~ three times at Volcano Center^";
-print "2  Giving the mud to Moilan^";
-print "2  Safely activating the Bank trap^";
-print "1  Opening Poont's door at Private Alley^";
-print "2  Making Poont's chairs dance with ~Lively Jig~^";
-print "0  Playing ~Springtime Love~ for the bear (with the gold ring)^";
-print " 1 Playing ~Springtime Love~ for the bear (without the gold ring)^";
-print "2  Playing ~Heavy Heart~ for the boulder at the Overlook^";
-print "2  Hanging Snoobar's mirror at Vault Door^";
-print "1  Changing the colour of the herring^";
-print "2  Using the duck to catch the herring^";
-print "1  Making the unstable herring in Poont's Lab^";
-print "2  Opening crevice in Private Alley with unstable herring^";
-print "1  Giving Mullog the gold ring^";
-print "2  Playing ~Dab of Colour~ for the grey bars in the Tower^";
-print "2  Playing ~Literal Melody~ at Vault Door^";
-print "1  Putting the wooden door in the depression^";
-print "4  Transposing the xylophone music^";
-print "1  Unlocking the wooden door^";
-print "1  PANDICULATE in the Upper Balcony^";
-print "10 Defeating King Goosen^";
-style bold;	print "70	TOTAL^^";	style roman;
-style bold;	print "A Few Amusing Tidbits^";	style roman;
-print "Did you try...^ Saying XYZZY? Several Times? ^ Searching the debris in the Stone Quarry more than five times? ^ Dropping rocks in the Stone Quarry Hole and then visiting Mullog? ^ Spelling other things in the Letter Maze? ^ Reading about all of the Building Codes? ^ Attaining the rank of Supreme Vandal? ^ DIE? ^ Beating the Piddle Ball team with ";
-if (Endgame hasnt flag)
-	print "Lively Jig of Modulation?^";
-else
-	print "Heavy Love?^";
+	style bold;	print "Full Score^"; style roman;
+	print "1  Enlarging the hole in Orchestra Pit^";
+	print "1  Putting the heavy rock on the quarry elevator^";
+	print "3  Opening the trapdoor in the Quarry^";
+	print "2  Playing the trumpet in the darkness^";
+	print "1  Taking the rubber from the Old Quarry^";
+	print "1  Taking the black puzzle piece from Paved Road^";
+	print "1  Tying the rubber to the Y-shaped tree at East of House^";
+	print "1  Shooting the black puzzle piece from the slingshot^";
+	print "1  Taking the white puzzle piece from the Music Salon^";
+	print "2  Solving the jigsaw puzzle in the Workshop^";
+	print "3  Cutting the jig music with the jigsaw^";
+	print "1  Taking the ~Rainy Day~ music from the Magic Lab^";
+	print "1  Taking the Safe Key from Leonine^";
+	print "2  Spelling ~Foullama~ in the Letter Maze^";
+	print "1  Taking the gold ring from the Front Yard^";
+	print "2  Telling widow Foullama about Amoshtuff's diary.^";
+	print "2  Playing ~Springtime Love~ for the widow and the butler.^";
+	print "2  Spelling ~Amoshtuff~ in the Letter Maze (with the gold ring)^";
+	print " 1 Spelling ~Amoshtuff~ in the Letter Maze (without the gold ring)^";
+	print "3  Playing ~Rainy Day~ three times at Volcano Center^";
+	print "2  Giving the mud to Moilan^";
+	print "2  Safely activating the Bank trap^";
+	print "1  Opening Poont's door at Private Alley^";
+	print "2  Making Poont's chairs dance with ~Lively Jig~^";
+	print "0  Playing ~Springtime Love~ for the bear (with the gold ring)^";
+	print " 1 Playing ~Springtime Love~ for the bear (without the gold ring)^";
+	print "2  Playing ~Heavy Heart~ for the boulder at the Overlook^";
+	print "2  Hanging Snoobar's mirror at Vault Door^";
+	print "1  Changing the colour of the herring^";
+	print "2  Using the duck to catch the herring^";
+	print "1  Making the unstable herring in Poont's Lab^";
+	print "2  Opening crevice in Private Alley with unstable herring^";
+	print "1  Giving Mullog the gold ring^";
+	print "2  Playing ~Dab of Colour~ for the grey bars in the Tower^";
+	print "2  Playing ~Literal Melody~ at Vault Door^";
+	print "1  Putting the wooden door in the depression^";
+	print "4  Transposing the xylophone music^";
+	print "1  Unlocking the wooden door^";
+	print "1  PANDICULATE in the Upper Balcony^";
+	print "10 Defeating King Goosen^";
+	style bold;	print "70	TOTAL^^";	style roman;
+	style bold;	print "A Few Amusing Tidbits^";	style roman;
+	print "Did you try...^ Saying XYZZY? Several Times? ^ Searching the debris in the Stone Quarry more than five times? ^";
+	print " Dropping rocks in the Stone Quarry Hole and then visiting Mullog? ^ Spelling other things in the Letter Maze? ^";
+	print " Reading about all of the Building Codes? ^ Attaining the rank of Supreme Vandal? ^ DIE? ^ Beating the Piddle Ball team with ";
+	if (Endgame hasnt flag)
+		print "Lively Jig of Modulation?^";
+	else
+		print "Heavy Love?^";
 ];
 
 [BeforeParsing i;
-if (gMode == 1)	! CONSULT Mode
-	{
-	for (i = (buffer -> 1) + 1: i >= 2 : i--)
-		buffer -> (i + 3) = buffer -> i;
-	buffer -> 2 = 'k';
-	buffer -> 3 = 'w';
-	buffer -> 4 = ' ';
-	buffer -> 1 = (buffer -> 1) + 3;
-	Tokenise__(buffer, parse);	
-	rtrue;
+	! CONSULT Mode
+	if (gMode == 1) {
+		for (i = (buffer -> 1) + 1: i >= 2 : i--)
+			buffer -> (i + 3) = buffer -> i;
+		buffer -> 2 = 'k';
+		buffer -> 3 = 'w';
+		buffer -> 4 = ' ';
+		buffer -> 1 = (buffer -> 1) + 3;
+		Tokenise__(buffer, parse);	
+		rtrue;
 	}
-if (gMode == 0 && buffer -> 2 == 'k' && buffer -> 3 == 'w' && buffer -> 4 == ' ')	! Prevent player from using kw verb
-	{
-	buffer -> 2 = 46;
-	buffer -> 3 = 46;
-	buffer -> 4 = 46;
-	Tokenise__(buffer, parse);
-	rtrue;
+	! Prevent player from using kw verb
+	if (gMode == 0 && buffer -> 2 == 'k' && buffer -> 3 == 'w' && buffer -> 4 == ' ') {	
+		buffer -> 2 = 46;
+		buffer -> 3 = 46;
+		buffer -> 4 = 46;
+		Tokenise__(buffer, parse);
+		rtrue;
 	}
 ];
 
 [Center text x i;
-CText --> 0 = 128;
-@output_stream 3 CText;
-print (string) text;
-@output_stream -3;
-i = 0 -> 33;
-i = i - CText --> 0;
-i = i / 2;
-font off;
-spaces(i);
-if (text ofclass string)
-	{
-	if (x == 1)
-		style bold;
+	CText --> 0 = 128;
+	@output_stream 3 CText;
 	print (string) text;
-	if (x == 1)
-		style roman;
+	@output_stream -3;
+	i = 0 -> 33;
+	i = i - CText --> 0;
+	i = i / 2;
+	font off;
+	spaces(i);
+	if (text ofclass string) {
+		if (x == 1)
+			style bold;
+		print (string) text;
+		if (x == 1)
+			style roman;
 	}
-font on;
+	font on;
 ];
 
 [ChooseObjects obj code;
-if (action_to_be == ##Consult)
-	{
-	if (obj ofclass BookObj && obj in player)
-		return 3;
-	if (obj ofclass BookObj && obj notin player)
-		return 2;
-	return 1;
+	if (action_to_be == ##Consult) {
+		if (obj ofclass BookObj && obj in player)
+			return 3;
+		if (obj ofclass BookObj && obj notin player)
+			return 2;
+		return 1;
 	}
-if (code < 2)
-	{
-	if (obj ofclass InvObj || obj ofclass BookObj)
-		{
-		if (action_to_be == ##Take && obj notin player)
-			return 1;
+	if (code < 2) {
+		if (obj ofclass InvObj || obj ofclass BookObj) {
+			if (action_to_be == ##Take && obj notin player)
+				return 1;
 		}
-	if (obj has scenery)
-		return 2;
-	rfalse;
+		if (obj has scenery)
+			return 2;
+		rfalse;
 	}
-if (action_to_be == ##Take)
-	{
-	if (obj notin player)
+	if (action_to_be == ##Take) {
+		if (obj notin player)
+			return 2;
+		return 1;
+	}
+	if (obj hasnt scenery)
 		return 2;
 	return 1;
-	}
-if (obj hasnt scenery)
-	return 2;
-return 1;
 ];
 
 [DirectionName dir;
-switch (dir)
-	{
-	n_obj: print "north";
-	s_obj: print "south";
-	e_obj: print "east";
-	w_obj: print "west";
-	nw_obj: print "northwest";
-	ne_obj: print "northeast";
-	se_obj: print "southeast";
-	sw_obj: print "southwest";
+	switch (dir) {
+		n_obj: print "north";
+		s_obj: print "south";
+		e_obj: print "east";
+		w_obj: print "west";
+		nw_obj: print "northwest";
+		ne_obj: print "northeast";
+		se_obj: print "southeast";
+		sw_obj: print "southwest";
 	}
 ];
 
 [DrawStatusLine width posa posb i;
-width = 0 -> 33;
-posa = width - 26;
-posb = width - 15;
-if (width < 61)
-	i = 2;
-else
-	i = 1;
-@split_window i;
-@set_window 1;
-@set_cursor 1 1;
-style reverse;
-spaces width;
-@set_cursor i 1;
-spaces width;
-@set_cursor 1 2;
-FindVisibilityLevels();
-if (visibility_ceiling == location)
-	print (name) location;
-else
-	print (The) visibility_ceiling;
-if ((0 -> 1) & 2 == 0)
-	{
-	@set_cursor i posa;
-	print (string) SCORE__TX, sline1;
-	@set_cursor i posb;
-	switch (Cutscenes.count)
-		{
-		0: print "          Dawn";
-		1: print " Early Morning";
-		2: print "    Midmorning";
-		3: print "      Noontime";
-		4: print "     Afternoon";
-		5: print "Late Afternoon";
-		6: print "       Evening";
-		7: print "        Sunset";
+	width = 0 -> 33;
+	posa = width - 26;
+	posb = width - 15;
+	if (width < 61)
+		i = 2;
+	else
+		i = 1;
+	@split_window i;
+	@set_window 1;
+	@set_cursor 1 1;
+	style reverse;
+	spaces width;
+	@set_cursor i 1;
+	spaces width;
+	@set_cursor 1 2;
+	FindVisibilityLevels();
+	if (visibility_ceiling == location)
+		print (name) location;
+	else
+		print (The) visibility_ceiling;
+	if ((0 -> 1) & 2 == 0) {
+		@set_cursor i posa;
+		print (string) SCORE__TX, sline1;
+		@set_cursor i posb;
+		switch (Cutscenes.count) {
+			0: print "          Dawn";
+			1: print " Early Morning";
+			2: print "    Midmorning";
+			3: print "      Noontime";
+			4: print "     Afternoon";
+			5: print "Late Afternoon";
+			6: print "       Evening";
+			7: print "        Sunset";
 		}
 	}
-@set_cursor 1 1;
-style roman;
-@set_window 0;
+	@set_cursor 1 1;
+	style roman;
+	@set_window 0;
 ];
 
 [HelpInfo;
-switch (menu_item)
-	{
-	1: DoMenu(InstPrint, InstMenu, InstInfo);
-		return 2;
-	2: print "These commands do nothing in the world of Augmented Fourth, but affect how the world is presented to you, or shows your status. Some commands, like ~brief~ have a synonym or abbreviation that will also work.^";
-	font off;
-	print "^brief/normal      Standard room descriptions
-		^long/verbose      (default) Always show long room descriptions
-		^short/superbrief  Always show short room descriptions
-		^^inventory/i	      Show what you are carrying
-		^score             Show your current score
-		^^save	             Save your progress to a file
-		^restore           Restore one of your saved games
-		^restart           Start the game again from the beginning
-		^quit/q/die        Exit the game
-		^^script on/off     Start and stop transcription to a file
-		^verify            Check that the story file is undamaged
-		^version           Give version and release numbers^";
-	font on;
-	print "^These are a few of the commands that affect the world of Augmented Fourth:^";
-	font off;
-	print "^again/g           Repeat your last command
-		^oops/o <word>     Correct a mistake in your last command
-		^undo              Cancel your last command, if possible^
-		^ask    attack    blow     bribe   climb 
-		^close  consult   cut      dig     drink
-		^drop   eat       enlarge  enter   examine/x
-		^fill   get/take  give     listen  lower
-		^look   open      play     pull    push
-		^put    remove    smell    taste   think
-		^touch  tune      unlock   wait
-		^^north,south,east,west/n,s,e,w
-		^northeast,northwest,southeast,southwest/ne,nw,se,sw
-		^up,down/u,d          in,out^";
-	font on;
-	print "^Of course, this list isn't definitive. If a command makes sense during the game, it is fairly likely that the game will understand it.^";
-	3: style bold;	print "Augmented Fourth^";		style roman;
-	print "by Brian Uri!^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. Thanks go to Graham Nelson for Inform and the rec.arts.int-fiction crowd for answering my cornucopia of questions. A pat on the back goes out to Michael Gentry as well, for his first IF effort, Anchorhead. Seeing and testing it made me realize that even big games can be completed with a little patience and effort. Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and gamma-testers, Vincent Lynch and Phil Swinbank, without whom this piece of IF would not be nearly as polished as it is. All remaining bugs are my own damned fault.^^";
-	print "The Augmented Fourth story file and source code are copyright (c) 2000-2009 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. Consider this game commentware; if you would like to reimburse me, please send any and all constructive criticism or comments about the game (including bugs) to the above e-mail address.^^Augmented Fourth has no in-game hint system per se. If you need a vague nudge, help can be found by thinking, reading the materials in the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail me at the above address; I will usually respond within a day or so. The price for unlimited hints is a promise to send me a little feedback about the game once you've completed it.^";
-	style bold;		print "^About the Author^";		style roman;
-	print "When Augmented Fourth was created, the author was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. As of 2009, he is now a software engineer employed in Reston, Virginia. His next work of interactive fiction will be a musical comedy based on the life of Genghis Khan.^";
-	style bold;		print "^Release Notes^";		style roman;
-	print "Augmented Fourth was originally released on April 1, 2000 (Release 1). That year, it was a finalist in two categories of XYZZY Awards: Best Puzzles and Best NPC (The King). Reviews of the game have been collected at the author's site: http://www.urizone.net/^^Release 2 (July 21, 2009) corrects a few minor bugs that always irritated the author, but not enough to render him willing to fix them during the previous nine years.";
+	switch (menu_item) {
+		1: DoMenu(InstPrint, InstMenu, InstInfo);
+			return 2;
+		2: print "These commands do nothing in the world of Augmented Fourth, but affect how the world is presented to you, or shows your status. ";
+			print "Some commands, like ~brief~ have a synonym or abbreviation that will also work.^";
+			font off;
+			print "^brief/normal      Standard room descriptions
+				^long/verbose      (default) Always show long room descriptions
+				^short/superbrief  Always show short room descriptions
+				^^inventory/i	      Show what you are carrying
+				^score             Show your current score
+				^^save	             Save your progress to a file
+				^restore           Restore one of your saved games
+				^restart           Start the game again from the beginning
+				^quit/q/die        Exit the game
+				^^script on/off     Start and stop transcription to a file
+				^verify            Check that the story file is undamaged
+				^version           Give version and release numbers^";
+			font on;
+			print "^These are a few of the commands that affect the world of Augmented Fourth:^";
+			font off;
+			print "^again/g           Repeat your last command
+				^oops/o <word>     Correct a mistake in your last command
+				^undo              Cancel your last command, if possible^
+				^ask    attack    blow     bribe   climb 
+				^close  consult   cut      dig     drink
+				^drop   eat       enlarge  enter   examine/x
+				^fill   get/take  give     listen  lower
+				^look   open      play     pull    push
+				^put    remove    smell    taste   think
+				^touch  tune      unlock   wait
+				^^north,south,east,west/n,s,e,w
+				^northeast,northwest,southeast,southwest/ne,nw,se,sw
+				^up,down/u,d          in,out^";
+			font on;
+			print "^Of course, this list isn't definitive. If a command makes sense during the game, it is fairly likely that the game will understand it.^";
+		3: style bold;	print "Augmented Fourth^";		style roman;
+			print "by Brian Uri!, brian@@64urizone.net^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. ";
+			print "Thanks go to Graham Nelson for Inform and the rec.arts.int-fiction crowd for answering my cornucopia of questions. ";
+			print "A pat on the back goes out to Michael Gentry as well, for his first IF effort, Anchorhead. ";
+			print "Seeing and testing it made me realize that even big games can be completed with a little patience and effort. ";
+			print "Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^";
+			print "Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski ";
+			print "for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, ";
+			print "Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and gamma-testers, Vincent Lynch and ";
+			print "Phil Swinbank, without whom this piece of IF would not be nearly as polished as it is. All remaining bugs are my own damned fault.^^";
+			print "The Augmented Fourth story file and source code are copyright (c) 2000-2013 by Brian Uri!. They may be freely distributed; however, ";
+			print "they are NOT Public Domain. Consider this game commentware: if you would like to reimburse me, please send any and all constructive ";
+			print "criticism or comments about the game (including bugs) to the email address above.^^";
+			print "Augmented Fourth has no in-game hint system per se. If you need a vague nudge, help can be found by thinking, reading the materials in ";
+			print "the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail ";
+			print "me at the above address; I will usually respond within a day or so. The price for unlimited hints is a promise to send me a little feedback ";
+			print "about the game once you've completed it.^";
+			style bold;		print "^About the Author^";		style roman;
+			print "When Augmented Fourth was created, the author was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. ";
+			print "As of 2013, he is a software engineer employed in Reston, Virginia. His next work of interactive fiction will be a musical comedy based on the life of Genghis Khan.^";
+			style bold;		print "^Release Notes^";		style roman;
+			print "Augmented Fourth was originally released on April 1, 2000 (Release 1). That year, it was a finalist in two categories of XYZZY Awards: ";
+			print "Best Puzzles and Best NPC (The King). Reviews of the game have been collected at the author's site: http://www.urizone.net/^^";
+			print "Release 2 (July 21, 2009) corrected a few minor bugs that always irritated the author, but not enough to render him willing to fix them ";
+			print "during the previous nine years.^^";
+			print "Release 3 (July 2, 2013) fixes a couple bugs related to the Lively Jig that were identified by the most recent generation of avid players.^^";
 	}
 ];
 
 [HelpMenu;
-switch (menu_item)
-	{
-	0: item_width = 13;	item_name = "Augmented Fourth Game Menu";
-		return 3;
-	1: item_width = 12;	item_name = "Playing Augmented Fourth"; 
-	2: item_width = 8;	item_name = "Command Summary";
-	3: item_width = 11;	item_name = "About Augmented Fourth";
+	switch (menu_item) {
+		0: item_width = 13;	item_name = "Augmented Fourth Game Menu";
+			return 3;
+		1: item_width = 12;	item_name = "Playing Augmented Fourth"; 
+		2: item_width = 8;	item_name = "Command Summary";
+		3: item_width = 11;	item_name = "About Augmented Fourth";
 	}
 ];
 
 [HelpPrint;
-print "Augmented Fourth Game Menu:^";
-PrintChoices(HelpPoints);
-new_line;
+	print "Augmented Fourth Game Menu:^";
+	PrintChoices(HelpPoints);
+	new_line;
 ];
 
 [Initialise;
-lookmode = 2;
-TitlePage();
-location = FallingPit;
-print "^^~In ye go!~ With a heave and shove, two burly guards in matching green tights toss you into Orchestra Pit. As the earthen sides rush past you and sunlight dims, you have the sinking sensation that perhaps ~Ode to a Duck~ was not the best choice from your repertoire...^^";
-give player light;
-move boxKey to Leonine;
-move JigMusic to musicStand;
-
-turns = 0;
-score = 0;
-notify_mode = 0;
+	lookmode = 2;
+	TitlePage();	
+	location = FallingPit;
+	print "^^~In ye go!~ With a heave and shove, two burly guards in matching green tights toss you into Orchestra Pit. ";
+	print "As the earthen sides rush past you and sunlight dims, you have the sinking sensation that perhaps ~Ode to a Duck~ was not the best choice from your repertoire...^^";
+	give player light;
+	move boxKey to Leonine;
+	move JigMusic to musicStand;
+	
+	turns = 0;
+	score = 0;
+	notify_mode = 0;
 ];
 
 [InstInfo;
-switch (menu_item)
-	{
-	1: print "Most Interactive Fiction (IF) is a combination of a second-person story and a puzzle-solving game. It presents you with text descriptions that put you in the position of the story's protagonist, and invites you to type in commands. For example, a game might start like this:^";
-	font off;
-	print "^	You are standing in an empty room. Sunlight shines through a window.^	>^";
-	font on;
-	print "^The prompt invites you to type something. You respond with an imperative command and the game attempts to understand what you wish to do. For example, you might type^";
-	font off;
-	print "^	> open the window^";
-	font on;
-	print "^and the game might respond^";
-	font off;
-	print "^	Years of accumulated grime have jammed the window shut.^	>^";
-	font on;
-	print "^Not to be defeated, you try something else:^";
-	font off;
-	print "^	> break window^	Careful to avoid getting cut, you pound on the window until a pane falls out.^	A fresh breeze blows through the hole in the window.^";
-	font on;
-	print "^and the game continues. Not all puzzles will be as easy! No game can hope to understand every possible command a player might try. If you try a command that isn't understood, try rephrasing it or using common synonyms. If you've tried several different ways to say the same command, chances are that you can't do what you wanted to, and you'll have to solve the puzzle in a different way.^";
-	2: print "^A game's geography is arbitrarily split into ~rooms~. A room can be anything from a real room in a house to a grove of trees in the forest. The name of the room you are currently in appears at the upper left corner of your screen. You can get a description of the room by typing ~look~. To go somewhere else, simply type a direction like ~north~ or its abbreviation ~n~. Sometimes you will be able to move up and down, and in and out as well.^";
-	print "^Sometimes movement will let you enter and leave objects in the current room, for example:^";
-	font off;
-	print "^	> enter cage^	> stand on platform^	> sit in chair^";
-	font on;
-	print "^To leave these objects, you might type ~exit~, or ~get off~ or ~stand up~^^";
-	print "To say a single word, or a few words, to someone, you can use commands like^";
-	font off;
-	print "^	ask wizard about fudge^	wizard, where is fudge^	say hello to man^	tell widow about bear^";
-	font on;
-	print "^To order someone about, you can use commands like^";
-	font off;
-	print "^	wizard, give me the fudge^	hypnotized man, go east^";
-	font on;
-	print "^though, of course, they are not guaranteed to obey you!^";
-	3: print "You can try to pick something up with ~get thing~ and try to put it down with ~drop thing~. The command ~inventory~, or ~i~ for short, gives you a list of everything you are carrying. You can usually carry several objects at one time. To look at an object more closely, ~examine~ it (~x~ for short).^";
-	print "^Objects can be manipulated in many ways: put into (or on top of) other objects, tuned, rubbed, turned, eaten, and so on. Here are some examples:^";
-	font off;
-	print "^	take the trumpet^	put squirming snake in sack^	get off the wooden platform^	look in the dark hole^	unlock birdcage with little key^	offer wizard the magic potion^	give gold coin to guards^	bribe guards with gold coin^	turn on the lamp^	play trumpet^	empty goldfish bowl into lake^	look under the dresser^";
-	font on;
-	print "^Some commands can act upon more than one object. ~take all~ will attempt to pick up all the items in the room; 	~drop all~ will drop everything you're carrying (except for any clothing you're wearing). Some examples:^";
-	font off;
-	print "^	get blue rock, red rock, and green rock^	remove everything but the red rock from the strongbox^	get all the rocks except purple, yellow, and blue^";
-	font on;
-	print "^If you are not explicit enough, the game will try to deduce what you meant, and if it succeeds it will tell you the outcome of your action. For example, in reply to ~get blue rock, red rock, and green rock~, the game might return:^";
-	font off;
-	print "^	(from the packing case)^";
-	font on;
-	print "^so that you know what has been assumed on your behalf. If there had been two blue rocks you might have meant, it would reply with^";
-	font off;
-	print "^	Which do you mean, the azure rock, or the bluish-green rock?^";
-	font on;
-	print "^You may tell it which (or reply ~either~ or ~both~ or ~all~), or else give up and do something else instead. The game can gradually accumulate information about a command, for example:^";
-	font off;
-	print "^	> unlock door^	Which door do you mean, the ornate door or the plain door?^	> plain^	What do you want to unlock the plain door with?^	> the piano key^	Which piano key do you mean, the piano-shaped key or the piano-tuning key?^	> shaped^	That doesn't seem to fit the lock.^";
-	font on;
-	print "^Sometimes the game deduces that you wish to do something that you didn't explicitly say you wanted to. In such circumstances, it will tell you what it assumed on your behalf. For example:^";
-	font off;
-	print "^	> read the note^	(first taking the note)^	The note has ~Squiggy~ written on it.^";
-	font on;
-	print "^The object ~it~ refers to the last thing mentioned, and ~him~ or ~her~ to the last person of the appropriate sex to be mentioned.^";
-	print "^Sometimes an object will be mentioned in the description of a room purely for atmospheric value and will play no other part in the game. If you try to refer to such an object, the game is liable to respond^";
-	font off;
-	print "^	You don't need to refer to that.^";
-	font on;
-	print "^Your best course of action is to leave these non-existent objects alone.^";
-	4: print "To save the current state of your game into a file, type ~save~; to go back to a saved game, type ~restore~. To start ~Augmented Fourth~ again from the beginning, type ~restart~, and to stop playing, type ~quit~.^";
-	print "^If you want to save a transcript of your game for later perusal, use the command ~script on~ to start transcription (the game will prompt you for a file name) and ~script off~ to stop.^";
-	print "^The command ~score~ will give you your score. When your score changes, you are notified of the fact by messages like^";
-	font off;
-	print "^	[You have just gained one point in Wildlife Management.]^";
-	font on;
-	print "^Usually the game will give you a long description of a location every time you enter the room. If you get bored of the long descriptions, you can turn them off with ~brief~. To restore the usual state of affairs, type ~verbose~.^";
-	print "^If you regret your last command, then you can type ~undo~ to go back to the state before you typed it (you can even type ~undo~ after you have died). However, the ~undo~ command doesn't work on all interpreters, and on some, you can only undo one command.^";
-	print "^The commands described above don't cause things to happen in the game and don't take up any game time; nor do any commands you type which the game fails to understand.^";
-	print "^Some simple typing mistakes can be correct with ~oops~ followed by the word you had intended to type, for example:^";
-	font off;
-	print "^ pet the rabid igauna^ oops iguana^";
-	font on;
-	print "^You can repeat the last command you typed with ~again~, you can do nothing for a game turn by typing ~wait~, and you can string several commands into a single input by separating them with ~then~ (or commas, or periods), for example:^";
-	font off;
-	print "^ take coin. south. again. wait. put coin in box^	unwrap chocolate then eat it^";
-	font on;
-	5: print "Soon after you begin playing Augmented Fourth, you will find a trumpet on which music can be	played. Scattered throughout the area are several pieces of music, each one with the notes to a different song. To play the trumpet, simply type:^";
-	font off;
-	print "^ play trumpet^ play tpt^";
-	font on;
-	print "^If you are carrying any sheet music, a menu will appear, and you can choose which piece from your repertoire you wish to play. Eventually, you will probably have several pieces of music in your inventory. You can cut back on the amount of music you're carrying by memorizing a piece:^";
-	font off;
-	print "^ memorize folded music^ learn jig music^";
-	font on;
-	print "^If it is short enough, the music will be memorized and the sheet music will disappear from your inventory. If the piece is too long to memorize, you are still allowed to play it as much as you want; the only condition is that you are carrying both your trumpet and the sheet music together. If you have memorized a piece of music, you can refer to it by name:^";
-	font off;
-	print "^ play ode to a duck^ play ode^";
-	font on;
-	print "^Trying to play pieces you've never heard of or memorized simply won't work!^^";
-	print "The command ~read book~ will provide a quick summary of the contents of a book if it is small, or put you in Book-Reading mode. To look up subjects in Book-Reading mode, simply type in the word or number to look up. To close the book, type^";
-	font off;
-	print "^ stop^ close book^";
-	font on;
-	print "^If you only want to look up a single topic, from the normal game prompt, you can type^";
-	font off;
-	print "^ look up papoosen in reference book^ read about 034 in manual^";
-	font on;
+	switch (menu_item) {
+		1: print "Most Interactive Fiction (IF) is a combination of a second-person story and a puzzle-solving game. ";
+			print "It presents you with text descriptions that put you in the position of the story's protagonist, and invites you to type in commands. ";
+			print "For example, a game might start like this:^";
+			font off;
+			print "^	You are standing in an empty room. Sunlight shines through a window.^	>^";
+			font on;
+			print "^The prompt invites you to type something. You respond with an imperative command and the game attempts to understand what you wish to do. For example, you might type^";
+			font off;
+			print "^	> open the window^";
+			font on;
+			print "^and the game might respond^";
+			font off;
+			print "^	Years of accumulated grime have jammed the window shut.^	>^";
+			font on;
+			print "^Not to be defeated, you try something else:^";
+			font off;
+			print "^	> break window^	Careful to avoid getting cut, you pound on the window until a pane falls out.^	A fresh breeze blows through the hole in the window.^";
+			font on;
+			print "^and the game continues. Not all puzzles will be as easy! No game can hope to understand every possible command a player might try. ";
+			print "If you try a command that isn't understood, try rephrasing it or using common synonyms. ";
+			print "If you've tried several different ways to say the same command, chances are that you can't do what you wanted to, and you'll have to solve the puzzle in a different way.^";
+		2: print "^A game's geography is arbitrarily split into ~rooms~. A room can be anything from a real room in a house to a grove of trees in the forest. ";
+			print "The name of the room you are currently in appears at the upper left corner of your screen. You can get a description of the room by typing ~look~. ";
+			print "To go somewhere else, simply type a direction like ~north~ or its abbreviation ~n~. Sometimes you will be able to move up and down, and in and out as well.^";
+			print "^Sometimes movement will let you enter and leave objects in the current room, for example:^";
+			font off;
+			print "^	> enter cage^	> stand on platform^	> sit in chair^";
+			font on;
+			print "^To leave these objects, you might type ~exit~, or ~get off~ or ~stand up~^^";
+			print "To say a single word, or a few words, to someone, you can use commands like^";
+			font off;
+			print "^	ask wizard about fudge^	wizard, where is fudge^	say hello to man^	tell widow about bear^";
+			font on;
+			print "^To order someone about, you can use commands like^";
+			font off;
+			print "^	wizard, give me the fudge^	hypnotized man, go east^";
+			font on;
+			print "^though, of course, they are not guaranteed to obey you!^";
+		3: print "You can try to pick something up with ~get thing~ and try to put it down with ~drop thing~. ";
+			print "The command ~inventory~, or ~i~ for short, gives you a list of everything you are carrying. You can usually carry several objects at one time. ";
+			print "To look at an object more closely, ~examine~ it (~x~ for short).^";
+			print "^Objects can be manipulated in many ways: put into (or on top of) other objects, tuned, rubbed, turned, eaten, and so on. Here are some examples:^";
+			font off;
+			print "^	take the trumpet^	put squirming snake in sack^	get off the wooden platform^	look in the dark hole^	unlock birdcage with little key^";
+			print "	offer wizard the magic potion^	give gold coin to guards^	bribe guards with gold coin^	turn on the lamp^	play trumpet^";
+			print "	empty goldfish bowl into lake^	look under the dresser^";
+			font on;
+			print "^Some commands can act upon more than one object. ~take all~ will attempt to pick up all the items in the room;";
+			print " 	~drop all~ will drop everything you're carrying (except for any clothing you're wearing). Some examples:^";
+			font off;
+			print "^	get blue rock, red rock, and green rock^	remove everything but the red rock from the strongbox^	get all the rocks except purple, yellow, and blue^";
+			font on;
+			print "^If you are not explicit enough, the game will try to deduce what you meant, and if it succeeds it will tell you the outcome of your action.";
+			print " For example, in reply to ~get blue rock, red rock, and green rock~, the game might return:^";
+			font off;
+			print "^	(from the packing case)^";
+			font on;
+			print "^so that you know what has been assumed on your behalf. If there had been two blue rocks you might have meant, it would reply with^";
+			font off;
+			print "^	Which do you mean, the azure rock, or the bluish-green rock?^";
+			font on;
+			print "^You may tell it which (or reply ~either~ or ~both~ or ~all~), or else give up and do something else instead. ";
+			print "The game can gradually accumulate information about a command, for example:^";
+			font off;
+			print "^	> unlock door^	Which door do you mean, the ornate door or the plain door?^	> plain^	What do you want to unlock the plain door with?^";
+			print "	> the piano key^	Which piano key do you mean, the piano-shaped key or the piano-tuning key?^	> shaped^	That doesn't seem to fit the lock.^";
+			font on;
+			print "^Sometimes the game deduces that you wish to do something that you didn't explicitly say you wanted to.";
+			print " In such circumstances, it will tell you what it assumed on your behalf. For example:^";
+			font off;
+			print "^	> read the note^	(first taking the note)^	The note has ~Squiggy~ written on it.^";
+			font on;
+			print "^The object ~it~ refers to the last thing mentioned, and ~him~ or ~her~ to the last person of the appropriate sex to be mentioned.^";
+			print "^Sometimes an object will be mentioned in the description of a room purely for atmospheric value and will play no other part in the game.";
+			print " If you try to refer to such an object, the game is liable to respond^";
+			font off;
+			print "^	You don't need to refer to that.^";
+			font on;
+			print "^Your best course of action is to leave these non-existent objects alone.^";
+		4: print "To save the current state of your game into a file, type ~save~; to go back to a saved game, type ~restore~.";
+			print " To start ~Augmented Fourth~ again from the beginning, type ~restart~, and to stop playing, type ~quit~.^";
+			print "^If you want to save a transcript of your game for later perusal, use the command ~script on~ to start transcription";
+			print " (the game will prompt you for a file name) and ~script off~ to stop.^";
+			print "^The command ~score~ will give you your score. When your score changes, you are notified of the fact by messages like^";
+			font off;
+			print "^	[You have just gained one point in Wildlife Management.]^";
+			font on;
+			print "^Usually the game will give you a long description of a location every time you enter the room. ";
+			print "If you get bored of the long descriptions, you can turn them off with ~brief~. To restore the usual state of affairs, type ~verbose~.^";
+			print "^If you regret your last command, then you can type ~undo~ to go back to the state before you typed it (you can even type ~undo~ after you have died). ";
+			print "However, the ~undo~ command doesn't work on all interpreters, and on some, you can only undo one command.^";
+			print "^The commands described above don't cause things to happen in the game and don't take up any game time; nor do any commands you type which the game fails to understand.^";
+			print "^Some simple typing mistakes can be correct with ~oops~ followed by the word you had intended to type, for example:^";
+			font off;
+			print "^ pet the rabid igauna^ oops iguana^";
+			font on;
+			print "^You can repeat the last command you typed with ~again~, you can do nothing for a game turn by typing ~wait~,";
+			print " and you can string several commands into a single input by separating them with ~then~ (or commas, or periods), for example:^";
+			font off;
+			print "^ take coin. south. again. wait. put coin in box^	unwrap chocolate then eat it^";
+			font on;
+		5: print "Soon after you begin playing Augmented Fourth, you will find a trumpet on which music can be played.";
+			print " Scattered throughout the area are several pieces of music, each one with the notes to a different song. To play the trumpet, simply type:^";
+			font off;
+			print "^ play trumpet^ play tpt^";
+			font on;
+			print "^If you are carrying any sheet music, a menu will appear, and you can choose which piece from your repertoire you wish to play.";
+			print " Eventually, you will probably have several pieces of music in your inventory.";
+			print " You can cut back on the amount of music you're carrying by memorizing a piece:^";
+			font off;
+			print "^ memorize folded music^ learn jig music^";
+			font on;
+			print "^If it is short enough, the music will be memorized and the sheet music will disappear from your inventory.";
+			print " If the piece is too long to memorize, you are still allowed to play it as much as you want;";
+			print " the only condition is that you are carrying both your trumpet and the sheet music together.";
+			print " If you have memorized a piece of music, you can refer to it by name:^";
+			font off;
+			print "^ play ode to a duck^ play ode^";
+			font on;
+			print "^Trying to play pieces you've never heard of or memorized simply won't work!^^";
+			print "The command ~read book~ will provide a quick summary of the contents of a book if it is small, or put you in Book-Reading mode.";
+			print " To look up subjects in Book-Reading mode, simply type in the word or number to look up. To close the book, type^";
+			font off;
+			print "^ stop^ close book^";
+			font on;
+			print "^If you only want to look up a single topic, from the normal game prompt, you can type^";
+			font off;
+			print "^ look up papoosen in reference book^ read about 034 in manual^";
+			font on;
 	}
 ];
 
 [InstMenu;
-switch (menu_item)
-	{
-	0: item_width = 6;	item_name = "Instructions";
-		return 5;
-	1: item_width = 18;	item_name = "Introduction to Interactive Fiction";
-	2: item_width = 13;	item_name = "Moving Around and Talking";
-	3: item_width = 10;	item_name = "Manipulating Things";
-	4: item_width = 11;	item_name = "Miscellaneous Commands";
-	5: item_width = 19;	item_name = "Commands Specific to Augmented Fourth";
-
+	switch (menu_item) {
+		0: item_width = 6;	item_name = "Instructions";
+			return 5;
+		1: item_width = 18;	item_name = "Introduction to Interactive Fiction";
+		2: item_width = 13;	item_name = "Moving Around and Talking";
+		3: item_width = 10;	item_name = "Manipulating Things";
+		4: item_width = 11;	item_name = "Miscellaneous Commands";
+		5: item_width = 19;	item_name = "Commands Specific to Augmented Fourth";
 	}
 ];
 
 [InstPrint;
-print "Instructions:^";
-PrintChoices(InstPoints);
-new_line;
+	print "Instructions:^";
+	PrintChoices(InstPoints);
+	new_line;
 ];
 
 [IsAmAre w;
-w = NextWord();
-if (w == 'is' or 'am' or 'are' or 'were' or 'was')
-	return 0;
-return -1;
+	w = NextWord();
+	if (w == 'is' or 'am' or 'are' or 'were' or 'was')
+		return 0;
+	return -1;
 ];
 
 [NPCinRoom obj;
-objectloop (obj ofclass NPC)
-	{
-	if (obj in location || parent(obj) in location)
-		{
-		if (obj hasnt asleep)	! Asleep NPCs are unaffected by songs
-			rtrue;
+	objectloop (obj ofclass NPC) {
+		if (obj in location || parent(obj) in location) {
+			if (obj hasnt asleep)	! Asleep NPCs are unaffected by songs
+				rtrue;
 		}
 	}
-rfalse;
+	rfalse;
 ];
 
 [PrintChoices choices i;
-for (i = 0: i < choices --> 0: i++)
-	print "^      ", (string) choices --> (i + 1);
+	for (i = 0: i < choices --> 0: i++)
+		print "^      ", (string) choices --> (i + 1);
 ];
 
 [PrintRank;
-print ", earning you the status of ";
-switch (score)
-	{
-	0 to 19: "Musical Neophyte. ";
-	20 to 29: "Dog Frightener. ";
-	30 to 39: "Amateur Hack. ";
-	40 to 49: "Wedding Performer. ";
-	50 to 59: "Professional Musician. ";
-	60 to 69: "Trumpet Maestro. ";
-	70: "The Augmented Fourth. ";
+	print ", earning you the status of ";
+	switch (score) {
+		0 to 19: "Musical Neophyte. ";
+		20 to 29: "Dog Frightener. ";
+		30 to 39: "Amateur Hack. ";
+		40 to 49: "Wedding Performer. ";
+		50 to 59: "Professional Musician. ";
+		60 to 69: "Trumpet Maestro. ";
+		70: "The Augmented Fourth. ";
 	}
 ];
 
 [TitlePage i;
-@erase_window -1;
-print "^^^^^^^^^^^^^";
-Center("Augmented Fourth^", 1);
-Center("An Interactive Performance^", 0);
-Center("by Brian Uri!^^", 0);
-Center("[Press any key to begin.]^", 0);
-box 	"   ~Actually, I find hamsters to be quite   "
-	" disagreeable little beasts. Always running "
-	"this way and that...demanding food, shelter,"
-	"    and even immunity from property tax!~   "
-	""
-	"                   - King Goosen of Papoosen";
-@read_char 1 i;
-@erase_window -1;
+	@erase_window -1;
+	print "^^^^^^^^^^^^^";
+	Center("Augmented Fourth^", 1);
+	Center("An Interactive Performance^", 0);
+	Center("by Brian Uri!^^", 0);
+	Center("[Press any key to begin.]^", 0);
+	box "   ~Actually, I find hamsters to be quite   "
+		" disagreeable little beasts. Always running "
+		"this way and that...demanding food, shelter,"
+		"    and even immunity from property tax!~   "
+		""
+		"                   - King Goosen of Papoosen";
+	@read_char 1 i;
+	@erase_window -1;
 ];
 
 [ValidExit obj;
-if (ZRegion(obj) == 1 && obj hasnt novisit)
-	rtrue;
-if (ZRegion(obj) == 2)
-	rtrue;
-rfalse;
+	if (ZRegion(obj) == 1 && obj hasnt novisit)
+		rtrue;
+	if (ZRegion(obj) == 2)
+		rtrue;
+	rfalse;
 ];
 
 ! ##########################################################################################################
@@ -555,129 +595,229 @@ rfalse;
 ! ##########################################################################################################
 
 Object Cutscenes
-with	count 0,
+with count 0,
 playScene [i;
 	@erase_window -1;
 	style bold;	print "^^^Meanwhile, in King Goosen's Court...^^^";	style roman;
 	self.count++;
-	switch (self.count)
-		{
-		1: print "Seated next to the dais, the Royal Scribe diligently takes notes as the King speaks.^^~...let it be known that I am very pleased with the marked decline in popularity of ducks! I now decree that the ownership of ducks is illegal! Anyone who owns a duck, or is related to someone with a duck, or marries a duck, shall be publicly taunted and then cast out of society to live in my deepest dungeon, as soon as it is constructed. Thus I speak. Or spake.~ The exalted King wrings his hands. ~I can never remember how to conjugate that dogged word! Royal Scribe!~^^~Here, Your Highness...and still writing.~^^~Put in an addendum: The word ";
-		style bold;	print "speak";	style roman;
-		print " shall always be conjugated as speak, henceforth and herewith!~ The King rises from his throne and paces. ~Let's see...I shall have to find a way to enforce my latest law... Royal Advisor!~^^The scribe doffs his hat and puts another one on. ~Advisor here, Your Highness!~^^~How shall I enforce the duck ban? There shall be no ducks by sundown tomorrow.~^^The Advisor scratches his chin. ~Perhaps you could place a duck in every home and then have the entire population arrested and deported. Saves the search time.~^^King Goosen ponders this intently for a moment and shakes his head. ~There aren't enough ducks in the land to carry that out.~ He snaps. ~I've got it! We'll use the same duck and recycle it. Advisor, take care of the details...I'm off to my morning Piddle Ball match!~^^~Right-o.~ The Royal Advisor hurries off to enact the latest law while King Goosen of Papoosen prepares for Piddle Ball.^^";
-		2: print "Morning sunlight peeks through the decorative flags in the upper gallery to show the King's Court in full attendance. Rows of commoners line each wall with guards enforcing order. Kneeling before the dais, one unlucky commoner speaks.^^~But Your Majesty! The duck wasn't there the night before. I bet it was just my neighbour, Mr. Grindstaff.~ His voice drops to a furtive whisper. ~If you must know, he's always been a duck sympathizer.~^^From the gallery, a voice rings out, evidently the aforementioned Mr. Grindstaff. ~Choke on a turnip, ye yellow-bellied liar!~^^~Silence, churlio!~ A guard bangs his halberd on the marble floor. All eyes turn to the throne.^^The King conveys a postcard image of wisdom before dispelling the illusion by speaking. ~Your tale is obviously false, peasant. It's well-known that most duck owners keep their duck at the bottom of a moldy haystack where no one has tread for years, and that's exactly where we found yours. I sentence you to death and then deportation!~^^The Advisor hurriedly whispers something in the King's ear. The royal personage looks crestfallen. ~They can't, eh? Blast it all! You peasant! I sentence you to deportation, and maybe death, if you should happen to die along the way.~ The King snaps and the guards carry the pleading peasant away. He is quickly replaced by a more worldly man, also accused of harbouring a duck.^^The King points at the man. ~You sir, are accused of the same crime. What do you have to say for yourself?~^^The man smiles craftily. ~Obviously I own a duck. Your men found it buried under that boulder in my yard.~ The onlookers gasp as the man pleads guilty. He chuckles and leans in closer to the King. ~What really has me worried, though, is this surge in the population of hamsters.~^^The King nods emphatically. ~Actually, I find hamsters to be quite disagreeable little beasts. Always running this way and that...demanding food, shelter, and even immunity from property tax!~^^~Indeed they are a nuisance,~ agrees the man. ~In fact, I bet that owning a hamster is even worse than harbouring a duck!~^^The King thinks about this new gem of knowledge and has a quick huddle with his Advisor. ~Very well then. You, sir, are free to go on one condition! You must bring back more information about this hamster problem and the best way we can combat it! Dismissed!~^^";
-		3: print "~Your Majesty,~ The First Guard bows before the dais and stands. ~There is a man without the gate.~^^The King waves dismissively. ~Well, give him the gate then.~ He returns to his tray of delicacies, but the guard persists.^^~He says he has crucial information about the subversive hamsters.~^^~Oh? Send him in!~ The guard exits and returns a few moments later with the worldly man.^^The King studies the man and snaps his fingers. ~Scribe!~^^The guard removes his cap and puts on the Scribe hat. ~Here, Your Highness!~ He whips out a quill and a fresh sheaf of vellum paper.^^The worldly man bows and waits for the Scribe to get situated before talking. ~Your Majesty, I bring word of the hamsters!~ He produces a rolled scroll and unfurls it. ~In my research, I uncovered several hideous facts that you may not have been aware of. For starters, did you know that hamsters were solely responsible for the Plague of 03?~^^The King listens, amazed. ~Those bastards!~^^~And it's been scientifically proven that hamsters are the harbingers of doom, death, destruction, and drought.~^^~Go on, go on! I must hear all that you have to say in the interests of the people of Papoosen!~^^The worldly man takes a deep breath and continues, obviously planning not to depart for several hours...^^";
-		4: print "~...and in conclusion, unconfirmed sources have identified all hamsters as card-carrying un-Papoosenites.~ The worldly man ends his monologue with a bow and collapses into a seat brought up by the First Guard.^^Unlikely for a man with an attention span shorter than the average armadillo snout, King Goosen has absorbed every word about the maledictions of the hamster cults. ~We will obviously need to take charge against such an awesome threat! You sir, are now my officially appointed hamster Persecutor. You have full rights to organize campaigns of disinformation and terror until the hamster threat is quelled! By my royal word, all citizens who were on probation for harbouring ducks are now free, but on secondary limited probation. You may add these re-probates to your hamster patrol, and I grant you use of the brick building by the river as a headquarters for your operations. Now go, and do not return until our land is free of hamsters!~^^~As you wish, Your Royal Highness.~ The worldly man grins shiftily and departs.^^Back on the dais, the Royal Advisor tugs on the King's voluminous sleeve. ~Your Highness...that building of which you spoke -~^^~Speak,~ corrects the King. He glares, made impatient from sitting through the long sermon without breaks. ~The word is speak by my earlier declaration.~^^~Speak then. The building of which you speak currently houses the Royal Conservatory! You are going to displace almost three hundred musicians.~^^The King shrugs, unconcerned. ~We have no need for musicians. In fact, abolish them and then cut their budget! If they complain, arrest them and toss them in the Pit.~ His mind made up, King Goosen steps off the dais in search of relief for his aching bladder.^^";
-		5: print "~Sir hamster of Papoosen. You stand charged with crimes against the Crown and the good people of Papoosen! What do you have to say for yourself?~ The Royal Judicator peers down over his spectacles at the rodent, who remains stoically and maddeningly silent.^^~Psst!~ The King beckons the Judicator behind his hand. ~I thought we were eradicating hamsters. That is plainly a mouse.~^^The Judicator bends down to the throne and lowers his voice. ~We are, Your Highness. But it would seem that hamsters have been nearly extinct for several years now. We could not find any deviants to arrest, and the man you declared to be hamster Persecutor ran away an hour ago after confiscating the funds of the Royal Conservatory. The best we could get on such short notice was this mouse.~^^The mouse runs along the dais, sniffing for food.^^~Well why isn't it saying anything?~ The King looks confused.^^~Mice cannot talk, Your Highness.~^^Realizing the need to take charge of the situation for the benefit of the packed audience, the King pounds his fist against the armrest on his throne. ~Now see here, you vile beast! You have had plenty of time to reflect upon your crimes and I simply shall not tolerate your silence an instant longer! Say what you have to say!~^^The mouse looks up. ~Squeak!~^^Growling, the King snaps his fingers. ~Guards! Throw violins at that hamster until it confesses!~^^The Judicator looks up, surprised. ~Violins??~^^The King qualifies, ~Nearly eighty of them, rotting away in the back room of the conservatory in sealed glass cases. Since the musicians no longer have their charter, I have decided to put them to better use. Guards, begin the violining of the criminal!~^^Priceless maple wood shatters against the marble floor as the mouse makes its escape, unscathed.^^";
-		6: print "Amidst the shattered remains of seventy-six violins, King Goosen and the Royal Advisor sit alone in the throne room. ~Your Majesty, there is growing unrest in the kingdom. Currently, every citizen and everyone they have ever met are on double probation. Bards have disappeared from daily life, fearing arrest and fines. Inns are closing down for fear of brawls, since no one can release their emotions through song and dance with bards or instruments. The musicians of the Royal Conservatory are calling for your head and even some of the guards are joining in their protests!~^^King Goosen broods over the events of the day, unsure of what direction to lead his people. ~Revolts we have weathered, but never any so bad as this!~^^The Advisor nods. ~Especially since the protesters in this case are human and can speak in their own defense.~^^~Well, we shall just have to give them what they want. They want my head? Then they shall have it!~^^~Shall I prepare the guillotine, Your Highness?~^^~No no, nothing of the sort!~ The King chuckles in a sudden burst of inspiration. ~I shall have a commemorative coin pressed with my image! We can distribute them to the people of Papoosen and everyone will love me again.~^^The Royal Advisor quickly produces a castle inventory from his satchel. ~It would seem that we're out of scrap metal. We may have to whittle them from pine.~^^~You'll do nothing of the sort! Why we just received a giant shipment of scrap brass an hour ago.~ He waves to the sealed crates in the corner.^^~The TRUMPETS?!~ The Advisor gasps as he reads the side of a crate. ~But those are from the Conservatory! They are priceless beyond comparison...~^^~Well,~ interjects the King, ~they will be worth even more when they're melted down and stamped with my image! We shall call then 'Goosens'...in fact, by my royal decree, Goosens will be the new coin of the realm! Advisor, prepare a law to abolish gold and silver immediately.~ The Royal Advisor looks up at the sky and then sets to work outlining the latest royal proposal. ~You will see, Advisor. I will win the love of my people yet! I am going to call for my supper now, and we shall begin melting down the trumpets at sundown!~^^";
-		}
+	switch (self.count) {
+		1: print "Seated next to the dais, the Royal Scribe diligently takes notes as the King speaks.^^";
+			print "~...let it be known that I am very pleased with the marked decline in popularity of ducks! I now decree that the ownership of ducks is illegal!";
+			print " Anyone who owns a duck, or is related to someone with a duck, or marries a duck, shall be publicly taunted and then cast out of society to live in my deepest dungeon,";
+			print " as soon as it is constructed. Thus I speak. Or spake.~ The exalted King wrings his hands. ~I can never remember how to conjugate that dogged word! Royal Scribe!~^^";
+			print "~Here, Your Highness...and still writing.~^^~Put in an addendum: The word ";
+			style bold;	print "speak";	style roman;
+			print " shall always be conjugated as speak, henceforth and herewith!~ The King rises from his throne and paces.";
+			print " ~Let's see...I shall have to find a way to enforce my latest law... Royal Advisor!~^^";
+			print "The scribe doffs his hat and puts another one on. ~Advisor here, Your Highness!~^^~How shall I enforce the duck ban? There shall be no ducks by sundown tomorrow.~^^";
+			print "The Advisor scratches his chin. ~Perhaps you could place a duck in every home and then have the entire population arrested and deported.";
+			print " Saves the search time.~^^King Goosen ponders this intently for a moment and shakes his head. ~There aren't enough ducks in the land to carry that out.~ He snaps.";
+			print " ~I've got it! We'll use the same duck and recycle it. Advisor, take care of the details...I'm off to my morning Piddle Ball match!~^^";
+			print "~Right-o.~ The Royal Advisor hurries off to enact the latest law while King Goosen of Papoosen prepares for Piddle Ball.^^";
+		2: print "Morning sunlight peeks through the decorative flags in the upper gallery to show the King's Court in full attendance.";
+			print " Rows of commoners line each wall with guards enforcing order. Kneeling before the dais, one unlucky commoner speaks.^^";
+			print "~But Your Majesty! The duck wasn't there the night before. I bet it was just my neighbour, Mr. Grindstaff.~ His voice drops to a furtive whisper.";
+			print " ~If you must know, he's always been a duck sympathizer.~^^From the gallery, a voice rings out, evidently the aforementioned Mr. Grindstaff.";
+			print " ~Choke on a turnip, ye yellow-bellied liar!~^^~Silence, churlio!~ A guard bangs his halberd on the marble floor. All eyes turn to the throne.^^";
+			print "The King conveys a postcard image of wisdom before dispelling the illusion by speaking. ~Your tale is obviously false, peasant.";
+			print " It's well-known that most duck owners keep their duck at the bottom of a moldy haystack where no one has tread for years,";
+			print " and that's exactly where we found yours. I sentence you to death and then deportation!~^^";
+			print "The Advisor hurriedly whispers something in the King's ear. The royal personage looks crestfallen. ~They can't, eh? Blast it all!";
+			print " You peasant! I sentence you to deportation, and maybe death, if you should happen to die along the way.~";
+			print " The King snaps and the guards carry the pleading peasant away. He is quickly replaced by a more worldly man, also accused of harbouring a duck.^^";
+			print "The King points at the man. ~You sir, are accused of the same crime. What do you have to say for yourself?~^^";
+			print "The man smiles craftily. ~Obviously I own a duck. Your men found it buried under that boulder in my yard.~";
+			print " The onlookers gasp as the man pleads guilty. He chuckles and leans in closer to the King.";
+			print " ~What really has me worried, though, is this surge in the population of hamsters.~^^The King nods emphatically.";
+			print " ~Actually, I find hamsters to be quite disagreeable little beasts. Always running this way and that...demanding food, shelter,";
+			print " and even immunity from property tax!~^^~Indeed they are a nuisance,~ agrees the man.";
+			print " ~In fact, I bet that owning a hamster is even worse than harbouring a duck!~^^";
+			print "The King thinks about this new gem of knowledge and has a quick huddle with his Advisor. ~Very well then. You, sir, are free to go on one condition!";
+			print " You must bring back more information about this hamster problem and the best way we can combat it! Dismissed!~^^";
+		3: print "~Your Majesty,~ The First Guard bows before the dais and stands. ~There is a man without the gate.~^^The King waves dismissively.";
+			print " ~Well, give him the gate then.~ He returns to his tray of delicacies, but the guard persists.^^";
+			print "~He says he has crucial information about the subversive hamsters.~^^~Oh? Send him in!~";
+			print " The guard exits and returns a few moments later with the worldly man.^^The King studies the man and snaps his fingers. ~Scribe!~^^";
+			print "The guard removes his cap and puts on the Scribe hat. ~Here, Your Highness!~ He whips out a quill and a fresh sheaf of vellum paper.^^";
+			print "The worldly man bows and waits for the Scribe to get situated before talking. ~Your Majesty, I bring word of the hamsters!~";
+			print " He produces a rolled scroll and unfurls it. ~In my research, I uncovered several hideous facts that you may not have been aware of.";
+			print " For starters, did you know that hamsters were solely responsible for the Plague of 03?~^^The King listens, amazed. ~Those bastards!~^^";
+			print "~And it's been scientifically proven that hamsters are the harbingers of doom, death, destruction, and drought.~^^";
+			print "~Go on, go on! I must hear all that you have to say in the interests of the people of Papoosen!~^^";
+			print "The worldly man takes a deep breath and continues, obviously planning not to depart for several hours...^^";
+		4: print "~...and in conclusion, unconfirmed sources have identified all hamsters as card-carrying un-Papoosenites.~";
+			print " The worldly man ends his monologue with a bow and collapses into a seat brought up by the First Guard.^^";
+			print "Unlikely for a man with an attention span shorter than the average armadillo snout, King Goosen has absorbed every word about the";
+			print " maledictions of the hamster cults. ~We will obviously need to take charge against such an awesome threat!";
+			print " You sir, are now my officially appointed hamster Persecutor. You have full rights to organize campaigns of disinformation and terror";
+			print " until the hamster threat is quelled! By my royal word, all citizens who were on probation for harbouring ducks are now free,";
+			print " but on secondary limited probation. You may add these re-probates to your hamster patrol, and I grant you use of the brick building";
+			print " by the river as a headquarters for your operations. Now go, and do not return until our land is free of hamsters!~^^";
+			print "~As you wish, Your Royal Highness.~ The worldly man grins shiftily and departs.^^";
+			print "Back on the dais, the Royal Advisor tugs on the King's voluminous sleeve. ~Your Highness...that building of which you spoke -~^^";
+			print "~Speak,~ corrects the King. He glares, made impatient from sitting through the long sermon without breaks.";
+			print " ~The word is speak by my earlier declaration.~^^~Speak then. The building of which you speak currently houses the Royal Conservatory!";
+			print " You are going to displace almost three hundred musicians.~^^The King shrugs, unconcerned. ~We have no need for musicians.";
+			print " In fact, abolish them and then cut their budget! If they complain, arrest them and toss them in the Pit.~";
+			print " His mind made up, King Goosen steps off the dais in search of relief for his aching bladder.^^";
+		5: print "~Sir hamster of Papoosen. You stand charged with crimes against the Crown and the good people of Papoosen!";
+			print " What do you have to say for yourself?~ The Royal Judicator peers down over his spectacles at the rodent, who remains stoically and maddeningly silent.^^";
+			print "~Psst!~ The King beckons the Judicator behind his hand. ~I thought we were eradicating hamsters. That is plainly a mouse.~^^";
+			print "The Judicator bends down to the throne and lowers his voice. ~We are, Your Highness.";
+			print " But it would seem that hamsters have been nearly extinct for several years now.";
+			print " We could not find any deviants to arrest, and the man you declared to be hamster Persecutor ran away an hour ago";
+			print " after confiscating the funds of the Royal Conservatory. The best we could get on such short notice was this mouse.~^^";
+			print "The mouse runs along the dais, sniffing for food.^^~Well why isn't it saying anything?~ The King looks confused.^^~Mice cannot talk, Your Highness.~^^";
+			print "Realizing the need to take charge of the situation for the benefit of the packed audience, the King pounds his fist against the armrest on his throne.";
+			print " ~Now see here, you vile beast! You have had plenty of time to reflect upon your crimes and I simply shall not tolerate your silence an instant longer!";
+			print " Say what you have to say!~^^The mouse looks up. ~Squeak!~^^Growling, the King snaps his fingers. ~Guards!";
+			print " Throw violins at that hamster until it confesses!~^^The Judicator looks up, surprised. ~Violins??~^^";
+			print "The King qualifies, ~Nearly eighty of them, rotting away in the back room of the conservatory in sealed glass cases.";
+			print " Since the musicians no longer have their charter, I have decided to put them to better use.";
+			print " Guards, begin the violining of the criminal!~^^Priceless maple wood shatters against the marble floor as the mouse makes its escape, unscathed.^^";
+		6: print "Amidst the shattered remains of seventy-six violins, King Goosen and the Royal Advisor sit alone in the throne room.";
+			print " ~Your Majesty, there is growing unrest in the kingdom. Currently, every citizen and everyone they have ever met are on double probation.";
+			print " Bards have disappeared from daily life, fearing arrest and fines. Inns are closing down for fear of brawls, since no one can release their";
+			print " emotions through song and dance with bards or instruments. The musicians of the Royal Conservatory are calling for your head and even some";
+			print " of the guards are joining in their protests!~^^King Goosen broods over the events of the day, unsure of what direction to lead his people.";
+			print " ~Revolts we have weathered, but never any so bad as this!~^^The Advisor nods. ~Especially since the protesters in this case are human and";
+			print " can speak in their own defense.~^^~Well, we shall just have to give them what they want. They want my head? Then they shall have it!~^^";
+			print "~Shall I prepare the guillotine, Your Highness?~^^~No no, nothing of the sort!~ The King chuckles in a sudden burst of inspiration.";
+			print " ~I shall have a commemorative coin pressed with my image! We can distribute them to the people of Papoosen and everyone will love me again.~^^";
+			print "The Royal Advisor quickly produces a castle inventory from his satchel. ~It would seem that we're out of scrap metal.";
+			print " We may have to whittle them from pine.~^^~You'll do nothing of the sort! Why we just received a giant shipment of scrap brass an hour ago.~";
+			print " He waves to the sealed crates in the corner.^^~The TRUMPETS?!~ The Advisor gasps as he reads the side of a crate.";
+			print " ~But those are from the Conservatory! They are priceless beyond comparison...~^^~Well,~ interjects the King,";
+			print " ~they will be worth even more when they're melted down and stamped with my image! We shall call then 'Goosens'...in fact, by my royal decree,";
+			print " Goosens will be the new coin of the realm! Advisor, prepare a law to abolish gold and silver immediately.~";
+			print " The Royal Advisor looks up at the sky and then sets to work outlining the latest royal proposal.";
+			print " ~You will see, Advisor. I will win the love of my people yet! I am going to call for my supper now,";
+			print " and we shall begin melting down the trumpets at sundown!~^^";
+	}
 	print "[Hit any key.]";
 	@read_char 1 i;
 	@erase_window -1;
 	print "^";
-	];
+];
 
 Object Improvement
-with	count 0,
+with count 0,
 playScene [;
 	self.count++;
-	switch (self.count)
-		{
+	switch (self.count) {
 		1: print "^^As you pull the trumpet away from your face, you suddenly realize that your tone quality has improved and your embouchure feels stronger than it has in ages. ";
-		2: print "^^It would seem that the time spent underground has improved your trumpet playing dramatically. Even now, you can feel that your technique and articulations are more refined than they were not two weeks ago. ";
-		3: print "^^You are surprised at how well the trumpet responds to the musical ideas in your head. Perhaps it's just Leonine's magic, but you are sounding like a master musician, and not the hack you were before your incarceration. ";
-		}
+		2: print "^^It would seem that the time spent underground has improved your trumpet playing dramatically.";
+			print " Even now, you can feel that your technique and articulations are more refined than they were not two weeks ago. ";
+		3: print "^^You are surprised at how well the trumpet responds to the musical ideas in your head.";
+			print " Perhaps it's just Leonine's magic, but you are sounding like a master musician, and not the hack you were before your incarceration. ";
+	}
 	rtrue;
-	];
+];
 
 Object LetterTracker
-with	MazeLength 0,
+with MazeLength 0,
 addLetter [letter;
 	if (self.MazeLength == 15)
 		self.MazeLength = 0;
 	self.MazeLength++;
 	MazePath -> self.MazeLength = letter;
-	],
+],
 checkPath [;
-	if (self.comparePath(FouLlama) && theButler hasnt general)
-		{
+	if (self.comparePath(FouLlama) && theButler hasnt general) {
 		score = score + 2;
 		LM2.openArch();
 		LM18.closeArch();
-		"A baritone voice whispers, ~Fou-llama...~ and an archway appears in the north wall.^^[You have gained two points in Crazy Fauna.] ";
-		}
+		"A baritone voice whispers, ~Fou-llama...~ and an exit appears in the north wall.^^[You have gained two points in Crazy Fauna.] ";
+	}
 	if (self.comparePath(Amoshtuff) && theButler hasnt general)
 		"^You hear static and then an expectant pause, as if the baritone voice is about to speak. However, nothing happens after all. Odd.";
-	if (self.comparePath(Amoshtuff) && theButler has general)
-		{
+	if (self.comparePath(Amoshtuff) && theButler has general) {
 		LM2.closeArch();
 		remove FYArch;
 		LM18.openArch();
-		print "^A baritone voice whispers, ~Amoshtuff...~ and an archway appears ";
+		print "^A baritone voice whispers, ~Amoshtuff...~ and an exit appears ";
 		if (player in LM18)
 			print "to the southwest.";
 		else
 			print "in the land plot to the west.";
 		print "^^[You have gained ";
-		if (lostRing in ButlerCottage or FrontYard or DrawingRoom || parent(lostRing) == nothing)
-			{
+		if (lostRing in ButlerCottage or FrontYard or DrawingRoom || parent(lostRing) == nothing) {
 			score = score + 1;
 			print "one point ";
-			}
-		else
-			{
+		}
+		else {
 			score = score + 2;
 			print "two points ";
-			}
+		}
 		"for Spousal Solutions.] ";
-		}
-	if (self.comparePath(AllTheMoose))
+	}
+	if (self.comparePath(AllTheMoose)) {
 		"^A baritone voice whispers, ~All The Moose...~ and massive migration of moose thunder across the courtyard. The ghostly moose vanish before they hit the wall. ";
-	if (self.comparePath(AllTheSameShit))
+	}
+	if (self.comparePath(AllTheSameShit)) {
 		"^A baritone voice whispers, ~All The Same ... ...~ and you feel the sudden weight of monotony and routine. ";
-	if (self.comparePath(AllTooFine))
-		"^A baritone voice whispers, ~All Too Fine...~ and miniscule grains of sand fall from the sky. You try to catch some, but the granularity is much too fine. The sand disappears before touching the ground. ";
-	if (self.comparePath(AMaleMoose))
+	}
+	if (self.comparePath(AllTooFine)) {
+		print "^A baritone voice whispers, ~All Too Fine...~ and miniscule grains of sand fall from the sky. You try to catch some, but the granularity is much too fine.";
+		" The sand disappears before touching the ground. ";
+	}
+	if (self.comparePath(AMaleMoose)) {
 		"^A baritone voice whispers, ~A Male Moose...~ and a ghostly moose canters into existence. It certainly looks male from here... After a moment, the moose disappears. ";
-	if (self.comparePath(AMooseHit))
-		"^A baritone voice whispers, ~A Moose Hit...~ and a ghostly moose canters into existence. It noses around in the grass for a few minutes before a rotund man in hunter's garb flickers into view next to it. The man is carrying a foot-long sausage with which he promptly bops the moose on the head. The voice whispers, ~A sure and palpable hit!~ and both visions disappear without a sound...";
-	if (self.comparePath(ASeason))
-		"^A baritone voice whispers, ~A Season...~ and it suddenly starts to snow. A closer inspection of the flakes reveals them to be paper confetti, and ghostly confetti at that. The snow disappears before it touches the ground. ";
-	if (self.comparePath(ASellout))
-		"^A baritone voice whispers, ~A Sellout...~ and suddenly the courtyard is packed with screaming groupies, evidently here to hear the outdoor debut of the local ensemble, ~Oddsmen~. The crowd disappears before you can be sure you even saw it. ";
-
-	if (self.comparePath(AStiffFine))
-		"^A baritone voice whispers, ~A Stiff Fine...~ and a ghostly guardsman wanders into the courtyard. He points his halberd at you and declares, ~Jaywalking! Fifty-nine gold!~ He winks out. ";
-	if (self.comparePath(FineNoose))
-		"^A baritone voice whispers, ~Fine Noose...~ and a suave ghostly cattle wrangler sashays into the courtyard. He raises his lasso over his head and neatly ropes a ghostly steer who happened to be behind you. The pair struggle for several seconds before disappearing without a trace. ";
-	if (self.comparePath(FineNose))
+	}
+	if (self.comparePath(AMooseHit)) {
+		print "^A baritone voice whispers, ~A Moose Hit...~ and a ghostly moose canters into existence.";
+		print " It noses around in the grass for a few minutes before a rotund man in hunter's garb flickers into view next to it.";
+		print " The man is carrying a foot-long sausage with which he promptly bops the moose on the head. ";
+		" The voice whispers, ~A sure and palpable hit!~ and both visions disappear without a sound...";
+	}
+	if (self.comparePath(ASeason)) {
+		print "^A baritone voice whispers, ~A Season...~ and it suddenly starts to snow.";
+		" A closer inspection of the flakes reveals them to be paper confetti, and ghostly confetti at that. The snow disappears before it touches the ground. ";
+	}
+	if (self.comparePath(ASellout)) {
+		print "^A baritone voice whispers, ~A Sellout...~ and suddenly the courtyard is packed with screaming groupies,";
+		" evidently here to hear the outdoor debut of the local ensemble, ~Oddsmen~. The crowd disappears before you can be sure you even saw it. ";
+	}
+	if (self.comparePath(AStiffFine)) {
+		print "^A baritone voice whispers, ~A Stiff Fine...~ and a ghostly guardsman wanders into the courtyard.";
+		" He points his halberd at you and declares, ~Jaywalking! Fifty-nine gold!~ He winks out. ";
+	}
+	if (self.comparePath(FineNoose)) {
+		print "^A baritone voice whispers, ~Fine Noose...~ and a suave ghostly cattle wrangler sashays into the courtyard.";
+		print " He raises his lasso over his head and neatly ropes a ghostly steer who happened to be behind you.";
+		" The pair struggle for several seconds before disappearing without a trace. ";
+	}
+	if (self.comparePath(FineNose)) {
 		"^A baritone voice whispers, ~Fine Nose...~ and a giant nose ambles through the courtyard, winking out of existence near the wall. ";
-	if (self.comparePath(FoulThief))
-		{
+	}
+	if (self.comparePath(FoulThief)) {
 		deadflag = 1;
-		"^A deafening alarm goes off, coming from all directions at once. The floating letters explode in streamers of light and a voice growls, ~Foul Thief!!~. A giant, and extremely irate, moose stalks in from somewhere beyond your sight and lowers his head, snorting gruffly. Before you have a chance to react, the moose charges! You suddenly learn why it's a bad idea to be trapped between a moose's antlers and a granite wall...";
-		}
-	if (self.comparePath(FullSet))
-		"^A baritone voice whispers, ~Full Set...~ and a rain of ghostly cards falls from the sky. They disappear before they touch the ground, but you're almost certain that its a full deck. ";
-	],
+		print "^A deafening alarm goes off, coming from all directions at once.";
+		print " The floating letters explode in streamers of light and a voice growls, ~Foul Thief!!~.";
+		print " A giant, and extremely irate, moose stalks in from somewhere beyond your sight and lowers his head, snorting gruffly.";
+		" Before you have a chance to react, the moose charges! You suddenly learn why it's a bad idea to be trapped between a moose's antlers and a granite wall...";
+	}
+	if (self.comparePath(FullSet)) {
+		print "^A baritone voice whispers, ~Full Set...~ and a rain of ghostly cards falls from the sky.";
+		" They disappear before they touch the ground, but you're almost certain that its a full deck. ";
+	}
+],
 comparePath [str i;
-	for (i = 1: i <= MazePath -> 0: i++)
-		{
+	for (i = 1: i <= MazePath -> 0: i++) {
 		if (MazePath -> i ~= str -> i)
 			rfalse;
-		}
+	}
 	rtrue;
-	],
-
+],
 resetPath [i;
 	self.MazeLength = 0;
 	for (i = 1: i <= MazePath -> 0: i++)
 		MazePath -> i = 'x';
-	],
+],
 has	novisit;
 
 Object LibraryMessages
-with	waitCount 0,
+with waitCount 0,
 	salonCount 0,
 	nounCount 0,
 before [;
@@ -709,26 +849,24 @@ before [;
 	Wait: if (player in FallingPit)
 			"Time passes...";
 		self.waitCount++;
-		switch (self.waitCount)
-			{
+		switch (self.waitCount) {
 			4: "Winter changes into spring...eventually of course.";
 			5: "You wait around for a few moments.";
 			6: "The minutes tick by.";
 			7: "You waste a few more turns. ";
 			8: "You tap your foot impatiently.";
 			default: "Time passes...";
-			}
+		}
 	WaveHands: "You wave from the wrist, fingers together and palm slightly cupped.";
 	Yes: "How positive you are!";
-	];
+];
 
 Object Vandal
-with	count 0,
+with count 0,
 add [;
 	self.count++;
 	print "^^[You ";
-	switch (self.count)
-		{
+	switch (self.count) {
 		1: "have just gained a sore conscience for Petty Vandalism.] ";
 		2: "have increased the size of your Vandal's Conscience.] ";
 		3: "have just committed another act of Vandalism.] ";
@@ -738,51 +876,51 @@ add [;
 		7: "have now engaged in seven acts of Petty Vandalism.] ";
 		8: "have earned the rank of ~Serial Vandal~.] ";
 		9: "have attained the highest possible rank of Supreme Vandal.] ";
-		}
-	];
+	}
+];
 
 ! ####################
 ! ### Wall Removal ###
 ! ####################
 
 CompassDirection n_obj "north" Compass
-with 	name 'n//' 'north',
+with name 'n//' 'north',
 	door_dir n_to,
 has proper;
 CompassDirection s_obj "south" Compass
-with	name 's//' 'south',
+with name 's//' 'south',
 	door_dir s_to,
 has proper;
 CompassDirection e_obj "east" Compass
-with	name 'e//' 'east',
+with name 'e//' 'east',
 	door_dir e_to,
 has proper;
 CompassDirection w_obj "west" Compass
-with	name 'w//' 'west',
+with name 'w//' 'west',
 	door_dir w_to,
 has proper;
 CompassDirection ne_obj "northeast" Compass
-with	name 'ne' 'northeast',
+with name 'ne' 'northeast',
 	door_dir ne_to,
 has proper;
 CompassDirection nw_obj "northwest" Compass
-with	name 'nw' 'northwest',
+with name 'nw' 'northwest',
 	door_dir nw_to,
 has proper;
 CompassDirection se_obj "southeast" Compass
-with	name 'se' 'southeast',
+with name 'se' 'southeast',
 	door_dir se_to,
 has proper;
 CompassDirection sw_obj "southwest" Compass
-with	name 'sw' 'southwest',
+with name 'sw' 'southwest',
 	door_dir sw_to,
 has proper;
 CompassDirection u_obj "the ceiling" Compass
-with	name 'u//' 'up',
+with name 'u//' 'up',
 	door_dir u_to,
 has proper;
 CompassDirection d_obj "the ground" Compass
-with	name 'd//' 'down' 'ground' 'floor',
+with name 'd//' 'down' 'ground' 'floor',
 	door_dir d_to,
 has proper;
 
@@ -791,36 +929,36 @@ has proper;
 ! ########################
 
 Class BookObj
-with	openStr "open",		! Text to display when book is opened
+with openStr "open",		! Text to display when book is opened
 	defaultStr "no",		! Text to display for an invalid entry
 	closeStr "close",		! Text to display when book is closed
-	consult,			! Function defined in every book
+	consult,				! Function defined in every book
 before [;
 	Learn: "There are more important things to do besides memorizing books. ";
 	Open, Read: self.startConsult();
 		rtrue;
 	Taste: "The book tastes papery. ";
 	Touch: "You dog-ear one of the pages. ";
-	],
+],
 startConsult [;
 	gMode = 1;
 	gBook = self;
 	self.openStr();
 	rtrue;
-	],
+],
 endConsult [;
 	gMode = 0;
 	self.closeStr();
 	rtrue;
-	];
+];
 
 Class GraniteObj
-with	name "granite",
+with name "granite",
 before [;
 	Attack: "You don't succeed in denting the granite. ";
 	Rub, Touch: "", (The) self, " feels rough. ";
 	Taste: "Licking ", (name) self, " brings a mineral sensation to your tongue. ";
-	];
+];
 
 Class InvObj;
 
@@ -833,19 +971,19 @@ before [;
 	Smell: "The mud smells about as unappetizing as it looks. ";
 	Take: "The mud oozes through your fingers. ";
 	Taste: "Yep, it tastes like mud. Even down to that oddly piquant 'a la earthworm' tang. ";
-	];
+];
 
 Class NPC
 has	animate ~asleep happy;
 
 Class Plaque
-with	name "bronze" "plaque" "sign",
-	before [;
-		Pull, Take: "The plaque refuses to budge. ";
-		Rub: "The plaque is smooth to the touch. ";
-		Touch: "The plaque is smooth to the touch. ";
-		Taste: "The plaque has a bronze coin-esque taste. ";
-		],
+with name "bronze" "plaque" "sign",
+before [;
+	Pull, Take: "The plaque refuses to budge. ";
+	Rub: "The plaque is smooth to the touch. ";
+	Touch: "The plaque is smooth to the touch. ";
+	Taste: "The plaque has a bronze coin-esque taste. ";
+],
 has	scenery;
 
 Class Room;
@@ -854,19 +992,19 @@ Class RoomObj
 has	scenery;
 
 Class WaterObj
-with	description "The water is clear and cool.",
+with description "The water is clear and cool.",
 before [;
 	Smell: "There is no discernible scent to the water. ";
 	Take: "The water slips through your fingers. ";
 	Drink, Taste: "You take a sip of water. Refreshing! ";
-	];
+];
 
 ! ###########################
 ! ### New Derived Classes ###
 ! ###########################
 
 Class KeyObj
-class	InvObj,
+class InvObj,
 with
 before [;
 	Eat: "The key should be safe enough without resorting to swallowing it. ";
@@ -875,23 +1013,22 @@ before [;
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
 	Swing, Wave: "You wave the key around. ";
-	];
+];
 
 Class LetterMaze
-class	Room,
-with	name "maze",
+class Room,
+with name "maze",
 	letter,			! Floating letter
-	hasWall 0,			! Where any walls are
-	hasExit 0,			! If any exits are present.
+	hasWall 0,		! Where any walls are
+	hasExit 0,		! If any exits are present.
 description [;
-	print "You stand on a ten by ten foot plot of land which is coloured slightly differently from the surrounding plots. Above your head, a large ~", (char) self.letter, "~ floats serenely in the air. Similar letters decorate other plots of land around you. ";
-	switch (self.hasExit)
-		{
+	print "You stand on a ten by ten foot plot of land which is coloured slightly differently from the surrounding plots.";
+	print " Above your head, a large ~", (char) self.letter, "~ floats serenely in the air. Similar letters decorate other plots of land around you. ";
+	switch (self.hasExit) {
 		1: print "To the southwest you see a way out of the courtyard. ";
 		2: print "An arch in the wall leads out of the courtyard to the north. ";
-		}
-	switch (self.hasWall)
-		{
+	}
+	switch (self.hasWall) {
 		0: "";
 		1: "A wall extends from east to west to your north. ";
 		2: "A wall blocks movement to the west. ";
@@ -901,97 +1038,91 @@ description [;
 		6: "You are in the northeast corner of the courtyard. ";
 		7: "You are in the southwest corner of the courtyard. ";
 		8: "You are in the southeast corner of the courtyard. ";
-		}
-	],
+	}
+],
 before [;
 	Colour: "The letter over your head turns a pale azure before fading again. ";
 	Heavy: "The letters bob towards the ground for a few moments, but soon regain their altitude. ";
 	LookDown: "You see the ground of the courtyard. ";
 	LookUp: "There seems to be large letter ~", (char) self.letter, "~ floating over your head. ";
-	],
+],
 each_turn [;
 	LetterTracker.addLetter(self.letter);
 	LetterTracker.checkPath();
-	],
+],
 has	~scenery static;
 
 Class MusicObj
 class InvObj,
-with	name "sheet" "music" "piece",
+with name "sheet" "music" "piece",
 	songNum,
 before [x;
 	Consult: "The sheet music sheds no light on that. ";
 	Count: "You practice the rhythms on the music. ";
 	Cut: "There's no reason to damage this sheet music. ";
-	Drop: if (self in player)
-			{
+	Drop: if (self in player) {
 			x = self.songNum - 1;
 			SongBag --> x = 0;
 			move self to parent(player);
 			"Dropped. ";
-			}
+		}
 		"You aren't carrying that. ";
-	Learn: if (self in player)
-			{
+	Learn: if (self in player) {
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			remove self;
 			"You diligently commit the song to memory and then tuck the music away. ";
-			}
-		if (self == LoveMusic)
-			{
+		}
+		if (self == LoveMusic) {
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			"You gaze up at the framed music until you have committed it to memory. ";
-			}
+		}
 		"You need to be holding the music to memorize it. ";
-
 	Listen: "The sheet music is silent. Perhaps it needs a performer. ";
 	Play: if (trumpet notin player)
 			"You need to be carrying your trumpet to play music.";
-		if (SongBag --> (self.songNum - 1))
-			{
+		if (SongBag --> (self.songNum - 1)) {
 			trumpet.playPick(self.songNum);
 			rtrue;
-			}
+		}
 		if (self notin player)
 			"You need to be holding the sheet music, or have learned it, before you can play it. ";
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
 	Smell: "The sheet music smells faintly of vellum. ";
-	Take: if (self notin player)
-			{
+	Take: if (self notin player) {
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			move self to player;
 			"Taken. ";
-			}
+		}
 		"You are already carrying that. ";
 	Taste: "The sheet music tastes bland. ";
-	],
+],
 has	proper;
 
 Class PuzzlePiece
-class	InvObj,
-with	slot,
+class InvObj,
+with slot,
 before [;
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
 	Smell: "You detect no unique aromas from the piece. ";
-	Taste: "It tastes papery. ";
+	Eat, Taste: "You lick the puzzle piece. It tastes papery. ";
 	Touch: "The puzzle piece is smooth to the touch. ";
 	Turn: if (self notin WDeviceBlackSlot or WDeviceWhiteSlot)
 			"You rotate the puzzle piece exactly 360 degrees. ";
 		"You can't turn the piece when it's in the device.";
-	],
+],
 has	~scenery ~firstTime;
 
 Class QuarryRoom
-class	Room,
+class Room,
 with
 before [;
 	Listen: "It is peacefully quiet here. ";
 	LookUp: "You are greeted by the rough texture of the stone ceiling. ";
 	Sleep: "The hard stone floor looks extremely uncomfortable. ";
 	Smell: "The air is rich with stone dust. ";
-	];
+];

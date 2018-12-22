@@ -1,14 +1,22 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian@urizone.net
-! See Aug4.inf for Copyright Information
+! Release 3								Inform 6.21 / 6/10 Libraries
 !
-! Things.inf
-! In THIS file, you will find:
+! ### Copyright ####
+!
+! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
+! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
+! constructive criticism or comments about the game to the above e-mail address.
+!
+! See Aug4.inf for a note from the author and the changes log.
+!
+! ### Things.inf File Contents ###
+!
 !	The Trumpet and Sheet Music
 !	Inventory Objects
 !	Reading Materials
 !	NPCs
-!
 ! ##########################################################################################################
 
 ! ##########################################################################################################
@@ -35,21 +43,21 @@
 ! ##########################################################################################################
 
 Array SongBag --> 1 0 0 0 0 0 0 0; 	! Duck, Rain, Heavy, Jig, Love, Colour, Literal, Modulate
-						! EndSongs: HeavyDuck, ColourRain, HeavyLove, ModulateJig
+									! EndSongs: HeavyDuck, ColourRain, HeavyLove, ModulateJig
 
 InvObj trumpet "trumpet"
-with name "trumpet" "cornet" "horn" "bugle" "tpt" "bell" "valve" "lines" "silver" "capped" "gold" "plate" "pearl" "inlay" "finger" "button" "patterns",
+with name "trumpet" "cornet" "horn" "bugle" "tpt" "bell" "valve" "valves" "lines" "silver" "capped" "gold" "plate" "pearl" "inlay" "finger" "button" "patterns",
 initial [;
 	if (trumpet in PitBottom)
 		"Your trumpet rests atop the mud.";
 	"Your trumpet sits on the ground here.";
-	],
+],
 description [;
 	print "The trumpet is a beautiful silver affair that was specially-made for you in Lower Suburban Papoosen. Each valve is capped with gold-plate and has a pearl inlay for a finger button. The bell is engraved with spidery lines which weave around it in symmetric patterns.";
 	if (self has flag && self.countSongs() < 8)
 		" The bell of the trumpet is glowing with magic.";
 	"";
-	],
+],
 before [key x;
 	Attack, Burn, Cut, Give, ThrowAt: "What? This trumpet is a family heirloom that's been around for many...well, one generation! It'd probably be best to hold on to it and keep it in good condition.";
 	Blow, Play: if (self notin player)
@@ -58,22 +66,20 @@ before [key x;
 			"Better not, you might give away the element of surprise.";
 		if (player in OfficeDark)
 			return (self.darkPlay());
-		if (self has flag)
-			{
+		if (self has flag) {
 			if (self.countSongs() == 1)
 				return (self.oneSong());
 			print (string) random("You ready the trumpet. ", "You bring up your trumpet. ", "You raise the trumpet to your lips. ");
 			print "What would you like to play?^";
 			self.listSongs();
 			x = false;
-			while (x == false)	
-				{
+			while (x == false) {
 				@read_char 1 0 0 key;
 				if (key ~= 0)
 					x = self.playSong(key);
-				}
-			rtrue;				
 			}
+			rtrue;				
+		}
 		if (player in PitBottom && pitGuards in PitBottom)
 			"You play ~Ode to a Duck~ on the trumpet. Up above, Jim cackles. ~No wonder the King ordered you to be tossed in the pit! That's got to be the worst playing we've ever heard, right, Rob?~^^~Indeed...~";
 		"You play a foul rendition of ~Ode to a Duck~. Hmmm, perhaps the King was right.";
@@ -102,24 +108,22 @@ before [key x;
 	Tune: "You carefully tune the trumpet to a concert B flat.";
 	Wave: "You gently wave the trumpet over your head.";
 	Wear: "You'd been meaning to buy a shoulder strap for your trumpet, but never got around to it.";
-	],
+],
 countSongs [count;
 	count = (SongBag --> 0 + SongBag --> 1 + SongBag --> 2 + SongBag --> 3 + SongBag --> 4
 		+ SongBag --> 5 + SongBag --> 6 + SongBag --> 7);
 	return (count);
-	],
+],
 darkPlay [;
 	give OfficeDark flag;
 	print "You take a deep breath and sound a steady pitch on your trumpet. ";
-	switch (OfficeDark.count)
-		{
+	switch (OfficeDark.count) {
 		0: print "The bright sound of the trumpet rings through the darkness, rebounding off walls and escaping your close confines to the northeast.";
-			if (OfficeDark hasnt general)
-				{
+			if (OfficeDark hasnt general) {
 				score = score + 2;
 				give OfficeDark general;
 				"^^[You have earned two points for a Seeing-Ear Trumpet.] ";
-				}
+			}
 			OfficeDark.timer = 0;
 			"";
 		1: OfficeDark.timer = 0;
@@ -129,33 +133,31 @@ darkPlay [;
 		move Leonine to ConstructOffice;
 		PlayerTo(ConstructOffice);
 		rtrue;				
-		}
-	],
+	}
+],
 endPlay [key x;
 	print "You raise your trumpet to your lips, realizing that this may be the most difficult performance of your life.^";
 	self.listSongs();
 	x = false;
-	while (x == false)	
-		{
+	while (x == false) {
 		@read_char 1 0 0 key;
 		if (key ~= 0)
 			x = self.playEnd(key);
-		}
+	}
 	return (x);				
-	],
+],
 endPlayNew [key x;
 	print "What would you like to play?^";
 	print "   (O) Ode to a Heavy Duck^   (D) Dab of Colourful Rain^   (H) Heavy Love^   (J) Lively Jig of Modulation^   (X) None^";
 	x = false;
-	while (x == false)	
-		{
+	while (x == false) {
 		@read_char 1 0 0 key;
 		if (key ~= 0)
 			x = self.playEndNew(key);
-		}
+	}
 	print "^";
 	return (x);
-	],
+],
 listSongs [;
 	if (SongBag --> 0)
 		print "   (O) Ode to a Duck: Summons a duck^";
@@ -174,23 +176,24 @@ listSongs [;
 	if (SongBag --> 7)
 		print "   (M) Modulation of Spirit: Transposes musical keys^";
 	print "   (X) None^";
-	],
+],
 oneSong [;
-	if (self hasnt firstTime)		! First time ever
-		{
+	if (self hasnt firstTime) {		! First time ever
 		give self firstTime;
 		move theDuck to location;
-		print "You raise the trumpet to your lips and tentatively play the first few notes of ~Ode to a Duck~. The notes seem to come easily under your fingers and you definitely sound better than you ever have before. But most surprisingly, the end of the song is coupled with the appearance of a white duck!";
+		print "You raise the trumpet to your lips and tentatively play the first few notes of ~Ode to a Duck~.";
+		print " The notes seem to come easily under your fingers and you definitely sound better than you ever have before.";
+		print " But most surprisingly, the end of the song is coupled with the appearance of a white duck!";
 		if (Leonine in location)
 			" Leonine claps and laughs. ~Told ya you'd have some fun!~";
 		"";
-		}
+	}
 	if (theDuck in location || parent(theDuck) in location)		! Duck here already
 		"The melody from ~Ode to a Duck~ echoes through the air but nothing happens.";
 	give theDuck ~asleep;
 	move theDuck to location;
 	"As soon as you have finished ~Ode to a Duck~, a duck appears in front of you.";		! Normal
-	],
+],
 playEnd [key;
 	if (SongBag --> 0 && key == 79 or 111)
 		return (DUCK);
@@ -208,13 +211,12 @@ playEnd [key;
 		return (LITERAL);
 	if (SongBag --> 7 && key == 77 or 109)
 		return (MODULATE);
-	if (key == 88 or 120)
-		{
+	if (key == 88 or 120) {
 		print (string) random("^You lower the trumpet.^", "^You put your trumpet away.^", "^You change your mind and put the trumpet away.^");
 		return (9);
-		}
+	}
 	return (0);
-	],
+],
 playEndNew [key;
 	if (key == 79 or 111)
 		return (1);
@@ -224,18 +226,15 @@ playEndNew [key;
 		return (3);
 	if (key == 74 or 106)
 		return (4);
-	if (key == 88 or 120)
-		{
+	if (key == 88 or 120) {
 		print (string) random("^You lower the trumpet.^", "^You put your trumpet away.^", "^You change your mind and put the trumpet away.^");
 		return (9);
-		}
+	}
 	return (0);
-	],
+],
 playPick [song;
-	if (SongBag --> (song - 1))
-		{
-		switch (song)
-			{
+	if (SongBag --> (song - 1)) {
+		switch (song) {
 			DUCK: <<Duck location>>;
 			RAIN: <<Rain location>>;
 			HEAVY: <<Heavy location>>;
@@ -244,17 +243,16 @@ playPick [song;
 			COLOUR: <<Colour location>>;
 			LITERAL: <<Literal location>>;
 			MODULATE: <<Modulate location>>;
-			}
 		}
+	}
 	"You don't know that particular ditty.";
-	],
+],
 playSong [key song;
 	song = 0;
-	if (key == 88 or 120)
-		{
+	if (key == 88 or 120) {
 		print (string) random("^You lower the trumpet.^", "^You put your trumpet away.^", "^You change your mind and put the trumpet away.^");
 		rtrue;
-		}
+	}
 	if (SongBag --> 0 && key == 79 or 111)
 		song = DUCK;
 	if (SongBag --> 1 && key == 82 or 114)
@@ -274,8 +272,7 @@ playSong [key song;
 	if (song == 0)
 		rfalse;
 	print "^";
-	switch (song)
-		{
+	switch (song) {
 		DUCK: <<Duck location>>;
 		RAIN: <<Rain location>>;
 		HEAVY: <<Heavy location>>;
@@ -284,51 +281,50 @@ playSong [key song;
 		COLOUR: <<Colour location>>;
 		LITERAL: <<Literal location>>;
 		MODULATE: <<Modulate location>>;
-		}
-	],
+	}
+],
 has	~flag		! Normal trumpet / Magic Trumpet
 	~firstTime	! Never played Magic / Played for the first time
 	~general;	! Normal Songs in Endgame / Medley Songs in Endgame
 
 MusicObj ColourMusic "~Dab of Colour~"
-with	name "dab" "colour" "indigo",
+with name "dab" "colour" "indigo",
 	songNum COLOUR,
 description [;
 	style bold;	print "^Dab of Colour^";	style roman;
 	"Alters the effects of light^^This piece is fairly short but dances through the upper register quite freely, outlining major sixths and minor thirds.";
-	];
+];
 
 MusicObj HeavyMusic "~Heavy Heart~" SDesk
-with	name "heavy" "heart",
+with name "heavy" "heart",
 	songNum HEAVY,
 short_name [;
 	if (self hasnt firstTime)
-		print "a song entitled ";
-	],
+		print "a piece of sheet music titled ";
+],
 description [;
 	style bold;	print "^Heavy Heart^";	style roman;
 	"Increases the force of gravity^^This piece is a hand-printed copy and was probably written by Finney himself.";
-	],
+],
 before [x;
 	Cut: if (JigMusic has flag)
 			"You've already edited one piece of music; you don't need to cut this one too.";
 		if (second == jigSaw)
 			"There's no reason to cut the music up with the jigsaw.";
-	Take: if (self notin player)
-			{
+	Take: if (self notin player) {
 			if (self hasnt firstTime)
 				give self firstTime;
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			move self to player;
 			"Taken.";
-			}
+		}
 		"You are already carrying that.";
-	],
+],
 has	~firstTime;	! Never taken / Been taken
 
 MusicObj JigMusic "~Lively Jig~"
-with	name "lively" "jig",
+with name "lively" "jig",
 	songNum JIG,
 description [;
 	style bold;	print "^Lively Jig^";	style roman;
@@ -336,19 +332,22 @@ description [;
 	if (self hasnt flag)
 		"This piece is quite long; it's two pages in length with numerous repeats and other markings.";
 	"The sheet music has been surgically cut in half, right after a big sectional division.";
-	],
+],
 before [x;
 	Cut: if (self has flag)
 			"The jig music has already been cut.";
-		if (second == jigSaw)
-			{
+		if (second == jigSaw) {
 			give self flag;
 			score = score + 3;
 			"You slice through the jig with the jigsaw, carefully so as not to destroy the sheet. When you are done, the piece is only half as long.^^[You have just gained three points in Musical Editing.] ";
-			}
+		}
+		if (jigSaw in player) {
+			print "(with the jigsaw)^";
+			<<Cut JigMusic jigSaw>>;
+		}
 		if (second == nothing)
 			"It would be all too easy to tear an important part in the music if you used your bare hands.";
-		"You can't cut the sheet music with that.";
+		"You can't cut the jig with that.";
 	Learn: if (self notin player)
 			"You need to be holding the music to memorize it.";
 		if (self hasnt flag)
@@ -357,91 +356,83 @@ before [x;
 		SongBag --> x = 1;
 		remove self;
 		"You diligently commit the song to memory and then tuck the music away.";
-	Take: if (self notin player)
-			{
-			if (self hasnt firstTime)
-				{
+	Take: if (self notin player) {
+			if (self hasnt firstTime) {
 				give self firstTime;
-				give self ~scenery;
-				}
-			x = self.songNum - 1;
-			SongBag --> x = 1;
+			}
+			give self ~scenery;
 			move self to player;
 			"Taken.";
-			}
+		}
 		"You are already carrying that.";
-	],
+],
 has	~firstTime 	! Never taken / Been taken
-	scenery	! initial is in musicStand, prevent double description
+	scenery		! initial is in musicStand, prevent double description
 	~flag;		! Not cut / Cut
 
 MusicObj LiteralMusic "~Literal Melody~" TowerTop
-with	name "literal" "melody",
+with name "literal" "melody",
 	songNum LITERAL,
 description [;
 	style bold;	print "^Literal Melody^";	style roman;
 	"Turns large purple vault doors into hamsters^^The tune to this piece is fairly straightforward, with hard accented downbeats and standard cadences.";
-	],
+],
 before [x;
-	Take: if (self notin player)
-			{
-			if (self hasnt firstTime)
-				{
+	Take: if (self notin player) {
+			if (self hasnt firstTime) {
 				if (TTBars in TowerTop)
 					"You cannot seem to reach the music through the grey bars.";
 				give self firstTime;
-				}
+			}
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			move self to player;
 			"Taken.";
-			}
+		}
 		"You are already carrying that.";
-	],
+],
 has	~firstTime	! Never taken / Been taken
 	scenery;	! Initial is in TTBars, prevent double description
 
 MusicObj LoveMusic "~Springtime Love~" ButlerCottage
-with	name "love" "spring" "springtime" "frame" "framed",
+with name "love" "spring" "springtime" "frame" "framed",
 	songNum LOVE,
 description [;
 	style bold;	print "^Springtime Love^";	style roman;
 	"Enhances the effects of love^^It is a soaring melody which will really show off the lyrical qualities of the soloist's instrument.";
-	],
+],
 before [;
 	Take: "The framed music is firmly attached to the wall.";
-	],
+],
 has	scenery;	! initial is in ButlerCottage, prevent double description
 
 MusicObj ModulateMusic "~Modulation of Spirit~" InsideVault
-with	name "modulation" "spirit" "modulate",
+with name "modulation" "spirit" "modulate",
 	songNum MODULATE,
 	initial "A piece of sheet music has been left on the ground, entitled ~Modulation of Spirit~. ",
 description [;
 	print "This sheet music looks like it has never been played by anyone else. Across the top,^";
 	style bold;	print "^Modulation of Spirit^";	style roman;
 	"Transposes musical keys^^is written in fancy lettering. The piece consists mostly of rapid arpeggios cycling through many distinct key centers.";
-	];
+];
 
 MusicObj RainMusic "~Rainy Day~" MagicLab
-with	name "rain" "rainy" "day" "scroll",
+with name "rain" "rainy" "day" "scroll",
 	songNum RAIN,
 initial [;
 	if (self hasnt general)
 		give self general;
 	"Wedged under a pyramid-shaped model is a scroll with ~Rainy Day~ scrawled on the outside.";
-	],
+],
 description [;
 	style bold;	print "^Rainy Day^";		style roman;
 	"Increases the water capacity of clouds^^This looks to be a standard weepy ballad in true Papoosen style.";
-	],
+],
 before [x;
 	Take: if (self hasnt flag)
 			"You don't feel right taking Leonine's music without his permission.";
-		if (self notin player)
-			{
-			if (self hasnt firstTime)
-				{
+		if (self notin player) {
+			if (self hasnt firstTime) {
 				give self firstTime;
 				give MLPyramid ~scenery;
 				x = self.songNum - 1;
@@ -449,14 +440,14 @@ before [x;
 				move self to player;
 				score = score + 1;
 				"You retrieve the scroll from underneath the model, which wobbles without the extra support.^^[You have just gained one point for Upsetting a Pyramid.] ";
-				}
+			}
 			x = self.songNum - 1;
 			SongBag --> x = 1;
 			move self to player;
 			"Taken.";
-			}
+		}
 		"You are already carrying that.";
-	],
+],
 has	~firstTime	! Never taken / been taken
 	~flag		! No permission / Leonine's permission given
 	~general;	! Never been seen / Seen
@@ -492,7 +483,7 @@ with short_name [;
 		print "broken ";
 	else
 		print "wooden ";
-	],
+],
 parse_name [i j;
 	if (self has flag)
 		j = 'broken';
@@ -501,21 +492,24 @@ parse_name [i j;
 	while (NextWord() == 'wooden' or 'sculpture' or 'cute' or 'armadillo' or j)
 		i++;
 	return i;
-	],
+],
 initial "Sitting on the ground is a cute wooden armadillo. ",
 description [;
 	if (self has flag)
 		"The poor armadillo is missing its legs from the fall.";
 	"For a musician's work, you think the wooden armadillo is quite well-formed. It only weighs a few pounds.";
-	],
+],
 before [;
 	Attack: "You knock on the sides of the armadillo, but find that it's not hollow.";
-	Cut: if (second == jigSaw)
-			{
+	Cut: if (second == jigSaw) {
 			if (self has flag)
 				"Cutting the armadillo even more won't help its current handicap.";
 			"You smooth out some of the edges on the armadillo.";
-			}
+		}
+		if (jigSaw in player) {
+			print "(with the jigsaw)^";
+			<<Cut armadillo jigSaw>>;
+		}
 		"You can't cut the armadillo with your bare hands.";
 	Eat: "You've heard that roast armadillo was a delicacy, but it probably doesn't apply to the wooden variety.";
 	Lift: "The armadillo is quite light.";
@@ -526,63 +520,62 @@ before [;
 	Search: "You find nothing untoward about the wooden armadillo.";
 	Squeeze: "You give the armadillo a friendly squeeze.";
 	Touch: "The armadillo feels like it's made out of a soft wood.";
-	],
+],
 has	~flag;		! Not broken / Broken
 
 PuzzlePiece blackPiece "black puzzle piece" PavedRoad
-with	name "black" "puzzle" "piece" "heavy" "pieces//p",
+with name "black" "puzzle" "piece" "heavy" "pieces//p",
 	slot 2, 
 	initial "A small puzzle piece sits in the road, blown in by the wind and forgotten. ",
 description [;
-	print "The heavy 3 by 3 inch puzzle piece fits in the palm of your hand. One side of the piece is plain paperboard, but the other side seems to depict an epic struggle between man and beast in an extremely dark room. So dark, in fact, that it's anyone's guess as to what is really happening.^^";
+	print "The heavy 3 by 3 inch puzzle piece fits in the palm of your hand.";
+	print " One side of the piece is plain paperboard, but the other side seems to depict an epic struggle between man and beast in an extremely dark room.";
+	print " So dark, in fact, that it's anyone's guess as to what is really happening.^^";
 	font off;
 	print "     *****^     *****^    ******^     *****^     *****";
 	font on;
 	rtrue;
-	],
+],
 before [;
 	Fire: if (player in EastHouse && EHSlingshot in EastHouse && self in EHSlingshot)
 			<<Fire EHSlingshot>>;
 		"That's not something you can shoot.";
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			score = score + 1;
 			give self firstTime;
 			move self to player;
 			"Taken.^^[You have just gained a point for Piece Collecting.] ";
-			}
+		}
 		rfalse;
-	];
+];
 
 KeyObj boxKey "copper key"
-with	name "key" "copper",
+with name "key" "copper",
 	description "The copper key is two inches long and has a single groove in it. ",
 before [;
 	Take: if (self in Leonine)
 			"Leonine slaps your hand away. ~Offa my key, you malefactor!~";
-		if (self hasnt firstTime)
-			{
+		if (self hasnt firstTime) {
 			score = score + 1;
 			give self firstTime;
 			move self to player;
 			if (Leonine in location)
 				print "Leonine doesn't seem to notice your actions. ";
 			"You pick up the key, intending to return it as soon as you've finished with it.^^[You have just gained a point for the Borrowing Dance.] ";
-			}
-	],
+		}
+],
 has	~firstTime;	! Never taken / Been taken
 
 InvObj cup "empty metal cup" MHTable
-with	name "cup" "metal" "empty",
+with name "cup" "metal" "empty",
 description [;
 	print "The cup has its share of dents and scratches from accumulated use. It looks big enough to hold several fifths of liquid";
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		give self firstTime;
 		print ", but thankfully, any obscure jokes about parallel fifths have been omitted";
-		}
+	}
 	".";
-	],
+],
 before [;
 	Drink: "The cup is empty.";
 	Empty: "The cup is already empty.";
@@ -591,12 +584,12 @@ before [;
 			"It's highly unlikely that the duck would lay an egg in the cup.";
 	Smell: "The cup has no scent.";
 	Taste: "Licking the cup leaves an odd tang on your tongue.";
-	],
+],
 has	~firstTime;	! Never taken / Been taken
 
 InvObj cupMud "cup of mud"
-class	MudObj,
-with	name "cup" "metal" "of" "mud" "dirt" "earth",
+class MudObj,
+with name "cup" "metal" "of" "mud" "dirt" "earth",
 description "The cup has its share of dents and scratches from accumulated use. In the cup, you see some mud. ",
 before [;
 	Drink, Eat, Glock: "It may look like fudge, but you really don't want to eat it.";
@@ -612,19 +605,17 @@ before [;
 			"You're afraid that might damage the prototype.";
 		remove self;
 		move cup to player;
-		switch (second)
-			{
+		switch (second) {
 			EHTree: "You pour mud on the stunted tree. It doesn't seem to help.";
 			FPPond: "The mud oozes into the pond and dilutes in the water.";
 			VCDrain: "You empty the mud into the drain.";
 			cupMud: "You can't do that.";
 			default: "You dispose of the mud.";
-			}
-	PutOn: if (second has supporter)
-			{
+		}
+	PutOn: if (second has supporter) {
 			move self to second;
 			"You put the cup of mud on ", (the) second, ".";
-			}
+		}
 		"Putting things on ", (the) second, " would achieve nothing.";
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
@@ -642,11 +633,11 @@ before [;
 		L__M(##Take,1);
 		rtrue;
 	Taste: "Yep, it tastes like mud. Even down to that oddly piquant 'a la earthworm' tang.";
-	],
+],
 has	~firstTime;	! Never taken from DeadEnd / Been taken
 
 InvObj cupWater "cup of water"
-with	name "cup" "metal" "of" "water",
+with name "cup" "metal" "of" "water",
 	description "The cup has its share of dents and scratches from accumulated use. In the cup, you see some water. ",
 before [;
 	Drink, Eat, Glock: remove self;
@@ -663,10 +654,11 @@ before [;
 			"You're afraid that might damage the prototype.";
 		if (second == MHFudge)
 			"That would spoil a perfectly good brownie.";
+		if (second == cupWater)
+			"The cup is already full of water.";
 		remove self;
 		move cup to player;
-		switch (second)
-			{
+		switch (second) {
 			DRPlant: "The fern looks a little happier now.";
 			EHTree: EHTree.waterCount++;
 				if (EHTree.waterCount > 5)
@@ -675,20 +667,19 @@ before [;
 			FPPond: "You empty your cup into the pond.";
 			LLPine: "You pour water on the petite plastic pines. Perhaps they'll grow if you wait around long enough.";
 			VCDrain: "You empty the water into the drain.";
-			cupWater: "You can't fill the cup with itself.";
 			default: "The water quickly drains away.";
-			}
-	PutOn: if (second has supporter)
-			{
+		}
+	PutOn: if (second has supporter) {
 			move self to second;
 			"You put the cup of water on ", (the) second, ".";
-			}
+		}
 		if (second == MHFudge)
 			"That would spoil a perfectly good brownie.";
 		"Putting things on ", (the) second, " would achieve nothing.";
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
 	Receive: "The cup is already full.";
+	Search: "You don't find anything in the water.";
 	Smell: "There is no discernible scent to the water.";
 	Take: if (onotheld_mode == 0 || noun notin player)
 		if (AttemptToTakeObject(noun))
@@ -701,31 +692,30 @@ before [;
 		L__M(##Take,1);
 		rtrue;
 	Taste: "You take a tiny sip. There is no particular flavour in the water.";
-	];
+];
 
 KeyObj doorKey "silver key"
-with	name "key" "silver" "ridges" "grooves",
+with name "key" "silver" "ridges" "grooves",
 	initial "There is a small silver key here. ",
 	description "The key is unusually small, about the length of your pinky, and it has an intricate collection of grooves and ridges.";
 
 InvObj endDoor "wooden door" InsideVault
-with	name "door" "wooden" "knob" "doorknob" "open" "closed",
+with name "door" "wooden" "knob" "doorknob" "open" "closed",
 initial "Leaning against one wall of the vault is a plain wooden door. ",
 description [;
 	print "The door is like many others that you've seen up in Papoosen, with the exception that it has no hinges. A round doorknob is set into one side";
 	if (RWKeyhole in RockWall)
 		" with a tiny keyhole in the center of it.";
 	".";
-	],
+],
 before [;
 	Close: if (self notin RWDepression)
 			"Closing a stand-alone door is fairly useless.";
-		if (self has open)
-			{
+		if (self has open) {
 			give self ~open;
 			remove RWCubbyhole;
 			"You shut the door.";
-			}
+		}
 		"The door is already closed.";
 	Attack: "From the looks of it, this door is no strange to dents and scratches, but it seems to have held up pretty well.";
 	Enter: if (self notin RWDepression)
@@ -733,25 +723,27 @@ before [;
 		<<Go e_obj>>;
 	Insert: if (second == VCBuilding or OCBuilding or LLDoor or LHHouse)
 			"The door is too large to fit into the doorway here.";
-		if (second == RWDepression)
-			{
+		if (second == RWDepression) {
 			move self to RWDepression;
 			give self lockable;
 			give self locked;
 			give self ~open;
 			score = score + 1;
-			print "You gently set the wooden door into the marble depression. It fits almost perfectly! There is an audible sound, much like seven squirrels swallowing whole acorns, and suddenly the door has become a part of the marble face.^^[You have gained one point in Creative Exits.]^^Elated to at last have means to return to the surface, you step up to the door and turn the doorknob to find...^^Locked! The doorknob won't turn, despite your most valiant efforts! Upon closer inspection, a tiny keyhole has appeared in the knob. ";
+			print "You gently set the wooden door into the marble depression. It fits almost perfectly!";
+			print " There is an audible sound, much like seven squirrels swallowing whole acorns, and suddenly the door has become a part of the marble face.^^";
+			print "[You have gained one point in Creative Exits.]^^Elated to at last have means to return to the surface, you step up to the door and turn the doorknob to find...^^";
+			print "Locked! The doorknob won't turn, despite your most valiant efforts! Upon closer inspection, a tiny keyhole has appeared in the knob. ";
 			move RWKeyhole to RockWall;
-			if (Leonine notin location)
-				{
+			if (Leonine notin location) {
 				move Leonine to location;
 				print "As if somehow hearing your moan of despair, Leonine puffs into existence nearby. He looks at your predicament and ";
-				}
+			}
 			else
 				print "Leonine ";
 			give Leonine flag;
-			"cackles gleefully. ~What didja think? That you could get outta here without your standard 'Find-the-Key-to-The-Locked-Door' puzzle?~ He slaps you heartily on the back and wheezes. ~I think old Finney had the key last, though I could be wrong. Sniveling snails! The easiest thing fer you to do would be to check the history books down at the library.~";
-			}
+			print "cackles gleefully. ~What didja think? That you could get outta here without your standard 'Find-the-Key-to-The-Locked-Door' puzzle?~";
+			" He slaps you heartily on the back and wheezes. ~I think old Finney had the key last, though I could be wrong. Sniveling snails! The easiest thing fer you to do would be to check the history books down at the library.~";
+		}
 	Knock: if (self notin RWDepression)
 			"You knock on the door and then answer it from the other side.";
 		"You knock on the door, but no one answers.";
@@ -764,14 +756,13 @@ before [;
 	LookUnder: "There's nothing underneath the door.";
 	Open: if (self notin RWDepression)
 			"Opening a stand-alone door is fairly useless.";
-		if (self hasnt open)
-			{
+		if (self hasnt open) {
 			if (self has locked)
 				"The door won't open. Perhaps it is locked.";
 			give self open;
 			move RWCubbyhole to RockWall;
 			"You open the door to reveal a small cubbyhole in the rock.";
-			}
+		}
 		"The door is already open.";
 	Pull, Push, PushDir: "Moving the door around won't help.";
 	PutUnder: if (second == theDuck)
@@ -802,42 +793,38 @@ before [;
 		if (Leonine in location)
 			"^^Leonine peers at the door through one eye. ~And away you go! If you really want to go home, you'll have to find a way to sneak out of the castle!~";
 		"";
-	],
+],
 after [;
-	Take:	if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			give self firstTime;
 			"The door is rather unwieldy, but you manage to balance it on one shoulder. A good thing too, since you already had to solve two ~limited inventory~ puzzles down here.";
-			}
+		}
 		"You heft the door over your shoulder.";
-	],
+],
 has	~firstTime	! Never taken / been taken
 	~lockable	! No keyhole / Door in depression and keyhole appeared
 	~locked;	! No keyhole / Door in depression and locked
 
 InvObj fishBomb "unstable herring"
-with	name "bomb" "fish" "herring" "unstable",
+with name "bomb" "fish" "herring" "unstable",
 	timer 4,
 start [;
 	StartDaemon(self);
-	],
+],
 daemon [;
 	self.timer--;
 	if (self.timer == -1)
 		StopDaemon(self);
-	if (self in player || self in location)
-		{
-		switch (self.timer)
-			{
+	if (self in player || self in location) {
+		switch (self.timer) {
 			3: rtrue;
 			2: "^The unstable herring quivers almost imperceptibly.";
 			1: "^The unstable herring quivers. Either it's coming back to life or it's about to explode.";
 			0: deadflag = 1;
 				"^KABOOM! The herring explodes with a force belied by its small stature. Your last thought before you are incinerated is that perhaps you should have found a better place to put the herring."; 
-			}
 		}
-	if (self in PoontLab && self.timer == 0)
-		{
+	}
+	if (self in PoontLab && self.timer == 0) {
 		give PoontLab ~visited;
 		give PoontLab ~firstTime;
 		give PoontLab flag;
@@ -853,15 +840,15 @@ daemon [;
 			"^A loud explosion rocks Poont's Lab and a wave of heat rushes across your back. When the smoke clears, you see that you've caused quite a bit of destruction behind you.";
 		if (player in Bank || player in NorthGate || player in BearsDen)
 			"^In the distance you hear a muffled explosion.";
-		}
-	],
+	}
+],
 before [;
 	Eat: "You have a really bad feeling about eating the unstable herring.";
-	];
+];
 
 InvObj heavyRock "heavy rock" NPPile
-class	GraniteObj,
-with	name "rock" "heavy" "stone" "manageable" "small",
+class GraniteObj,
+with name "rock" "heavy" "stone" "manageable" "small",
 	dropCount 0,					! Times dropped in the gaping hole
 	description "The burdensome rock has a coarse texture which luckily provides a good grip. ",
 before [;
@@ -870,8 +857,7 @@ before [;
 		else
 			rfalse;			
 	Enter: "There's no reason to balance on the rock.";
-	Insert: if (second == SQHole)
-			{
+	Insert: if (second == SQHole) {
 			move heavyRock to NPPile;
 			move ML2Rocks to MullogsLair;
 			ML2Rocks.rockCount++;
@@ -885,23 +871,20 @@ before [;
 			if (self.dropCount == 6)
 				" You're getting quite adept at dropping big rocks in holes. Perhaps you should do it for a living.";
 			"";
-			}
-		if (second == PBPuddle)
-			{
+		}
+		if (second == PBPuddle) {
 			move heavyRock to NPPile;
 			NPPile.rockCount--;
 			"The rock sinks into the mud and quickly disappears.";
-			}
-		if (second == QETrapdoor)
-			{
+		}
+		if (second == QETrapdoor) {
 			if (QETrapdoor has open)
 				"The rock doesn't quite clear the edges of the trapdoor.";
 			"The trapdoor is closed.";
-			}
-	PutUnder: if (second == QEScale)
-			{
+		}
+	PutUnder: if (second == QEScale) {
 			"There isn't quite enough room underneath the platform for the rock.";
-			}
+		}
 	Push, Pull, PushDir: if (self in player)
 			"You are carrying the rock.";
 		"The rock is too uneven to roll with much success. You'd be better off carrying it.";
@@ -915,42 +898,37 @@ before [;
 		player.capacity = 1;
 		if (heavyRock in NPPile)
 			NPPile.rockCount++;
-		if (heavyRock in SQScale && player notin SQScale)
-			{
+		if (heavyRock in SQScale && player notin SQScale) {
 			give SQScale flag;
 			print " The wooden platform returns to its original height.";
-			}
+		}
 		move self to player;
 		"";
-	],
+],
 after [;
 	Drop: player.capacity = MAX_CARRIED;
-	PutOn: if (second == SQScale)
-			{
+	PutOn: if (second == SQScale) {
 			move self to SQScale;
 			player.capacity = MAX_CARRIED;
 			give SQScale ~flag;
 			print "With a grunt, you drop the heavy rock on the wooden platform. The platform squeals like a mad pack of rodents and sinks about two feet.";
-			if (self hasnt firstTime)
-				{
+			if (self hasnt firstTime) {
 				score = score + 1;
 				give self firstTime;
 				"^^[You have earned one point in Mineral Levitation.] ";
-				}
-			"";
 			}
-		if (second == QEScale)
-			{
+			"";
+		}
+		if (second == QEScale) {
 			player.capacity = MAX_CARRIED;
-			if (player in QEScale)
-				{
+			if (player in QEScale) {
 				move self to QEScale;
 				"You drop the heavy rock next to you on the platform.";
-				}
+			}
 			move self to QuarryEntrance;
 			"The rock rolls down the slanted platform and ends up on the floor.";
-			}
-	],
+		}
+],
 has	~firstTime;	! Never placed on platform / Been placed before
 
 InvObj herring "herring" FPPond
@@ -960,7 +938,7 @@ short_name [;
 		print "blue ";
 	else
 		print "red ";
-	],
+],
 parse_name [i j;
 	if (self has flag)
 		j = 'blue';
@@ -969,18 +947,16 @@ parse_name [i j;
 	while (NextWord() == 'herring' or 'fish' or j)
 		i++;
 	return i;
-	],
+],
 description [;
-	if (self has asleep)		! If not in Pond, herring is dead (asleep = dead here)
-
-		{
+	if (self has asleep) {		! If not in Pond, herring is dead (asleep = dead here)
 		print "The ";
 		self.showColour();
 		" herring is quite thoroughly dead and limp.";
-		}
+	}
 	self.pondText();
 	"";
-	],
+],
 orders "The herring probably doesn't understand you.",
 life [;
 	Ask, Answer, Give, Order, Show, Tell: "The herring probably doesn't understand you.";
@@ -991,20 +967,19 @@ life [;
 			"That's quite impossible.";
 		"The herring is awake.";
 	default: "You'll have to catch the herring before you can do that.";
-	],
+],
 before [;
-	Attack: if (self has asleep)					! Dead
+	Attack: if (self has asleep)							! Dead
 			"The fish is already dead. Your attacks, no matter how skilled would be ineffective.";
-		if (self has flag)						! Alive and High
+		if (self has flag)									! Alive and High
 			"You slap the water near the fish, causing it to dart away.";
 		"The fish is too deep in the pond to attack.";		! Alive and Low
 	Catch, Take: if (self in player)
 			"You are already carrying that.";
-		if (self has asleep && self notin player)
-			{
+		if (self has asleep && self notin player) {
 			move self to player;
 			"Taken.";
-			}
+		}
 		if (self has flag && self in FPPond)
 			"You grab at the fish, but it is too quick to catch.";
 		if (self in FPPond)
@@ -1050,75 +1025,75 @@ before [;
 	Wave: if (self in player)
 			"You wave the dead herring over your head.";
 		"You need to be holding the herring before you can wave it around.";
-	],
+],
 changeColour [;
-	if (self has flag)
-		{
+	if (self has flag) {
 		give self ~flag;
 		"The herring becomes a shade of red again and quickly dives deeper into the pond.";
-		}
+	}
 	give self flag;
 	print "The herring shimmies about confusedly as it changes from red to a deep blue. As if it notes the colour shift, it swims higher up in the pond, until it again is camouflaged against the sides of the pond.";
-	if (self hasnt general)
-		{
+	if (self hasnt general) {
 		give self general;
 		score = score + 1;
 		"^^[You have just gained one point for Looking Past a Red Herring.] ";
-		}
+	}
 	"";
-	],
+],
 pondText [;
-	if (self in FPPond)
-		{
-		if (self hasnt flag)
-			{
+	if (self in FPPond) {
+		if (self hasnt flag) {
 			print "Deep in the pond, ";
 			if (random(100) < 50)
 				print "almost invisible against the pond walls, ";
-			}
-		else
-			{
+		}
+		else {
 			if (self hasnt asleep)
 				print "Near the surface of the pond, ";
 			else
 				print "Floating on the surface of the pond, you see ";
-			}
+		}
 		print "a ";
 		self.showColour();
 		print " herring";
 		if (self hasnt asleep)
 			print (string) random(" swims in lazy circles. ", " darts about. ", " can be seen. ");
-
-
 		else
 			print ".";
-		}
-	],
+	}
+],
 showColour [;
 	if (self has flag)
 		print "blue";
 	else
 		print "red";
-	],
+],
 has	~flag		! Red / Blue 
-	~asleep	! Not dead yet. Feel's fine / dead
+	~asleep		! Not dead yet. Feel's fine / dead
 	animate;
 
 InvObj instructions "penned note" BSafe
-with	name "instructions" "penned" "note",
+with name "instructions" "penned" "note",
 description "Written here are step-by-step instructions to enter Poont's house.";
 
 InvObj jigSaw "jigsaw"
-with	name "jigsaw" "saw" "blade" "handles" "handle",
+with name "jigsaw" "saw" "blade" "handles" "handle",
 	initial "A portable mechanical jigsaw sits on the floor of the workshop. ",
 description "The mechanical jigsaw is fairly compact and consists of a long thin blade between two handles. Evidently, the blade vibrates back and forth when the handles are pulled. ",
 before [;
+	Cut: if (second == jigSaw) {
+		"You can't seem to turn the saw to the right angle to cut itself.";
+		}
+		if (jigSaw in player) {
+			print "(with the jigsaw)^";
+			<<Cut jigSaw jigSaw>>;
+		}
+		"You can't cut the jigsaw with your bare hands.";
 	Eat: "That would surely be unappetizing, not to mention painful.";
-	Lift: if (self hasnt firstTime)
-			{
+	Lift: if (self hasnt firstTime) {
 			give self firstTime;
 			"You lift the jigsaw over your head a few times.^[You have just gained +1 Strength. Please roll your seven-sided die to determine the bonus.] ";
-			}
+		}
 		"You lift the jigsaw a few times. It is fairly light.";
 	Listen: "The jigsaw is silent. It must be one of those quiet-operation models.";
 	Open: "There are no compartments on the jigsaw.";
@@ -1126,57 +1101,55 @@ before [;
 	Pull, Stretch: "You pull on the ends of the jigsaw and the blade moves.";
 	Search: "There is nothing unusual about the saw.";
 	Smell: "The jigsaw smells nondescript.";
-	],
+],
 has	~firstTime;	! Never lifted / been lifted
 
 InvObj lostRing "gold ring"
-with	name "gold" "ring",
+with name "gold" "ring",
 description [;
 	print "The ring is painstakingly detailed with abstract lines and shapes. It must have been very special to whoever lost it.";
 	if (Mullog has flag)
 		" Currently, it is being worn by Mullog.";
 	"";
-	],
+],
 before [;
 	Catch: "You toss the ring up in the air and catch it.";
 	Eat: "The ring doesn't look appetizing.";
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			score = score + 1;
 			give self firstTime;
 			move self to player;
 			"Taken.^^[You have just gained a point for ~Insert Witty Punchline about Gold Ring Here~.] ";
-			}
+		}
 		if (Mullog has flag)
 			"Mullog slaps your hand away. ~Mullog's ring!~";
 	Wear: "The ring is just a little too small for any of your fingers.";
-	],
+],
 has	~firstTime;	! Never been taken / been taken
 
 InvObj mazeMarker "scrap of paper" MazeEntrance
-with	name "paper" "letter" "marker" "scrap" "maze" "note",
+with name "paper" "letter" "marker" "scrap" "maze" "note",
 	initial "A small scrap of paper is caught in the brambles.",
 description [;
 	if (self in player)
 		"-*Gratuitous Maze Marker*-^This scrap of paper is a red herring with no purpose in the Nolava Odd Community. It has been created solely to help you map out the Maze of Dread. Be merry!";
 	"You can't make out what it says from here.";
-	],
+],
 before [;
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			give self firstTime;
 			move self to player;
 			"You delicately pick the note out of the brambles.";
-			}
-	],
+		}
+],
 has	~firstTime;	! Never been taken / been taken
 
 InvObj mirror "round mirror" MirrorRoom 
-with	name "mirror" "round" "small",
+with name "mirror" "round" "small",
 initial "Sitting neglected in the corner is a small round mirror.",
 description "This mirror looks different than the others in Poont's Mirror Room. It looks like the kind people would hang in their living rooms.",
 before [;
@@ -1190,89 +1163,85 @@ before [;
 	Hang: if (player in VaultDoor)
 			<<Insert self VDFrame>>;
 	Touch: "You touch your reflection.";
-	];
+];
 
 InvObj musicStand "music stand" MusicSalon
-with	name "music" "stand" "black",
+with name "music" "stand" "black",
 initial [;
 	if (JigMusic in self)
 		"Someone has left a piece called ~Lively Jig~ on the music stand in the corner of the room.";
 	else
 		"A metal stand is in the corner of the room.";
-	],
+],
 description [;
 	if (self in MusicSalon)
 		print "It is a standard black metal stand sitting in the corner of the room.";
 	else
 		print "It is a standard black metal stand.";
-	if (child(self) ~= nothing)
-		{
+	if (child(self) ~= nothing) {
 		print " On the stand, you can see ";
 		WriteListFrom(child(self), ENGLISH_BIT); ".";
-		}
+	}
 	"";
-	],
+],
 before [;
 	Climb, Enter: "The stand would probably buckle underneath your weight.";
-	Cut: if (second == jigSaw)
-		"The metal of the stand is too tough to cut through.";
+	Cut: if (second == jigSaw || jigSaw in player)
+			"The metal of the stand is too tough to cut through.";
+		"You can't cut the music stand with your bare hands.";
 	Lift, LookUnder: "There is nothing under the stand.";
 	Pull, Push: "You adjust the stand's position slightly.";
 	Receive: if (noun == JigMusic)
 			give JigMusic scenery;
 		rfalse;
-	Take: if (JigMusic in self)
-			{
+	Take: if (JigMusic in self) {
 			move JigMusic to player;
 			move self to player;
-			if (JigMusic hasnt firstTime)
-				{
+			if (JigMusic hasnt firstTime) {
 				give JigMusic firstTime;
-				give JigMusic ~scenery;
-				}
-			"You pick up the stand and the sheet music as well.";
 			}
-	],
+			give JigMusic ~scenery;
+			"You pick up the stand and the sheet music as well.";
+		}
+],
 has	supporter;	! Can support objects
 
 InvObj note "dead man's note" QuarryEntrance
-with	name "paper" "letter" "note" "dead" "man^s",
+with name "paper" "letter" "note" "dead" "man^s",
 description [;
 	if (self in player)
 		"THINGS TO DO TODAY:^- fix crumbling wall^- find my lost ring^- replace worn chains on the rock elevator ";
 	if (self hasnt firstTime)
 		"You can't read it when it's clutched in the hand.";
 	"You can't read it from here.";
-	],
+],
 before [;
 	Drop: if (player in PBPuddle)
 			"If you dropped the note in the puddle, you wouldn't be able to read it anymore.";
-	Insert: if (second == SQHole)
-			{
+	Insert: if (second == SQHole) {
 			move self to MullogsLair;
 			if (player in SQScale)
 				print "You crouch at the side of the platform and ";
 			else
 				print "You "; 
 			"drop the note into the gaping hole, but hear only silence as a result.";
-			}
+		}
 	Pull: if (self hasnt firstTime)
 			<<Take self>>;
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			give self firstTime;
 			give self ~scenery;
 			move self to player;
 			"You pry the note from the bony fingers.";
-			}
-	],
+		}
+],
 has	~firstTime	! Never been taken / been taken
 	scenery;	! initial in QEHand, prevent double descriptions
 
 InvObj rubber "rubber band" OldQuarry
-with	name "rubber" "band" "stretchy" "length" "of",
+with name "rubber" "band" "stretchy" "length" "of",
 	initial "A discarded length of rubber lies on the ground.",
 	description "The length of rubber is nearly two feet long, unstretched. Age has worn down the ends, but the middle still looks quite strong.",
 before [;
@@ -1280,28 +1249,25 @@ before [;
 	Burn: "The smell of burnt rubber isn't the most pleasant aroma in the world.";
 	Cut: "You can't cut the rubber with your bare hands.";
 	Eat, Taste: "You delicately lick one end of the rubber length, leaving a sour aftertaste on your tongue.";
-	PutOn: if (second has supporter)
-			{
+	PutOn: if (second has supporter) {
 			move self to second;
 			"You put the rubber on ", (the) second, ".";
-			}
+		}
 		<<Tie self second>>;
 	JumpOver: "Using the length of rubber as a skipping rope, you do a quick set of jumps.";
 	PutUnder: if (second == theDuck)
 			"The duck would probably resent being used as a paperweight.";
 	Smell: "The smell of rubber is intermingled with the leftover scent of the quarry where it was found.";
 	Swing, Wave: "Swinging the rubber length through the air produces a whirring sound.";
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			score = score + 1;
 			give self firstTime;
 			move self to player;
 			"Taken.^^[You have just gained a point in Rubber Recycling.] ";
-			}
+		}
 	Tie: if (second == player)
 			"Rubberware is not the latest in Papoosen fashions.";
-		switch (second)
-			{
+		switch (second) {
 			OQPillars: move self to OldQuarry;
 				"You wrap the rubber around one of the pillars but the knot doesn't hold. The rubber band flies across the quarry, narrowly missing you.";
 			DETrapDoor: "There doesn't seem to be anywhere on the trapdoor to tie it.";
@@ -1314,14 +1280,14 @@ before [;
 				if (Leonine in location)
 					"^^Leonine chuckles. ~Clever neighbour!~";
 				"";
-			}
+		}
 	Touch: "The rubber feels pliant.";
 	Wear: "Rubberware is not the latest in Papoosen fashions.";
-	],
+],
 has	~firstTime;	! Never been taken / been taken
 
 PuzzlePiece whitePiece "white puzzle piece" MSPiano
-with	name "white" "puzzle" "piece" "pieces//p" "light",
+with name "white" "puzzle" "piece" "pieces//p" "light",
 	slot 1,
 description [;
 	print "One side of the piece is plain paperboard, but the other side shows a vivid depiction of a blindingly white snowstorm. Or perhaps the artist just forgot to paint anything.^^";
@@ -1329,31 +1295,29 @@ description [;
 	print "     OOOOOO^	    OOOOOO^	    OOOOO ^	    OOOOOO^	    OOOOOO";
 	font on;
 	rtrue;
-	],
+],
 before [;
-	Take: if (self hasnt firstTime)
-			{
+	Take: if (self hasnt firstTime) {
 			score = score + 1;
 			give self firstTime;
 			move self to player;
 			"Taken.^^[You have just gained a point for Finding Something in an Illogical Location.] ";
-			}
-		if (self notin player)
-			{
+		}
+		if (self notin player) {
 			move self to player;
 			"Taken.";
-			}
-	],
+		}
+],
 has	~firstTime;	! Never been taken / been taken
 
 ! ##########################################################################################################
 ! Books
 !	codeBook	(Building Codes manual)
 !	diary		(Butler's diary)
-!	musBook	(Finney's Dictionary)
+!	musBook		(Finney's Dictionary)
 !	pamphlet	(Timeline pamphlet)
 !	poontBook	(Experiment book)
-!	refBook	(Reference Tome)
+!	refBook		(Reference Tome)
 !
 ! ##########################################################################################################
 
@@ -1366,7 +1330,7 @@ with parse_name [i j;
 	while (NextWord() == 'codes' or 'manual' or 'book' or j)
 		i++;
 	return i;
-	],
+],
 	initial "Sitting atop the counter is a bound book entitled ~Nolava Odd Community Building Codes~.",
 	description "The manual is composed of hand-written pages, detailing various construction jobs in the area.",
 	openStr "You open up the Building Codes manual.^^(You are now in Book-Reading Mode. To look up a building code, type in the number of the code. To read about a random code, type in RANDOM. To close the book, type STOP).",
@@ -1374,15 +1338,13 @@ with parse_name [i j;
 consult [w;
 	wn = consult_from;
 	w = NextWord();
-	if (w == 'random')
-		{
+	if (w == 'random') {
 		print "You flip to a random entry...^^";
 		w = random(116);
-		}
+	}
 	else
 		print "You thumb through the manual looking for the correct entry...^^";
-	switch (w)
-		{
+	switch (w) {
 		1, '001', '1//': "#001 Nolava Construction Office: 1-N-05, Created from the Ploog Fund for the mining of granite and other materials beneath the ground. Ran into a few zoning problems with Mullog.";
 		2, '002', '2//': "#002 Wheelbarrow: 1-P-05, Wasted all of yesterday trying to move granite chunks bare-handed.";
 		3, '003', '3//': "#003 Quarry Rock Elevator: 1-Q-05, Useful for removing granite chunks from the quarry and lowering them into the Office for transportation.";
@@ -1394,7 +1356,6 @@ consult [w;
 		9, '009', '9//': "#009 Plaque Molds: 1-W-05, Constructed to build bronze plaques to place on some prominent buildings for posterity's sake.";
 		10, '010', '10': "#010 Metal Chain: 1-X-05, Created to replace the hemp rope on the elevator. Should reduce breakdowns by 90% per day.";
 		11, '011', '11': "#011 Armadillo Trap: 1-Y-05, Fashioned from spare parts to keep wild armadillos from invading my personal space.";
-
 		12, '012', '12': "#012 Rain Gauge: 1-Z-05, Rainstorm started today. Constructed the rain gauge for Leonine's experiments.";
 		13, '013', '13': "#013 Umbrella: 2-A-05, Fashioned for Finney at the start of a rainstorm.";
 		14, '014', '14': "#014 Midway Drain: 2-B-05, Installed after realizing that continued heavy rains could flood the Construction Office and ruin my toffee stash...grrr...";
@@ -1501,13 +1462,13 @@ consult [w;
 		115, '115', '115': "#115 (planned) Granite Statue: Sent materials to Madame Fou-llama's before the Security Maze was activated. May make the statue some day.";
 		116, '116', '116': "#116 (planned) Quarry Rock Elevator: Really need to get around to fixing that elevator chain...It's just an accident waiting to happen.";
 		default: "The entries only seem to go from 001 through 116.";
-		}
+	}
 ],
 has	scenery	! initial in Leonine's intro, prevent double descriptions
 	firstTime;	! never opened / opened
 
 BookObj diary "butler's diary" ButlerCottage
-with	name "diary" "book" "butler^s" "leather" "bound" "journal",
+with name "diary" "book" "butler^s" "leather" "bound" "journal",
 	initial "Sitting on the bed is a leather-bound book.",
 	description "",
 	article "the",
@@ -1515,47 +1476,65 @@ before [;
 	if (theButler in ButlerCottage)
 		"The butler clears his throat. ~I'd appreciate it if you would leave my personal belongings alone.~";
 	Consult, Examine, Open, Read: give self flag;
-		"You skim through the diary, realizing that the butler could return at any moment. Many of the entries are pretty boring, detailing the daily cleaning regimen and the best methods of cleaning granite. However, it would seem that the butler has a crush on the widow; a fact revealed by the numerous hearts and initials sketched throughout the diary. The final entry bemoans the fact that the widow barely acknowledges his existence or returns his undying devotion.";
+		print "You skim through the diary, realizing that the butler could return at any moment.";
+		print " Many of the entries are pretty boring, detailing the daily cleaning regimen and the best methods of cleaning granite.";
+		print " However, it would seem that the butler has a crush on the widow; a fact revealed by the numerous hearts and initials sketched throughout the diary.";
+		" The final entry bemoans the fact that the widow barely acknowledges his existence or returns his undying devotion.";
 	Take: if (theButler has flag)
 			"There's no reason to carry around the butler's diary.";
 		"The butler would definitely notice it was missing. You could probably get away with reading it though.";
-	],
+],
 has	~flag;		! Not read / read
 
 BookObj musBook "Finney's Dictionary" SShelves
-with	name "book" "finney" "dictionary",
+with name "book" "finney" "dictionary",
 description "The dictionary is quite small, as if the author never got around to completing it.",
 before [;
-	Consult, Open, Read: "You thumb through the book to find that only a few pages have entries on them...^^To The Reader: It is my humble hope that this will one day be a definitive dictionary of music, preferably with a nice big number in front, perhaps ~Finney's Book of Nine Billion, Eighty-Four Definitions of Music for the Layman~, or maybe Infinite if I can write that much, but anyhow, I digress...^^Cadence: The musical chords which outline a final resting point in a song. Personally I think cadences make music far too predictable so I usually only use one. And actually, in fifteen of my thirty-seven ~Studies Only Using the Note F~ I forwent a cadence entirely!^^Embouchure: To people who play brass instruments, like the trumpet and tuba, the embouchure is the area of the lips that play into the mouthpiece. People with stronger embouchures have more playing endurance and can play difficult passages with ease.^^Key: The tonal level of a piece of music. There are twelve major keys starting on each of twelve pitches between A and G. The major keys are the happy ones! There are also twelve minor keys, which start on the same pitches. Personally I like the keys of Ab minor and D major.^^Overtones: These are the natural tones that are produced at various intervals over the pitch being playing. Though you can't always hear them enough to label them, they give every instrument a unique timbre.^^Transposition: This is the act of taking a piece of music written in one key and rewriting it in a different key. One time, as an exercise, I transposed all four thousand of my G major sonatas to C# major. There isn't much to do down here.^^Tritone: Also known as the augmented fourth or diminished fifth. The interval of notes that is the exact one half of an octave in the standard system. To the ear, its sound is easily recognizable, although one cannot tell whether the interval is an augmented fourth or a diminished fifth, since the two are the same sounding pitch. An example tritone is C to F# (augmented fourth) or C to Gb (diminished fifth), both of which sound the same. I once tried to write a piece exclusively in tritones. However, I ran out of new notes in the second measure, and initial reactions to the twelve minute piece were not very good.";
+	Consult, Open, Read: print "You thumb through the book to find that only a few pages have entries on them...^^";
+		print "To The Reader: It is my humble hope that this will one day be a definitive dictionary of music, preferably with a nice big number in front,";
+		print " perhaps ~Finney's Book of Nine Billion, Eighty-Four Definitions of Music for the Layman~, or maybe Infinite if I can write that much, but anyhow, I digress...^^";
+		print "Cadence: The musical chords which outline a final resting point in a song. Personally I think cadences make music far too predictable so I usually only use one.";
+		print " And actually, in fifteen of my thirty-seven ~Studies Only Using the Note F~ I forwent a cadence entirely!^^";
+		print "Embouchure: To people who play brass instruments, like the trumpet and tuba, the embouchure is the area of the lips that play into the mouthpiece.";
+		print " People with stronger embouchures have more playing endurance and can play difficult passages with ease.^^";
+		print "Key: The tonal level of a piece of music. There are twelve major keys starting on each of twelve pitches between A and G. The major keys are the happy ones!";
+		print " There are also twelve minor keys, which start on the same pitches, for a grand total of 24 keys. Personally I like the keys of Ab minor and D major.^^";
+		print "Overtones: These are the natural tones that are produced at various intervals over the pitch being playing.";
+		print " Though you can't always hear them enough to label them, they give every instrument a unique timbre.^^";
+		print "Transposition: This is the act of taking a piece of music written in one key and rewriting it in a different key.";
+		print " One time, as an exercise, I transposed all four thousand of my G major sonatas to C# major. There isn't much to do down here.^^";
+		print "Tritone: Also known as the augmented fourth or diminished fifth. The interval of notes that is the exact one half of an octave in the standard system.";
+		print " To the ear, its sound is easily recognizable, although one cannot tell whether the interval is an augmented fourth or a diminished fifth,";
+		print " since the two are the same sounding pitch. An example tritone is C to F# (augmented fourth) or C to Gb (diminished fifth), both of which sound the same.";
+		print " I once tried to write a piece exclusively in tritones. However, I ran out of new notes in the second measure,";
+		" and initial reactions to the twelve minute piece were not very good.";
 	PutOn: if (second == SShelves)
 			<<Insert self SShelves>>;
-	],
+],
 has	proper;	! Call it Finney's dictionary, not a Finney's dictionary
 
 BookObj pamphlet "Timeline pamphlet"
-with	name "pamphlet" "timeline" "history" "leaflet",
+with name "pamphlet" "timeline" "history" "leaflet",
 	description "It is a brief timeline which seems to highlight important events in the history of the Nolava Odd Community.",
 	openStr "A BRIEF TIMELINE OF THE ILLUSTRIOUS HISTORY OF THE NOLAVA ODD COMMUNITY^by Poont^The pamphlet seems to be divided up by year, with sections for 05, 06, 07, and 08.^^(You are now in Book-Reading Mode. To read about a specific year in the pamphlet, just type in the year. To close the pamphlet, type STOP).",
 	closeStr "You put the pamphlet away.",
 before [;
-	Take: if (self notin player)
-			{
+	Take: if (self notin player) {
 			move self to player;
 			"Taken.";
-			}
+		}
 		if (player in Library)
 			<<Take LBoxPamphlets>>;
 		else
 			"You are already carrying the pamphlet.";
 	Taste: "The pamphlet tastes papery.";
 	Touch: "You dog-ear one of the pages.";
-	],
+],
 consult [w;
 	wn = consult_from;
 	w = NextWord();
 	print "You skim through the pamphlet searching for that year...^^";
-	switch (w)
-		{
+	switch (w) {
 		5, '05', '5//': "* 1/05: Leonine, our illustrious founding father has the brilliant idea to create a community of odd folk at the bottom of a dormant volcano in Papoosen.^
 		* 1/05: Ahtha, the illustrious builder is sent into the volcano to prepare for the coming of our grandiose community. He immediately sets to work mining the main resource - granite.^
 		* 1/05: Once the tunnel up to the surface has been completed, Leonine makes the journey into the underground, accompanied by his friend and fellow Oddsman, Finney, the illustrious musician.^
@@ -1576,28 +1555,30 @@ consult [w;
 		* 7/08: It would seem that Squiggy passed away yesterday. Because his tower has a door which doesn't open from the outside, he routinely teleports in. But he miscalculated somehow, and is now permanently part of the tower walls. He shall be missed...^
 		* 9/08: Our merry community is now down to three, and yet Madame Fou-llama has not been heard from since she erected her inescapable security maze. I worry for the future, but Leonine is quite chipper.";
 		default: "There doesn't seem to be a section about that year. You see sections for 05, 06, 07, and 08.";
-		}
+	}
 ];
 
 BookObj poontBook "Poont's Experiment Book" PoontLab
-with	name "book" "poont" "experiments",
+with name "book" "poont" "experiments",
 initial "Tucked neatly in the corner is a small book entitled ~Poont's Experiments~.",
 description "The book is neatly written and tabulated on lined paper.",
 before [;
-	Consult, Open, Read: if (self hasnt firstTime)
-			{
+	Consult, Open, Read: if (self hasnt firstTime) {
 			give self firstTime;
 			print "Many of the pages are filled with obscure mathematical formulas and obtuse science talk. ";
-			}
+		}
 		print "You turn to the last written page and read...";
-		font off; 	print "^^BEAR'S CAVE: The faux cave is complete. Soon I shall import a bear and study its eccentricities. I can also test out my diet pills which should (hopefully) allow the bear to forgo the hassle of scrounging for food.^^MIRROR CHAMBER: I have finally finished the construction of my mirror chamber. The mirror that Snoobar lent me turned out to be unneeded, and warped anyhow.^^CHAIRS: Frick and Frack both exhibit fine watchdog properties. Soon I can apply that knowledge to enchanting swords and have a better security system for my home.^^SECRET PROJECT A: The experimental prototype is proceeding smoothly. By putting a fish in the receptacle, I can alter its chemical makeup. This effectively makes it a ~fish grenade~. I must now work on lengthening the time before explosion...it is currently very short, and I may blow myself up if I am not careful.^^";	font on;
+		font off; 	print "^^BEAR'S CAVE: The faux cave is complete. Soon I shall import a bear and study its eccentricities. I can also test out my diet pills which should (hopefully) allow the bear to forgo the hassle of scrounging for food.^^";
+		print "MIRROR CHAMBER: I have finally finished the construction of my mirror chamber. The mirror that Snoobar lent me turned out to be unneeded, and warped anyhow.^^";
+		print "CHAIRS: Frick and Frack both exhibit fine watchdog properties. Soon I can apply that knowledge to enchanting swords and have a better security system for my home.^^";
+		print "SECRET PROJECT A: The experimental prototype is proceeding smoothly. By putting a fish in the receptacle, I can alter its chemical makeup. This effectively makes it a ~fish grenade~. I must now work on lengthening the time before explosion...it is currently very short, and I may blow myself up if I am not careful.^^";	font on;
 		"There are no more entries after this one.";
-	],
+],
 has	proper		! Call it Poont's, not a Poont's
 	~firstTime;	! Never been read / Been read
 
 BookObj refBook "reference book" Library
-with	name "reference" "book" "encylopedia" "tome" "massive",
+with name "reference" "book" "encylopedia" "tome" "massive",
 	initial "There is a massive tome sitting in the corner of the room.",
 	description "The tome seems to be a reference book of some sort, with entries for various aspects of Papoosen and the Nolava Community.",
 	openStr "You open up the massive tome.^^(You are now in Book-Reading Mode. To look up a subject, type in the subject. To turn to a random page, type in RANDOM. To close the book, type STOP).",
@@ -1607,15 +1588,13 @@ consult [ok w1 w2 w3;
 	w1 = NextWord();
 	w2 = NextWord();
 	w3 = NextWord();
-	if (w1 == 'random')
-		{
+	if (w1 == 'random') {
 		print "You flip to a random page...^^";
 		w1 = random(69);
-		}
+	}
 	else
 		print "You thumb through the book looking for an entry...^^";
-	switch (consult_words)
-		{
+	switch (consult_words) {
 		3: ok = self.topics(w3);
 			if (ok == 0)
 				ok = self.topics(w2);
@@ -1626,14 +1605,13 @@ consult [ok w1 w2 w3;
 				ok = self.topics(w1);
 		1: ok = self.topics(w1);
 		default: ok = 0;
-		}
+	}
 	if (ok == 0)
 		"You don't seem to find an entry for that.";
 	rtrue;
-	],
+],
 topics [w;
-	switch (w)
-		{
+	switch (w) {
 		1, 'ahtha', 'builder': "Ahtha the Builder 1/05:^Ahtha was hired by Leonine because of his reputation as a master stonesmith. A combination of his skill and others' magic allowed the quick construction of many structures in the Community. In his free time, the man ate Camelkian Toffees and experimented in new forms of granite shaping. Tragically, Ahtha is assumed to have perished in the quarry since nothing has been heard since then. Since Ahtha spent so much time there, the quarry was respectfully sealed off as his final resting place.";
 		2, 'amoshtuff', 'butler': "Butler Amoshtuff 1/07:^This dashing young fellow is the personal servant of Madame Fou-llama. He resides in a small cottage on the Fou-llama estate, maintaining her home and preparing her seemingly inexhaustible supply of tea.";
 		3, 'armadillo', 'armadillos': "Armadillos:^In spite of its heavy coat of armor reaching from head to end of tail, the armadillo can swim. And because it can undergo considerable exertion for six minutes without breathing, it walks submerged across the bottom of small streams and ponds. The animal is normally solitary, although several of the same sex are sometimes found in one of the four or five burrows or ledge crevices which the average animal maintains.^^The home den contains a nest made of half a bushel of dry grass and leaves, while the other burrows serve as emergency shelters. The tunnels are only 10 to 15 feet long and generally have one entrance under a stump.";
@@ -1645,7 +1623,7 @@ topics [w;
 		9, 'company', 'rock': "Papoosen Rock Company:^The Papoosen Rock Company holds monopoly over all the rocks and minerals found on the surface. However, the poor construction quality of bituminous shale and river pebbles has led most of the buildings in Papoosen to be made from wood or other byproducts. Ever since the Nolava Odd Community discovered granite on their property, trading up to the Rock Company has been a lucrative trade.";
 		10, 'doofa', 'board', 'certification', 'certified': "Doofa and Doofa-Certified Products:^Doofa - a veritable genius of the last century. When Doofa entered the realm of commercial ventures, he saw men all around him scrambling for control and dominance in every market from clocks to toffees. Realizing he could never compete with such fierce competition, Doofa instead formed the Doofa Certification Board, a stringent one-person committee which requires ~every product ever made and everything else~ to be thoroughly inspected before distribution. His ~monopoly on monopolies~ has since earned him great wealth, and Doofa certification is a household term, even years after his death.";
 		11, 'duck', 'ducks': "Ducks:^Ducks are waterfowl not indigenous to the Greater Papoosen Area. Ever since the first King adopted a surname with the word ~goose~ in it, the popularity of ducks has declined remarkably. Before all the ducks were rounded up and bundled off to Jahoosa, there were two types found in the wild. The ~White Duck~ so called because it was white was often used by sport fisherman to catch various types of fish. The ~Yellow Duck~, so called because of its reddish-brown wings used to be a common sight in towns where they were trained to hunt rats.";
-		12, 'finney': "Finney the Musician 1/05:^Finney was the original companion of Leonine when the Nolava Community first took flight. A venerable musician up above, he left Papoosen after a fledgling company gained a monopoly over all twenty-four major and minor scales, greatly limiting his musical vocabulary. Since then, Finney has done much research into the uses of granite in music and supported Ahtha's efforts at granite instruments. Sadly, Finney decided to move on when granite shipments from the quarry dried up on Ahtha's apparent demise. Finney was also known to dabble in sculpture work, but his work never reached the same artistic level as Snoobar.";
+		12, 'finney': "Finney the Musician 1/05:^Finney was the original companion of Leonine when the Nolava Community first took flight. A venerable xylophonist up above, he left Papoosen after a fledgling company gained a monopoly over all twenty-four major and minor scales, greatly limiting his musical vocabulary. Since then, Finney has done much research into the uses of granite in music and supported Ahtha's efforts at granite instruments. Sadly, Finney decided to move on when granite shipments from the quarry dried up on Ahtha's apparent demise. Finney was also known to dabble in sculpture work, but his work never reached the same artistic level as Snoobar.";
 		13, 'fou-llama', 'foullama', 'madame', 'security', 'maze', 'fou-llama^s', 'foullama^s': "Madame Fou-llama and the Security Maze 1/07:^Madame Fou-llama is a collector of fine antiques. She was the last Odd Community resident to move here, and her token-female-ish nature will no doubt allow this community to appeal to every gender of visitor. Leery of broom peddlers, Madame Fou-llama had a security maze constructed in front of her house which can only be passed by spelling out the owner's name without stopping in the middle. It is believed that Madame Fou-llama is still trapped in her estate, since the realization that her name can only be spelled out on the way INTO the maze. Madame Fou-llama is presumed to be alive, and resides with her butler, Mr. Amoshtuff.";
 		14, 'fudge': "Fudge:^A delicacy not often found in the Odd Community, but abundant on the surface.";
 		15, 'fuzzibuster', 'fuzzibusters': "Fuzzibuster:^A device invented by some anonymous young pre-monopoly worker many years past. It has the ability to make ordinary inexpensive materials resemble, to all outward appearances, granite. Its purposes are quite limited, although they are frequently in high demand by the Papoosen Legend Outfit.";
@@ -1705,8 +1683,8 @@ topics [w;
 		68, 'control', 'room': "Control Room:^Hmm...this entry has been purged.";
 		69, 'maze', 'dread': "Maze of Dread:^This maze separates Snoobar's house from the rest of the community. Tales have been told of people entering and never returning, although most tales are probably tall, given the lack of visitors to the community.";
 		70, 'catkins', 'diet': "Catkins Diet:^A weight-loss solution which involves food prepared by the brothers and sisters of a kitten, but only on alternating days.";
-		}
-	];
+	}
+];
 
 ! ##########################################################################################################
 ! People
@@ -1719,41 +1697,36 @@ topics [w;
 !	Mullog
 !	pitGuards
 !	theWidow
-!
 ! ##########################################################################################################
 
 NPC theBear "the bear" BearsDen
-with	name "bear" "grizzly",
+with name "bear" "grizzly",
 initial [;
 	print "A brown grizzly bear is here, ";
-	if (self in BearsDen)
-		{
+	if (self in BearsDen) {
 		if (self has asleep)
 			"asleep on the pallet.";
 		"crouched on the pallet. It watches you suspiciously.";
-		}
-	if (self in MirrorRoom)
-		{
+	}
+	if (self in MirrorRoom) {
 		if (self has flag)
 			"gazing at the mirrored walls.";
 		"looking at the mirrors curiously.";
-		}
-	],
+	}
+],
 description [;
 	print "Standing on its hind legs, the grizzly bear would be close to eight feet tall. It looks healthily plump and has matted brown fur.";
-	if (self in BearsDen)
-		{
+	if (self in BearsDen) {
 		if (self has asleep)
 			" The bear is asleep on the pallet.";
 		" The bear is crouched on the pallet, watching you with a lazy glare.";
-		}
-	if (self in MirrorRoom)
-		{
+	}
+	if (self in MirrorRoom) {
 		if (self has flag)
 			" The bear is gazing lovingly into a mirror.";
 		" The bear is here, looking at the mirrors curiously.";
-		}
-	],
+	}
+],
 before [;
 	Colour: "The brown bear momentarily becomes a black bear.";
 	Eat: "That definitely isn't a good idea.";
@@ -1764,17 +1737,15 @@ before [;
 	Listen: "The bear growls occasionally.";
 	LookUnder: if (self in BearsDen)
 			"The bear is sitting on a pallet.";
-	Love: if (theBear in MirrorRoom && theBear hasnt flag)
-			{
+	Love: if (theBear in MirrorRoom && theBear hasnt flag) {
 			give theBear flag;
 			print "The bear suddenly becomes enamoured with its reflection in the east wall. It croons softly and ignores everything around it, including you.";
-			if (lostRing in ButlerCottage or FrontYard or DrawingRoom || parent(lostRing) == nothing)
-				{
+			if (lostRing in ButlerCottage or FrontYard or DrawingRoom || parent(lostRing) == nothing) {
 				score = score + 1;
 				"^^[You have earned one point for Fooling a Self-Enamoured Bear.] ";
-				}
-			"";
 			}
+			"";
+		}
 		"A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though.";
 	Rain: "The melody echoes through the air but nothing happens. You sense that something is missing.";
 	Smell: "The bear has a dank, wet smell.";
@@ -1784,37 +1755,33 @@ before [;
 	Taste: if (self has asleep)
 			"You'd really prefer not to lick a sleeping bear.";
 		"You don't want to get too close to the grizzly bear.";
-	],
+],
 each_turn [;
-	if (self has asleep)					! Bear asleep
-		{
+	if (self has asleep) {					! Bear asleep
 		if (random(100) < 20)
 			print_ret (string) random("^The bear continues to sleep.", "^The bear makes soft noises in its sleep. ");
-		if (random(100) < 20)
-			{
+		if (random(100) < 20) {
 			give self ~asleep;
+
 			"The bear yawns and wakes up.";
-			}
-		rtrue;
 		}
-	switch (parent(self))
-		{
-		BearsDen: if (random(100) < 20)
-				{
+		rtrue;
+	}
+	switch (parent(self)) {
+		BearsDen: if (random(100) < 20) {
 				give self asleep;
 				"^The bear curls up and falls asleep on the pallet.";
-				}
+			}
 			if (random(100) < 20)
 				print_ret (string) random("^The bear shuffles around on its pallet.", "^The bear yawns.", "^The grizzly bear waits expectantly. ");
-		MirrorRoom: if (random(100) < 20)
-				{
+		MirrorRoom: if (random(100) < 20) {
 				if (self hasnt flag)
 					print_ret (string) random("^The grizzly sniffs at the mirrored wall.", "^The bear presses a paw up against the mirror and is surprised to see the ~other~ bear doing the same.", "^The grizzly bear waits expectantly. ");
 				print_ret (string) random("^The bear coos at the mirrored walls.", "^The bear makes soft, happy sounds.", "^The grizzly tries to walk through the mirror. ");
-				}
-		}
+			}
+	}
 	rtrue;
-	],
+],
 life [;
 	Ask, Answer, Order, Tell: if (self hasnt asleep)
 			"The bear just glares at you without understanding.";
@@ -1826,61 +1793,55 @@ life [;
 		if (second == herring or fishBomb)
 			"The bear sniffs at the fish, but spurns it. Apparently it prefers the thrill of the catch, and a dead fish is too tame a meal.";
 		"The bear looks at ", (the) noun, " without interest.";
-	WakeOther: if (self has asleep)
-			{
+	WakeOther: if (self has asleep) {
 			give self ~asleep;
 			"The bear rouses grumpily and glares at you.";
-			}
+		}
 		"The bear is quite awake at the moment.";
-	],
+],
 orders [;
-	Eat: if (noun == player)
-			{
+	Eat: if (noun == player) {
 			deadflag = 1;
 			"The bear, knowing a willing meal when it sees one, gladly obliges.";
-			}
-	],
+		}
+],
 move [i;
-	if (self in BearsDen)
-		{
+	if (self in BearsDen) {
 		move self to MirrorRoom;
-		if (self has asleep)
-			{
+		if (self has asleep) {
 			give self ~asleep;
 			"Hearing you leave, the bear wakes up and follows you.";
-			}
-		"The bear follows you, out of mingled curiousity and anger.";
 		}
-	if (self in MirrorRoom)
-		{
+		"The bear follows you, out of mingled curiousity and anger.";
+	}
+	if (self in MirrorRoom) {
 		move self to BearsDen;
 		if (i == 0)
 			"The bear follows you, out of mingled curiousity and anger. It returns to its pallet and sits, watching you intently.";
 		else
 			"The bear watches you exit to the south and returns to its den.";
-		}
-	],
+	}
+],
 has	proper		! Call it the bear, not a the bear
 	~asleep	! Awake / Asleep
 	neuter		! Painful, but makes bear IT not HE
 	~flag;		! Suspicious / In Love
 
 NPC theButler "Butler Amoshtuff" ButlerCottage
-with	name "butler" "amoshtuff" "man" "guy",
+with name "butler" "amoshtuff" "man" "guy",
 	timer 0,
 initial [;
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		give self firstTime;
 		"A man in a tuxedo looks up as you enter, and nods in cold but polite greeting. ~Good day to you. I am Mr. Amoshtuff, the butler to widow Fou-llama. It is rare that we get visitors here, since most of them realize that they can never leave.~ He motions you farther in. ~Make yourself comfortable.~";
-		}
+	}
 	if (self in ButlerCottage)
 		"Butler Amoshtuff is here.";
 	if (self in FrontYard)
 		"Butler Amoshtuff is here, moving purposefully.";
 	if (self in DrawingRoom)
 		"Butler Amoshtuff is crouched in the corner, cleaning up the potted fern.";
-	],
+],
 description "The butler is impeccably dressed in a tuxedo which fits him to a T. His nose points slightly up in the air and he looks to be a product of his upbringing.",
 before [;
 	Colour: "The butler's tuxedo flickers around the edges, but remains black and white. He must use too much starch.";
@@ -1893,21 +1854,20 @@ before [;
 		"A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though.";
 	Smell: "The butler smells like starch and soap.";
 	Talk: "You'll have to specify what you want to say.";
-	],
+],
 each_turn [;
 	if (self hasnt flag && random(100) < 20)
 		print_ret (string) random("^The butler removes an invisible speck of dust from his cummerbund.", "^The butler tidies up the cottage.", "^Butler Amoshtuff straightens up the furniture. ");
 	rtrue;
-	],
+],
 life [;
-	Answer: switch (noun)
-			{
+	Answer: switch (noun) {
 			'hello', 'hi', 'howdy': "The butler returns your greeting. ~Hello.~";
 			'goodbye', 'bye', 'aloha': "The butler waves. ~Perhaps we shall meet again.~";
 			'yes', 'y//': "The butler looks confused. ~What are you agreeing with?~";
 			'no', 'n//': "The butler looks confused. ~What are you disagreeing with?~";
 			'maybe': "The butler looks confused. ~What was the question?~";
-			}
+		}
 		"~I can't help with that. Sorry.~";
 	Ask: if (self has flag)
 			"~If you'll excuse me, I'm in a hurry right now.~";
@@ -1916,11 +1876,10 @@ life [;
 	Attack: "The butler gives you a warning look. ~Traveler, I may be snodgy in my upbringing, but that doesn't mean I didn't 'pound some tail' as a youngster. Kindly back off.~";
 	Give: if (self has flag)
 			"~If you'll excuse me, I'm in a hurry right now.~";
-		switch (noun)
-			{
+		switch (noun) {
 			cupWater: "~No thanks. I am not thirsty, and would prefer tea in any event.~";
 			herring: "~Kindly remove that smelly fish from my presence.~";
-			}
+		}
 		"The butler holds up his hand. ~No thank you, I do not require that.~";
 	Kiss: "Butler Amoshtuff pushes you back. ~Keep your distance, please.~";
 	Order: "The butler just sniffs and looks down the length of his nose at you.";
@@ -1933,15 +1892,14 @@ life [;
 			"~Yes, yes...I know about my defunct chimney. Pretty desolate, no? I wish I could build a fire.~";
 		"The butler listens intently, or at least, pretends to.";
 	ThrowAt: move noun to location;
-		if (noun == cupMud or cupWater)
-			{
+		if (noun == cupMud or cupWater) {
 			remove noun;
 			move cup to location;
 			print "The cup spills its contents onto the ground. ";
-			}
+		}
 		"The butler sidesteps. ~There is no need to throw things.~";
 	WakeOther: "Butler Amoshtuff is awake already.";
-	],
+],
 orders [w;
 	if (self has flag)
 		"~If you'll excuse me, I'm in a hurry right now.~";
@@ -1971,8 +1929,7 @@ orders [w;
 	Think: "~I do that quite often, traveler.~";
 	Where: wn = consult_from;
 		w = NextWord();
-		switch (w)
-			{
+		switch (w) {
 			'amoshtuff', 'butler', 'self', 'you': "~Obviously, I am right in front of you.~";
 			'ahtha', 'builder': "~I am not sure where he disappeared to, but he is long gone by now.~";
 			'book', 'diary': "The butler points at his bed. ~It is right there.~";
@@ -1988,40 +1945,37 @@ orders [w;
 			'widow', 'fou', 'llama', 'lady', 'fou-llama': if (theWidow notin location)
 					"~She is probably in her drawing room, reading like always.~";
 				"~She's right there!~";
-			}
+		}
 		"The butler shrugs. ~I don't know.~";
 	WhoWhat: wn = consult_from;
 		w = NextWord();
 		self.askAbout(w);
 		rtrue;
-	default: switch (verb_word)
-			{
+	default: switch (verb_word) {
 			'hello', 'hi', 'howdy': "The butler returns your greeting. ~Hello.~";
 			'goodbye', 'bye', 'aloha': "The butler waves. ~Perhaps we shall meet again.~";
 			'kill': "The butler frowns. ~I am not a thug for hire.~";
 			'yes', 'y//': "The butler looks confused. ~What are you agreeing with?~";
 			'no', 'n//': "The butler looks confused. ~What are you disagreeing with?~";
 			'maybe': "The butler looks confused. ~What was the question?~";
-			}
+		}
 		"The butler just sniffs and looks down the length of his nose at you.";
-	],
+],
 daemon [;
 	if (self.timer == 0)
 		give self flag;
 	self.timer++;
-	switch (self.timer)
-		{
+	switch (self.timer) {
 		1: move theButler to FrontYard;
 			move BCClothes to FrontYard;
-			if (player in ButlerCottage)
-				{
+			if (player in ButlerCottage) {
 				print "^The butler perks up like a dog as he hears the widow calling him in the distance.";
 				if (DRPlant.count == 8)
 					print " He sighs. ~I really wish you'd keep your damn hands off that fern.~";
 				else
 					print " ~If you'll excuse me...~";
 				" He stands and exits to the east.";
-				}
+			}
 			if (player in FrontYard)
 				"You hear widow Fou-llama call for the butler. At the sound of the widow's voice, the butler exits his cottage from the west.";
 		2: move theButler to DrawingRoom;
@@ -2050,12 +2004,11 @@ daemon [;
 				"^The butler re-enters the cottage.";
 			if (player in FrontYard)
 				"^The butler enters his cottage to the west.";
-		}
+	}
 	rtrue;
-	],
+],
 askAbout [w;
-	switch (w)
-		{
+	switch (w) {
 		'amoshtuff', 'butler', 'self', 'himself': "The butler bows from the waist. ~Butler Amoshtuff at your service. I live here as the caretaker of the widow Fou-llama.~";
 		'ahtha': "~Ahtha was the master builder of the Odd Community. He sent us some granite parts to erect a statue of the widow, but never returned to complete it.~";
 		'book', 'diary': "~That book is none of your business.~";
@@ -2072,16 +2025,16 @@ askAbout [w;
 		'tea': "~Would you like some? Feel free to stick around until I prepare the widow's tea tonight.~";
 		'upbringing': "The butler sniffs. ~Are you insinuating something about my upbringing? I was a very proper lad, and always obeyed my mother's wishes.~";
 		'widow', 'fou', 'llama', 'fou-llama': "~The widow works me day and night, cleaning and preparing her meals, pushing me this way and that like a chess pawn. It isn't a harsh life though...I have learned to enjoy it.~ The butler nods, but you sense that he isn't telling you the full story.";
-		}
+	}
 	"~I can't help with that. Sorry.~";
-	],
+],
 has	~firstTime	! Never met / met
 	~flag		! Sitting around / Called by widow
 	proper		! the butler, not a the butler
 	~general;	! Not in love / In love
 
 NPC theDuck "duck"
-with	name "duck" "bird" "quacker" "goose",
+with name "duck" "bird" "quacker" "goose",
 	quackCount 0,		! Player-Duck Quack conversation
 	pondCount 0,		! Time spent in pond
 initial [;
@@ -2094,19 +2047,18 @@ initial [;
 		"content.";
 	else
 		"annoyed.";
-	],
+],
 description [;
 	print "It is a little white duck";
 	if (self in FPPond)
 		", swimming in the water.";
 	" with no distinguishing features.";
-	],
+],
 before [;
-	Catch, Insert, Lift, Pull, Push, Squeeze, Take, Turn: if (self has asleep)
-			{
+	Catch, Insert, Lift, Pull, Push, Squeeze, Take, Turn: if (self has asleep) {
 			give self ~asleep;
 			"The duck, as if somehow sensing your intentions, wakes up and flaps out of your reach.";
-			}
+		}
 		"The duck nimbly flaps out of your reach and gives you a chastising quack.";
 	Colour: if (self hasnt asleep)
 			"The duck flaps around in surprise as it suddenly takes on a greenish hue. ~Quack!~ After a few moments, the green fades back to white and the duck settles down.";
@@ -2134,58 +2086,49 @@ before [;
 	Taste: if (self has asleep)
 			"You'd really prefer not to lick a sleeping duck.";
 		"You reach for the duck to taste it, but it waddles out of your reach.";
-	],
+],
 each_turn [;
 	if (self hasnt happy && random(100) < 20)						! Make duck happy
 		give self happy;
-	if (self has asleep)								! Duck asleep
-		{
-		if (self in VolcanoCenter && VolcanoCenter.raincount > 4)	! Duck wakes up from RAIN
-			{
+	if (self has asleep) {											! Duck asleep
+		if (self in VolcanoCenter && VolcanoCenter.raincount > 4) {	! Duck wakes up from RAIN
 			give self ~asleep;
 			"^Feeling the rain, the duck wakes up.";
-			}
-		if (random(100) < 20)								! Duck wakes up
-			{
+		}
+		if (random(100) < 20) {										! Duck wakes up
 			give self ~asleep;
 			"^Yawning, the duck wakes up and stretches its wings.";
-			}
+		}
 		if (random(100) < 50)						! Duck keeps sleeping
 			print_ret (string) random("^The duck nestles its head in its feathers.", "^The little duck yawns in its sleep.", "^The duck continues to sleep. ");
 		rtrue;
-		}
-	if (self in location && (fishBomb in player || fishBomb in location))	! Get away from unstable herring
-		{
+	}
+	if (self in location && (fishBomb in player || fishBomb in location)) {	! Get away from unstable herring
 		remove self;
 		print "The duck hurriedly takes flight, sensing the growing instability in ";
 		if (fishBomb in player)
 			"your hands.";
 		"the room.";
-		}
+	}
 	if (parent(self) ofclass LetterMaze && random(100) < 20)				! Duck in Letter Maze
 		print_ret (string) random("The duck flies up to one of the floating letters but passes right through it. Ruffled, it lands again.", "^The duck peers up at the floating letter. ");
-	switch (parent(self))									! Locations with special possibilities
-		{
+	switch (parent(self)) {									! Locations with special possibilities
 		BearsDen: if (theBear in BearsDen && random(100) < 20)
 				"The duck shies away from the grizzly bear.";
 		ConstructOffice:
-			if (random(100) < 20)
-				{
+			if (random(100) < 20) {
 				move self to COCounter;
 				"^The duck flaps up to the surface of the counter.";
-				}
+			}
 		COCounter:
-			if (random(100) < 20)
-				{
+			if (random(100) < 20) {
 				move self to location;
 				"^The duck hops off the counter.";
-				}
+			}
 		EastHouse: if (EHSlingshot in location && random(100) < 20)
 				print_ret (string) random("^The duck flaps into the crook of the tree, but before it can settle, it becomes alarmed as the rubber band undulates beneath itself. It quickly gets back down.", "^The duck pokes its bill cautiously at the slingshot. ");
-		FPPond: if (herring in FPPond)				! Duck wants herring
-				{
-				if (herring has flag)			! Herring is blue
-					{
+		FPPond: if (herring in FPPond) {				! Duck wants herring
+				if (herring has flag) {					! Herring is blue
 					move herring to FishPond;
 					print "^Spying the herring ";
 					if (herring hasnt asleep)
@@ -2193,63 +2136,54 @@ each_turn [;
 					else
 						print "floating";
 					print " so close to the surface, the duck nabs it with a rapid dart of its head, flipping it through the air to land at your feet. Looking quite pleased with itself, the duck continues to float around the pond.";
-					if (herring hasnt asleep)		! Herring still lives
-						{
+					if (herring hasnt asleep) {			! Herring still lives
 						give herring ~animate;
 						give herring asleep;
 						score = score + 2;
 						print "^^The herring sputters and writhes for a few minutes and then dies.^^[You have gained two points for Utilizing a Duck.] ";
 						if (Leonine in location)
 							"^^Leonine claps his hands. ~Clever duck!~";
-						}
-					"";
 					}
+					"";
+				}
 				if (random(100) < 50)
 					print_ret (string) random("^The duck eyes the herring inquisitively, but can't reach deep enough to get it.", "^The duck watches the herring carefully. ");		! Herring is red
-				}
-			if (random(100) < 40 && self.pondCount > 2)			! Duck stops swimming
-				{
+			}
+			if (random(100) < 40 && self.pondCount > 2) {			! Duck stops swimming
 				self.pondCount = 0;
 				move self to FishPond;
 				"^The duck climbs out of the fish pond and shakes itself dry.";
-				}
-		FishPond: if (random(100) < 60)
-				{
+			}
+		FishPond: if (random(100) < 60) {
 				move self to FPPond;
 				self.pondCount++;
 				print "^Seeing the fish pond, the duck waddles up to the edge and enters.";
-				if (self hasnt firstTime && random(100) < 15)
-					{
+				if (self hasnt firstTime && random(100) < 15) {
 					give self firstTime;
 					" A duck also floats on water, so it seems.";
-					}
-				"";
 				}
+				"";
+			}
 		NorthGate: if (Moilan in NorthGate && random(100) < 20)	
 					print_ret (string) random("^The duck blinks at the gate guard.", "^The duck quacks at Moilan. ");
-		Library: if (random(100) < 20)
-				{
+		Library: if (random(100) < 20) {
 				move self to LShelf;
 				"^The duck flaps up to the bookshelf.";
-				}
-		LShelf: if (random(100) < 20)
-				{
+			}
+		LShelf: if (random(100) < 20) {
 				move self to location;
 				"^The duck hops off the shelf.";
-				}
-		MessHall: if (random(100) < 20)
-				{
+			}
+		MessHall: if (random(100) < 20) {
 				move self to MHTable;
 				"^The duck flaps up to the surface of the table.";
-				}
+			}
 			if (random(100) < 20)
 				"^The duck waddles underneath the table and comes out on the other side.";	
-		MHTable: if (random(100) < 20)
-
-				{
+		MHTable: if (random(100) < 20) {
 				move self to location;
 				"^The duck hops off the table.";
-				}
+			}
 		MirrorRoom: if (random(100) < 20 && theBear in BearsDen)
 				"The duck shies away from the grizzly bear.";
 			if (random(100) < 10)
@@ -2264,17 +2198,14 @@ each_turn [;
 				"The duck tries to poke its bill through the grey bars.";
 		VaultDoor: if (location has flag && random(100) < 20)
 				print_ret (string) random("^The duck peeks in the vault, but finds nothing of interest.", "^The duck hops onto the lip of the vault entrance and preens itself. ");
-		VolcanoCenter: if (VolcanoCenter.raincount > 4)					! Duck plays in RAIN
-				{
+		VolcanoCenter: if (VolcanoCenter.raincount > 4) {					! Duck plays in RAIN
 				give self happy;
 				if (random(100) < 40)
 					print_ret (string) random("^The duck doesn't seem to mind the rain. In fact, it stands on the drain grate quite happily.", "^The duck splashes about in the rain. ");
-				}
-		}
-	if (random(100) < 30)		! Rooms without special cases, but with different messages
-		{
-		switch (parent(self))
-			{
+			}
+	}
+	if (random(100) < 30) {		! Rooms without special cases, but with different messages
+		switch (parent(self)) {
 			Bank: print_ret (string) random("^The duck starts to step on the sandstone platform, but thinks better of it and shies away.", "^The duck quacks at the portrait. ");
 			ButlerCottage: print_ret (string) random("^With a quack, the duck pads across the hearth.", "^The duck weaves through the array of furniture. ");
 			ConstructOffice: print_ret (string) random("^The duck wanders behind the counter and back out again.", "^Bobbing its the head, the duck peers up the rocky incline. ");
@@ -2297,40 +2228,37 @@ each_turn [;
 			Overlook: "^The duck admires the view of the valley from here.";
 			PavedRoad: print_ret (string) random("^The duck glances around, bored.", "^The duck stifles a yawn and wonders why such a dull location as this was created. ");
 			VaultDoor: print_ret (string) random("^The duck nudges the vault door. ~Quack!~ ", "^The duck wanders underneath mirror frame and sits. ");
-			}
 		}
+	}
 	if (self notin MHTable or COCounter or LShelf or FPPond)		! Default actions
 		self.default();
 	rtrue;
-	],
+],
 life [;
 	Answer: if (self has asleep)
 			"The duck is asleep.";
-		switch (noun)
-			{
+		switch (noun) {
 			'quack', 'quirk', 'quacketty': self.quackQuip();
 			default: "The duck listens intently and stands tall. ~Quack!~";
-			}
+		}
 		rtrue;
 	Ask, Tell: if (self has asleep)
 			"The duck is asleep.";
-		switch (second)
-			{
+		switch (second) {
 			'quack', 'quirk', 'quacketty': self.quackQuip();
 			default: "The duck listens intently and stands tall. ~Quack!~";
-			}
+		}
 		rtrue;
 	Attack: if (self has asleep)
-			"It would be dishonourable to hit a duck when he's sleeping.";
+			"It would be dishonourable to hit a duck when it's sleeping.";
 		give self ~happy;
 		"~Quack!~ The duck flaps into the air and lands a few feet away.";
 	Give: if (self has asleep)
 			"The duck is asleep.";
-		switch (noun)
-			{
+		switch (noun) {
 			herring: "The duck pokes at the fish, but turns it down.";
 			mirror: "The duck looks at itself in the mirror but quickly becomes bored.";
-			}
+		}
 		"The duck doesn't seem interested in that.";
 	Kiss: if (self has asleep)
 			"You plant a big wet kiss on the duck's head. It does not respond.";
@@ -2340,35 +2268,30 @@ life [;
 		"The duck just blinks and continues looking around.";
 	Show: if (self has asleep)
 			"The duck is asleep.";
-		switch (noun)
-			{
+		switch (noun) {
 			herring: "The duck pokes at the fish, but turns it down.";
 			mirror: "The duck looks at itself in the mirror but quickly becomes bored.";
-			}
+		}
 		"The duck studies ", (the) noun, " carefully. ~Quack!~";
 	ThrowAt: if (self has asleep)
-			"It would be dishonourable to hit a duck when he's sleeping.";
+			"It would be dishonourable to hit a duck when it's sleeping.";
 		give self ~happy;
 		move noun to location;
 		"~Quack!~ The duck flaps into the air and lands a few feet away.";
-	WakeOther: if (self has asleep)
-			{
+	WakeOther: if (self has asleep) {
 			give self ~asleep;
 			"The duck blinks and stretches its wings.";
-			}
+		}
 		"The duck isn't sleeping.";
-	],
-default [;									! Duck Default
-	if (random(100) < 20)							! Duck sleeps
-		{
+],
+default [;											! Duck Default
+	if (random(100) < 20) {							! Duck sleeps
 		give self asleep;
 		"^The duck squats down on the ground and closes its eyes.";
-		}
-	if (random(100) < 20)							! Duck leaves
-		{
+	}
+	if (random(100) < 20) {							! Duck leaves
 		self.quackCount = 0;
-		switch (parent(self))
-			{
+		switch (parent(self)) {
 			Bank, ButlerCottage, ConstructOffice, Library, MessHall, MirrorRoom, OperaHall, PoontLab, VaultDoor: remove self;
 				"^In a cloud of dust, the duck flaps into the air and leaves the room.";
 			DeadEnd, OldQuarry: remove self;
@@ -2377,14 +2300,13 @@ default [;									! Duck Default
 				"^Timidly, the duck approches the shimmering curtain of light. Steeling its courage, it takes off into flight, shooting through the curtain to leave the house.";
 			default: remove self;
 				"^In a cloud of dust, the duck flaps into the air and disappears from view.";
-			}
 		}
+	}
 	print_ret (string) random("^The duck waddles about, exploring its surroundings.", "^The duck sniffs at your feet.", "^With a quack, the duck looks up, blinking.", "^~Quack!~ ", "^The duck wanders in circles around you. ");
-	],
+],
 quackQuip [;									! Talk to Duck
 	self.quackCount++;
-	switch (self.quackCount)
-		{
+	switch (self.quackCount) {
 		1: "The duck perks up. ~Quack!~";
 		2: "~Quack, quack quack?~";
 		3: "The duck bobs its head. ~Quack.~";
@@ -2397,17 +2319,15 @@ quackQuip [;									! Talk to Duck
 			"~Quack quack quirk quack quirk!~";
 		9: "The small duck looks confused. You have an odd premonition that it would be drawing leaves on white bark if it had any berries and a stick.";
 		default: "The duck looks confused. ~Quack!~";
-		}
-	],
+	}
+],
 has	~firstTime	! Never been in pond / Been in pond
 	happy		! Happy / annoyed
-	~asleep	! Awake / Asleep
-	neuter;	! Painful, but makes duck IT not HE
-
-! ### Lenny the Head Gnome ###
+	~asleep		! Awake / Asleep
+	neuter;		! Painful, but makes duck IT not HE
 
 NPC Lenny "Lenny the Head Gnome" ControlRoom
-with	name "Lenny" "Gnome" "Head",
+with name "Lenny" "Gnome" "Head",
 description [count;
 	print "^Next to you, ";
 	if (count > 4)
@@ -2417,10 +2337,9 @@ description [count;
 	print "shouts orders into the organized chaos, occasionally ";
 	print (string) random("approving NPCs which are brought before him", "stopping to make notes in his black binder", "inspecting packages", "berating lazy gnomes", "making sure the props are lifelike");
 	".^";
-	],
+],
 visitQuip [count;
-	switch (count)
-		{
+	switch (count) {
 		0: "The head gnome turns impatiently. ~D'you put that music in the volcano yet, Larry?~ He blinks. ~Yer not Larry...Hey! How'd you get here?~ Obviously displeased, the head gnome sets his black binder down and frowns. ~This here's a restricted area, pal! I don't know how you figgered out the magic word, but you'll hafta get gone!~";
 		1: "~You again??~ The head gnome frowns. ~Listen here, wise acre, if you don't stop sayin' the magic word I'll get ole' Larry to wrap some o' that prop tape around yer stinkin' mouth! Now get outta here!~";
 		2: print "The head gnome looks up at the ceiling and waves his hands futilely before giving you the evil eye. ~Look here, buster, you should consider it a privilege to play this game! I got a hundred wanna be 'adventurers' on the waitin' list to get into a game like this, and I can just as easily give you the ";
@@ -2433,14 +2352,12 @@ visitQuip [count;
 		7: "Lenny sighs. ~If you keep on sayin' the magic word, I'll make your parser interpret everything as RESTART. You want that to happen? Then GET LOST!!~";
 		8: "Lenny doesn't even bother to turn around anymore. ~Stop breaking the mimesis.~";
 		9: "Grumbling something about getting 'xyzzy' banned from the parser, Lenny shakes his head in disgust.";
-		}
-	],
+	}
+],
 has	proper;
 
-! ### Leonine ###
-
 NPC Leonine "Leonine" ConstructOffice
-with	name "man" "leonine" "wizard" "leo" "leon" "magician" "robe" "black",
+with name "man" "leonine" "wizard" "leo" "leon" "magician" "robe" "black",
 	trying 0,
 	introCount 0,
 	askCount 0,
@@ -2448,14 +2365,24 @@ with	name "man" "leonine" "wizard" "leo" "leon" "magician" "robe" "black",
 	fudgeCount 0,
 	helloCount 0,
 initial [;
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		StartDaemon(self);
 		give self firstTime;
-		"Sitting atop the counter is a bound book entitled ~Nolava Odd Community Building Codes~.^^A tall bearded man in a black robe stalks into the room. Peering through the dust, he identifies you as the culprit. ~Well I'll be! That wall from the pit must have finally broken down... we haven't had a visitor down here in years!~ He rushes up to you, nearly bowling you over in the process, and shakes your hand furiously. ~I am Leonine, the magician, and this is my home! Well actually, this is the Construction Office, but this little community is my home! I moved down into this volcano when I became fed up with King Goosen up above. And if you got tossed in the pit...well, sniveling snails, you must be on my side of the bed! Are you odd?~^^Leonine waits for a moment but continues on before you can answer. ~This is the Nolava Odd Community and every permanent resident is a little odd, so if you're planning on sticking around, I'd suggest that you pick up some kind of idiosyncrasy, unless you just want to be mildly ill-tempered, which is just fine in my book as well. Of course, you won't have much company, since most of the residents are dead or moved away.~";
-		}
-	print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.", "Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.", "You can see Leonine here.", "Leonine is here in his black robe. ");
-	],
+		print "Sitting atop the counter is a bound book entitled ~Nolava Odd Community Building Codes~.^^";
+		print "A tall bearded man in a black robe stalks into the room. Peering through the dust, he identifies you as the culprit. ~Well I'll be!";
+		print " That wall from the pit must have finally broken down... we haven't had a visitor down here in years!~";
+		print " He rushes up to you, nearly bowling you over in the process, and shakes your hand furiously.";
+		print " ~I am Leonine, the magician, and this is my home! Well actually, this is the Construction Office, but this little community is my home!";
+		print " I moved down into this volcano when I became fed up with King Goosen up above. And if you got tossed in the pit...well, sniveling snails,";
+		print " you must be on my side of the bed! Are you odd?~^^Leonine waits for a moment but continues on before you can answer.";
+		print " ~This is the Nolava Odd Community and every permanent resident is a little odd, so if you're planning on sticking around,";
+		print " I'd suggest that you pick up some kind of idiosyncrasy, unless you just want to be mildly ill-tempered, which is just fine in my book as well.";
+		print " Of course, you won't have much company, since most of the residents are dead or moved away.~";
+	}
+	print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
+		"Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.",
+		"You can see Leonine here.", "Leonine is here in his black robe. ");
+],
 description "Leonine is a tall bearded man in a long black robe. His attire makes him look more like a monk than a mage, but the crazy eyes and the gentle, yet odd, disposition put him in a league of his own. He stands nearby, watching you and enjoying the scenery.",
 before [;
 	Colour: "You play a melody brimming with runs and arpeggios. Leonine's cloak shifts from black to mauve and back. He snickers. ~Fun!~";
@@ -2464,11 +2391,11 @@ before [;
 			"Leonine waves at you. ~Hello, sailor!~";
 		"Leonine waves at you. ~Hello, neighbour!~";
 	Heavy: "Leonine sinks a few inches. ~Whee!~ He snaps his fingers, and for a moment, you are sure that he turned into an elephant. Before you can be positive, it's the same old Leonine again.";
-	Jig: if (boxKey in Leonine)
-			{
+	Jig: if (boxKey in Leonine) {
 			move boxKey to location;
-			"~Wahoo!~ Leonine jumps in the air and does a merry jig. In the midst of a set of dance steps that would put any Papoosen ballerina to shame, a small key flies out of his pocket and lands near your feet. Leonine continues to dance for several more minutes before finally getting tired. ~Witherin' witches, that was fun!~";
-			}
+			print "~Wahoo!~ Leonine jumps in the air and does a merry jig. In the midst of a set of dance steps that would put any Papoosen ballerina to shame,";
+			" a small key flies out of his pocket and lands near your feet. Leonine continues to dance for several more minutes before finally getting tired. ~Witherin' witches, that was fun!~";
+		}
 		"Leonine does a little dance and hums along to your playing.";
 	Lift: "You try to lift him off the ground, but he's heavier than he looks. In response, he snaps his fingers and levitates a few inches off the ground before landing.";
 	Listen: "You listen intently to Leonine.";
@@ -2477,41 +2404,37 @@ before [;
 	Rub, Squeeze, Touch: "~Aww, I love you too, neighbour.~";
 	Smell: "He smells like the static discharge of magic.";
 	Talk: "You'll have to specify what you want to say.";
-	],
+],
 life [;
 	if (self hasnt general)
 		"Leonine ignores you, evidently overjoyed to have someone to finally listen to him.";
-	Answer: switch (noun)
-			{
-			'hello', 'hi', 'howdy': if (self.helloCount == 1)
-					{
+	Answer: switch (noun) {
+			'hello', 'hi', 'howdy': if (self.helloCount == 1) {
 					self.helloCount--;
 					"Leonine smiles.";
-					}
-				 if (random(100) < 10)
+				}
+				if (random(100) < 10)
 					"Leonine waves at you. ~Hello, sailor!~";
 				"Leonine waves at you. ~Hello, neighbour!~";
 			'goodbye', 'bye', 'aloha': "Leonine waves goodbye.";
 			'yes', 'y//': "~How positive you are!~ Leonine chuckles.";
 			'no', 'n//': "~Denial won't get you anywhere.~ Leonine nods sagely.";
 			'maybe': "~Be adventuresome. Make a decision!~";
-			}
+		}
 		"Leonine shakes his head. ~Can't help you there, neighbour.~";
 	Ask: self.askAbout(second);
 		rtrue;
 	Attack: "It's been your observation that people who attack magicians usually end up dead or enchanted.";
-	Give: switch (noun)
-			{
+	Give: switch (noun) {
 			boxKey: move boxKey to Leonine;
 				"~Why that's my safe key! Thanks for finding it, neighbour.~ Leonine snatches the key and puts it back in his pocket.";
 			herring: "~I didn't ask for a herring! You must have be confused with someone else.~";
 			RainMusic: "Leonine shakes his head. ~Nah, you can keep it for a while longer, neighbour. Just let me borrow some butter tomorrow when I make cookies!~";
-			}
+		}
 		"~Such a generous neighbour! Thanks, but no.~";
 	Kiss: "Leonine coyly evades your kiss. ~We've only just met today!~";
 	Order: "Leonine shakes his head. ~Can't help you there, neighbour.~";
-	Show: switch (noun)
-			{
+	Show: switch (noun) {
 			boxKey: move boxKey to Leonine;
 				"~Why that's my safe key! Thanks for finding it neighbour.~ Leonine snatches the key and puts it back in his pocket.";
 			doorKey: "~Duplicitous ducks! That's the key to the door that leads back up to the surface.~ Leonine grins. ~You're well on your way.~";
@@ -2520,23 +2443,21 @@ life [;
 			mirror: "Leonine breaths on the mirror and writes his name in the fog. ~That's Snoobar's mirror.~";
 			trumpet: "~Having fun with it yet?~";
 			RainMusic: "~Good music, isn't it?~";
-			}
+		}
 		"Leonine looks positively bored by your display.";
-	Tell: switch (second)
-			{
+	Tell: switch (second) {
 			'me', 'music', 'goosen', 'king', 'pit', 'orchestra': "You tell Leonine about your troubles on the surface.^^~Sniveling snodgrass!~ The magician frowns and slaps his knee. ~That old King doesn't know his arse from a hole in the ground!~";
 			default: "Leonine nods his head absently. ~That's nice. Very nice indeed.~";
-			}
+		}
 	ThrowAt: move noun to location;
-		if (noun == cupMud or cupWater)
-			{
+		if (noun == cupMud or cupWater) {
 			remove noun;
 			move cup to location;
 			print "The cup spills its contents onto the ground. ";
-			}
+		}
 		"Leonine jumps into the air and giggles. ~Fun!~ Your projectile misses him by a mile.";
 	WakeOther: "Leonine is wide awake.";
-	],
+],
 orders [w;
 	if (self hasnt general)
 		"Leonine ignores you, evidently overjoyed to have someone to finally listen to him.";
@@ -2545,50 +2466,44 @@ orders [w;
 				"Leonine climbs up the tree, but hops down when it creaks alarmingly under his weight.";
 	DigRoom: "~Whatever do I need a hole for?~";
 	Eat: "~Nah... I'm on the Catkins diet!~";
-	Enter: switch (location)
-			{
+	Enter: switch (location) {
 			EastHouse: if (noun == EHWindow)
 					"~Why use the window? Just go to the door.~ He chuckles.";
 			FinneyHouse: if (noun == FHDoor)
 					"~There's nothing in there for me anymore... Old Finney moved away long ago.~";
-			LeonineHouse: if (noun == LHHouse)
-					{
+			LeonineHouse: if (noun == LHHouse) {
 					if (random(100) < 50)
 						"~I spend too much time cooped up in there. I think I'll stay out here for now.~";
 					self.goto(MagicLab);
 					"~Okay!~ Leonine wanders into his house.";
-					}
+				}
 			LibraryLane: if (noun == LLDoor or LLBuilding)
 					"~It's boring in there!~";
 			MazeEntrance: if (noun == MECave)
 					"~No sir, not on your life! I'm not gonna get lost in there again.~";
-			NorthGate: if (noun == NGBuilding)
-					{
+			NorthGate: if (noun == NGBuilding) {
 					self.goto(MessHall);
 					"~Okay!~ Leonine skips into the Mess Hall.";
-					}
+				}
 				if (noun == NGHut)
 					"~That's not my house.~";
 				if (noun == NGGate)
 					"~Nah... I already know what's up north.~";
-			OutCourt: if (noun == OCBuilding)
-					{
+			OutCourt: if (noun == OCBuilding) {
 					self.goto(OperaHall);
 					"~Okay!~ Leonine skips into the Opera Hall.";
-					}
+				}
 				if (noun == OCArch)
 					"Leonine chuckles. ~No thanks! I'll stay out here.~";
-			VolcanoCenter: if (noun == VCBuilding)
-					{
+			VolcanoCenter: if (noun == VCBuilding) {
 					self.goto(ConstructOffice);
 					"~Okay!~ Leonine ambles into the Construction Office.";
-					}
-			}
-	Give: if (noun == RainMusic)
-			{
+				}
+		}
+	Give: if (noun == RainMusic) {
 			self.askRainy();
 			rtrue;
-			}
+		}
 	Go: "~I don't feel like going anywhere right now. But you can come along next time I do!~";
 	Jump: "Leonine jumps in place. ~Whee!~";
 	JumpOver: if (location == FishPond && noun == FPPond)
@@ -2605,8 +2520,7 @@ orders [w;
 	Think: "Leonine thinks hard. ~Hmm.~";
 	Where: wn = consult_from;
 		w = NextWord();
-		switch (w)
-			{
+		switch (w) {
 			'ahtha', 'builder': "~He's still in the quarry as far as I know. Probably living the good life and eatin' granite!~";
 			'amoshtuff', 'butler': "~Butler Amoshtuff still lives with the widow...that's gotta be a dull life.~";
 			'bank', 'fifth': "~The bank is on the north side of the community, beyond the gate.~";
@@ -2636,32 +2550,29 @@ orders [w;
 			'ring', 'lost': "Leonine grins. ~Find out about the ring yourself. It'll build character!~";
 			'snoobar': "~Snoobar owns the purple house to the southeast.~ His voice drops down to a whisper. ~You must pass the Maze of Dread!~";
 			'squiggy': "~Squiggy's tower is up near the bank.~";
-			}
+		}
 		"Leonine shrugs. ~Sorry, neighbour, I can't help ya there!~";
 	WhoWhat: wn = consult_from;
 		w = NextWord();
 		self.askAbout(w);
 		rtrue;
-	default: switch (verb_word)
-			{
-			'hello', 'hi', 'howdy': if (self.helloCount == 1)
-					{
+	default: switch (verb_word) {
+			'hello', 'hi', 'howdy': if (self.helloCount == 1) {
 					self.helloCount--;
 					"Leonine smiles.";
-					}
+				}
 				if (random(100) < 5)
 					"Leonine waves at you. ~Hello, sailor!~";
 				"Leonine waves at you. ~Hello, neighbour!~";
 			'goodbye', 'bye', 'aloha': "Leonine waves goodbye.";
 			'give', 'make': wn = consult_from;
 				w = NextWord();
-				if (w == 'fudge' or 'brownie')
-					{
+				if (w == 'fudge' or 'brownie') {
 					self.fudgeCount++;
 					if (self.fudgeCount < 4)
 						"~Fudge? Nah, not today. I've made enough fudge!~";
 					"~I don't want to make any fudge! Stop botherin' me, neighbour.~";
-					}
+				}
 				if (w == 'banana' or 'bananas')
 					"~Yodeling Yoosa! I only have enough bananas for myself! I know we're neighbours and all, but try and find your own fruit stash.~";
 				if (w == 'safe' or 'key')
@@ -2670,17 +2581,15 @@ orders [w;
 			'no', 'n//': "~Denial won't get you anywhere.~ Leonine nods sagely.";
 			'yes', 'y//': "~How positive you are!~ Leonine chuckles.";
 			'maybe': "~Be adventuresome. Make a decision!~";
-			}
+		}
 		"Leonine hums the tune from ~I Am My Own Man~ and continues about his business.";
-	],
+],
 daemon [;
 	if (self.askTimer ~= 0)
 		self.askTimer--;
-	if (self hasnt general) 	! Introduction sequence
-		{
+	if (self hasnt general) { 	! Introduction sequence
 		self.introCount++;
-		switch (self.introCount)
-			{
+		switch (self.introCount) {
 			2: "^Leonine looks you over critically. ~Now if you're going to live here, you'll need to clean up those clothes...~ Leonine, in a deep and resonant voice, speaks the word ~Fresh!~^^When nothing immediately happens, he slaps his forehead. ~That one removes dirt from produce...~ He tries again. ~Clean Clothes!~^^The mud on your clothes disappears and you feel refreshed.";
 			3: give trumpet flag;
 				"^Next, Leonine takes a look at the trumpet and sniggers. ~If you're going to play a musical instrument, you should have a better instrument than that!~ Before you can protest that you like your trumpet, the magician mumbles something under his breath.^^Thankfully, your trumpet remains intact, but the bell now glows with magic. ~Heh heh, you'll have fun playing that trumpet now, neighbour!~";
@@ -2688,29 +2597,26 @@ daemon [;
 			5: move Leonine to Void;
 				give self general;
 				"^Leonine suddenly jumps two feet in the air, a feat made disturbing by the fact that he lands on your toes. ~Leapin' lemurs! I left an experiment on the stove. Come on over for tea sometime, new neighbour!~ With a snap of his fingers, Leonine vanishes.";
-			}
 		}
-	else if (parent(self) == Void)
-		{
+	}
+	else if (parent(self) == Void) {
 		if (player notin MagicLab)
 			move self to MagicLab;
-		}
-	else
-		{
+	}
+	else {
 		if (random(100) < 10 && self hasnt flag)
 			self.removeSelf();
 		else if (random(100) < 20 && self hasnt flag)
 			self.movement();
 		else if (self in location)
 			self.actions();
-		}
+	}
 	rtrue;
-	],
+],
 actions [;
 	if (theDuck in location && Leonine in location && random(100) < 20)
 		print_ret (string) random("^Leonine pets the duck.", "^Leonine ruffles the duck's feathers. ");
-	switch (parent(self))		! Locations with special possibilities
-		{
+	switch (parent(self)) {		! Locations with special possibilities
 		EastHouse: if (EHSlingshot in location && random(100) < 20)
 				print_ret (string) random("^Leonine twangs the rubber band.", "^Leonine tries to sit in the slingshot, but is unsuccessful. ");
 		FishPond: if (random(100) < 20)
@@ -2719,11 +2625,9 @@ actions [;
 				"^Leonine pounds on the stone hut, evoking grumbling from inside."; 
 		VolcanoCenter: if (VolcanoCenter.raincount > 4 && random(100) < 20)
 				print_ret (string) random("^Leonine splashes through the rain happily.", "^Leonine sticks out his tongue and catches raindrops. ");
-		}
-	if (random(100) < 30)		! Rooms without special cases, but with different messages
-		{
-		switch (parent(self))
-			{
+	}
+	if (random(100) < 30) {		! Rooms without special cases, but with different messages
+		switch (parent(self)) {
 			ConstructOffice: print_ret (string) random("^Leonine thumbs through the calendar.", "^Leonine climbs to the top of the incline and rolls back down again.", "^Leonine peers outside. ");
 			EastHouse: print_ret (string) random("Leonine sticks his head in the Y-shaped crook and makes odd faces at you.", "^Leonine pokes around the house, looking for a clove of garlic. ");
 			FinneyHouse: "^Leonine mutters something about a grumganer.";
@@ -2737,23 +2641,22 @@ actions [;
 			OldQuarry: print_ret (string) random("^Leonine hides behind a pillar and pretends to stalk you.", "^Leonine kicks up a cloud of dust. ");
 			OperaHall: print_ret (string) random("^Leonine bangs on the xylophone without talent.", "^Leonine hops up on stage and performs a soliloquy in some other language. ");
 			RockWall: print_ret (string) random("^Leonine picks through the granite rubble.", "^Leonine sits in the clearing. ");
-			}
 		}
+	}
 	if (random(100) < 30)		! Default actions
-			print_ret (string) random("^Leonine whistles through a space between his teeth.", "^Leonine points at the ground and says ~Don't Move!~ The spell seems to have worked.", "^Leonine mutters some words under his breath but nothing happens.", "^Leonine mumbles a word that begins with an ~F~ but then slaps his head and realizes that it isn't a magic word.", "^The magician scratches his head.", "^The magician adjusts his robe and clears his sinuses.", "^The magician looks at you and smiles.", "^Leonine examines his surroundings. ");
+			print_ret (string) random("^Leonine whistles through a space between his teeth.", "^Leonine points at the ground and says ~Don't Move!~ The spell seems to have worked.", "^Leonine mutters some words under his breath but nothing happens.",
+				"^Leonine mumbles a word that begins with an ~F~ but then slaps his head and realizes that it isn't a magic word.", "^The magician scratches his head.", "^The magician adjusts his robe and clears his sinuses.", "^The magician looks at you and smiles.", "^Leonine examines his surroundings. ");
 	rtrue;
-	],
+],
 askAbout [w;
 	if (self.askTimer ~= 0)
 		"Leonine waves you away. ~Stop pesterin' me with your questions! A man's got to have a bit of thinking time every now and again.~";
 	self.AskCount++;
-	if (self.AskCount == 9)
-		{
+	if (self.AskCount == 9) {
 		self.AskCount = 0;
 		self.askTimer = 3;
-		}
-	switch (w)
-		{
+	}
+	switch (w) {
 		'ahtha', 'builder': "~I recruited him to help build the Nolava Community! The man was amazing with granite, although I can't say that I enjoyed his granite underwear. He went into the Quarry a few years ago and hasn't been heard from since.~";
 		'amoshtuff', 'butler': "~Ah, that's the butler of Madame Fou-llama. I never get to talk to her anymore since she put up that Security Maze.~";
 		'avalon': "Leonine frowns. ~That was gonna be the name of my community, but it was already taken!~";
@@ -2763,13 +2666,12 @@ askAbout [w;
 		'devices': "~Oh, I have all sorts of devices.~ He scratches his head. ~I sure wish I could remember what they did...~";
 		'door': if (location == MagicLab)
 				"~My quarters are protected by a door that rolls up when someone besides me gets too close. Quite a doozy, ain't it?~";
-			if (location == RockWall)
-				{
+			if (location == RockWall) {
 				if (endDoor in RWDepression)
 					"Leonine points at the marble depression. ~See? I knew you could find it, smart neighbour!~";
 				"Leonine points at the marble depression. ~That's where the door to the surface went.~";
-				}
-			"~There used to be a ladder up to the surface between my house and Finney's house at the rock spire. After we closed it off, though, we removed the door and hid the key. Can't remember why...~";
+			}
+			"~There used to be a ladder up to the surface between my house and Finney's house at the rock spire. After we closed it off, though, we removed the door and gave the key to Finney. Can't remember why...~";
 		'duck', 'ducks', 'ode': "~Quack!~ Leonine looks at you. ~How was that for an impersonation?~";
 		'finney', 'finney^s', 'house', 'woodwork', 'musician': "~Ah, my good friend Finney... he left when the community started dying... I wish he'd come back! He was a great musician and also dabbled in a little woodwork.~";
 		'fou-llama', 'foullama', 'madame': "~She lives to the northeast beyond her Security Maze. Pretty leery of broom peddlers if you ask me, which you did.~ Leonine chuckles.";
@@ -2782,13 +2684,12 @@ askAbout [w;
 		'grumganer', 'system', 'grumgane', 'grumganed': "Leonine chuckles. ~Just don't bring anything into Finney's house.~";
 		'hamster', 'hamsters': "~Hamsters are such cute lil' creatures. Too bad they're all nearin' the verge of extinction.~ Leonine sighs. ~There aren't many left around here anymore.~";
 		'head', 'wooden', 'leonine^s': "~Isn't my wooden head handsome? Wise too!~";
-		'ladder', 'surface', 'spire', 'marble', 'depression': if (location == RockWall)
-				{
+		'ladder', 'surface', 'spire', 'marble', 'depression': if (location == RockWall) {
 				if (endDoor in RWDepression)
 					"Leonine points at the marble depression. ~See? I knew you could find it, smart neighbour!~";
 				"Leonine points at the marble depression. ~That's where the door to the surface went.~";
-				}
-			"~There used to be a ladder up to the surface between my house and Finney's house at the rock spire. After we closed it off, though, we removed the door and hid the key. Can't remember why...~";
+			}
+			"~There used to be a ladder up to the surface between my house and Finney's house at the rock spire. After we closed it off, though, we removed the door and gave the key to Finney. Can't remember why...~";
 		'lenny', 'head', 'gnome': "~Lenny and I are old friends! I mean,...er, who?~";
 		'leonine', 'wizard', 'founder', 'magician', 'self', 'himself': "Leonine snaps his fingers and his name appears across his chest. ~That's me!~";
 		'library': "~That is our community's contribution to higher learning! It's up the road from my house.~";
@@ -2821,64 +2722,57 @@ askAbout [w;
 		'trumpet': "~Just my own little dash of magic.~ Leonine grins.";
 		'vault': "Leonine nods. ~Yep, old Snoobar had himself a big vault built in his house.~ He gets distracted and mumbles something about hamsters.";
 		'xyzzy': "Leonine claps his hand over your mouth before you can finish the word. ~Shh!~";
-		}
+	}
 	"Leonine shakes his head. ~Can't help you there, neighbour.~";
-	],
+],
 askRainy [;
 	if (RainMusic hasnt general)
 		"~Eh? Whatcha talkin' about, boy?~ He scratches his head.";
-	if (RainMusic has flag)
-		{
+	if (RainMusic has flag) {
 		if (RainMusic hasnt firstTime)
 			"~Titillating toadstools! I already said ye' could have it!~ He grumbles and mutters something unintelligible.";
 		"~Having fun with my music? You done any noble works of community service with it yet?~ He chuckles and hums the tune to ~Rainy Day~.";
-		}
+	}
 	give RainMusic flag;
 	"Leonine listens intently. ~So ye be wantin' my Rainy Day music then, eh? Hmmm...~ He absently braids his beard as he thinks. ~Well, I guess I could be givin' it to ya if you do a weensy little favour. Go run up to the southwest end o' the Community and check if my old friend Finney is home yet. If he is, get him to return my plastic pine shears! Dawdling doghairs, he's only had 'em fer two years now.~ He pauses.^^~Now if I know Finney, he'll be wantin' you to get somethin' from summun else too...bah...~ Leonine waves his hands. ~Too cliched... You jus' go ahead and take my music, I don't mind.~";
-	],
+],
 goto [dest;
 	move self to dest;
-	],
+],
 movement [chosen count dir exit loc zr;
 	loc = parent(self);
-	objectloop(dir in Compass)
-		{
+	objectloop(dir in Compass) {
 		exit = loc.(dir.door_dir);
 		if (ValidExit(exit))
 			count++;
-		}
+	}
 	if (count == 0)
 		rtrue;
 	chosen = random(count);
 	count = 0;
-	objectloop(dir in Compass)
-		{
+	objectloop(dir in Compass) {
 		exit = loc.(dir.door_dir);
-		if (ValidExit(exit))
-			{
+		if (ValidExit(exit)) {
 			count++;
-			if (count == chosen)
-				{
+			if (count == chosen) {
 				zr = ZRegion(exit);
 				self.moveSelf(dir, exit, loc, zr);
 				rtrue;
-				}
 			}
 		}
-	],
+	}
+],
 moveSelf [dir exit loc zr;
-	if (zr == 2)
-		{
+	if (zr == 2) {
 		self.trying = 1;
 		exit = RunRoutines(loc, (dir.door_dir));
 		self.trying = 0;
 		if (exit == 0 or 1)
 			rfalse;
-		}
+	}
 	if (zr == 0 || exit == 0)
 		rfalse;
-	if (self in location)
-		{
+	if (self in location) {
 		if (self.helloCount == 1)
 			self.helloCount--;
 		print "^Leonine ";
@@ -2894,85 +2788,76 @@ moveSelf [dir exit loc zr;
 				dir = in_obj;
 		else if (dir == out_obj)
 			print " outside.^";
-		else if (dir ~= in_obj)
-			{
+		else if (dir ~= in_obj) {
 			print " away to the ";
 			DirectionName(dir);
 			print ".^";
-			}
 		}
-	if (dir == in_obj && self in location)
-		{
+	}
+	if (dir == in_obj && self in location) {
 		self.goto(exit);
 		print " into ";
-		switch (parent(self))
-			{
+		switch (parent(self)) {
 			ConstructOffice: print "the Construction Office";
 			Library: print "the Library";
 			MagicLab: print "his house";
 			MessHall: print "the Mess Hall";
 			OperaHall: print "the Opera Hall";
-			}
-		print ".^";
 		}
-	else
-		{
+		print ".^";
+	}
+	else {
 		self.goto(exit);
-		if (self in location)
-			{
+		if (self in location) {
 			print "^Leonine ";
 			self.moveVerb();
 			if (location == OperaHall or MessHall or MagicLab or Library or ConstructOffice)
 				print " in.^";
 			else
 				print " up to you.^";
-			if (self.helloCount == 0)
-				{
+			if (self.helloCount == 0) {
 				self.helloCount = 1;
 				print_ret (string) random("^~Hello, neighbour!~ ", "^~Howdy there, neighbour!~ ", "^~It's my friend and neighbour!~ ");
-				}
 			}
 		}
+	}
 	rtrue;
-	],
+],
 moveVerb [;
 	print (string) random("wanders", "ambles", "hops", "bounds", "bounces", "strolls", "prances", "dances", "serenades", "skips", "jumps", "walks", "goose-steps", "bolts", "runs");
-	],
+],
 removeSelf [;
-	if (self in location)
-		{
-		if (random(100) < 20)
-			{
+	if (self in location) {
+		if (random(100) < 20) {
 			print "^Leonine screams and points over your shoulder. ~Look behind you! ";
 			print (string) random("A multi-headed marmoset", "A two-eyed monkey", "A dual-headed orangutan", "A despicably normal-looking gorilla with hairy ears", "A three-headed monkey", "A polydactyl raccoon");
 			print "!~ You turn around, but see nothing, and Leonine takes the opportunity to disappear from view.^";
-			}
+		}
 		else
 			print (string) random("^With a snap of his fingers, Leonine vanishes.^", "^Exhaling deeply, Leonine implodes.^", "^Leonine flickers out of existence.^", "^Waving his hands in the air, Leonine disappears.^", "^Leonine bounds into the air and winks away without a trace.^");
-		}
+	}
 	move self to Void;
 	rtrue;
-	],
+],
 has	proper		! Leonine, not a Leonine
 	~general	! Introduction / During the Game
 	~firstTime	! Suspended animation / Daemone started
 	~flag;		! Wandering around / Standing still in Rock Wall
 
 NPC Moilan "Moilan" NorthGate
-with	name "moilan" "guard" "bearded" "beard" "man",
+with name "moilan" "guard" "bearded" "beard" "man",
 initial [;
 	if (self has firstTime)
 		print "Moilan ";
 	else
 		print "A helmeted guard with a spear ";
 	print "is here, standing at attention by the gate.";
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		give self firstTime;
 		" The guard tips his helmet to you. ~G'day traveler! Hurr, I be Moilan, and I'm in charge o' this gate before ya.~";
-		}
+	}
 	"";
-	],
+],
 description "Moilan is about five and a half feet tall with a thick black beard. He stands at attention by the massive gate with his standard issue helmet and spear.",
 before [;
 	Bribe: "Moilan rejects your offers. ~Corrupt, I'm not! Hurr, you be takin' your bribery elsewhere!~";
@@ -2987,27 +2872,25 @@ before [;
 	Love: "A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though. ~Aww, it sure is pretty, hurr!~ Moilan smiles.";
 	Smell: "He smells like chocolate.";
 	Talk: "You'll have to specify what you want to say.";
-	],
+],
 each_turn [;
 	if (random(100) < 20)
 		print_ret (string) random("^Moilan hums an old folk tune.", "^The guard adjusts his helmet and straightens out his uniform.", "^Moilan taps the end of his spear to test its sharpness. ");
 	rtrue;
-	],
+],
 life [;
-	Answer: switch (noun)
-			{
+	Answer: switch (noun) {
 			'hello', 'hi', 'howdy': "~G'day to you, traveler!~";
 			'goodbye', 'bye', 'aloha': "Moilan taps his helmet at your departure.";
 			'yes', 'y//': "~Yes? Hurr, what do ye mean by that?~";
 			'no', 'n//': "~No? Hurr, what do ye mean by that?~";
 			'maybe': "~Maybe? Hurr, what do ye mean by that?~";
-			}
+		}
 		"Moilan shrugs. ~I don't know aboot that, so it must not be too important.~";
 	Ask: self.askAbout(second);
 		rtrue;
 	Attack: "That's probably not a good idea. Moilan looks competent with that spear.";
-	Give: switch (noun)
-			{
+	Give: switch (noun) {
 			cup: "~That be moi' cup. But I've got another, if ye'd like to have a spot o' spirits in that. Keep it for awhile!~";
 			cupWater: "~No thank'ee, traveler. I'm not a bit parched right now.~";
 			cupMud: remove self;
@@ -3018,46 +2901,43 @@ life [;
 				remove NGSpear;
 				remove NGHelmet;
 				score = score + 2;
-				if (self hasnt general)
-					{
+				if (self hasnt general) {
 					give self general;	
 					print "Moilan's eyes bug out. ~Oooh! That thar looks like some creamy rich fudge!~ ";
-					}
+				}
 				print "He greedily accepts the cup from you and downs it in two successive gulps. Smacking his lips, the guard's expression suddenly contorts. ~Hurr hurr, it never tasted like that before!~ Further conversation is cut short as he throws down the cup and runs to his hut, retching. The door slams shut behind him but you can hear a groan of sickness from inside.^^[You have earned two points for Creative Recipes.] ";
 				if (Leonine in location)
 					"^^Leonine claps his hands. ~Good trick! He'll be fine tomorrow though.~";
 				"";
 			lostRing: "Moilan pushes the ring away. ~That is too expensive a gift for ye to be giving, burr burr!~";
-			}
+		}
 		"~Hurr! I don't think I'll be needin' that. Best keep it for a rainy day, traveler.~";
 	Kiss: "~Go find yerself a lass, ya lonely, pathetic traveler!~ Moilan chuckles.";
 	Order: "Moilan dismisses your words. ~Stop speakin' yer bloody nonsense here. Bourr!~";
-	Show: switch (noun)
-			{
+	Show: switch (noun) {
 			blackPiece: "Moilan studies the puzzle piece. ~That thar is part of a puzzle! Ye'd best find the other pieces...they're probably layin' aboot.~";
 			boxKey: "~Obviously it's a key, ya loon!~ Moilan scoffs at your ignorance.";
 			cup, cupWater: "~That be moi' cup. But I've got another, if ye'd like to have a spot o' spirits in that. Keep it for awhile!~";
-			cupMud: if (self hasnt general)
-					{
+			cupMud: if (self hasnt general) {
 					give self general;
 					"Moilan's eyes bug out. ~Oooh! That thar looks like some creamy rich fudge!~";
-					}
+				}
 				"Moilan nods. ~Hurr! I love fudge...~ He looks at you, hoping you'll get the hint.";
 			lostRing: "The guard whistles through his teeth. ~That be a moighty fine piece o' jewelry you've got there, traveler! Keep it safe and maybe you can sell it.~";
 			rubber: "Moilan pulls one end of the rubber and snickers as it snaps you on the wrist.";
-			}
+			whitePiece: "Moilan studies the puzzle piece. ~That thar is part of a puzzle! Ye'd best find the other pieces...they're probably layin' aboot.~";
+		}
 		"Moilan tries to hide a yawn behind his hand.";
 	Tell: "Moilan cuts you off. ~Hurr, thar be nothin' important down here that I don't already know about, traveler, and iff'in I don't know it, it must not be important. I be super smart!~";
 	ThrowAt: move noun to location;
-		if (noun == cupMud or cupWater)
-			{
+		if (noun == cupMud or cupWater) {
 			remove noun;
 			move cup to location;
 			print "The cup spills its contents onto the ground. ";
-			}
+		}
 		"Moilan easily evades the missile. ~Hurr, your aim be fair to middlin' thar!~";
 	WakeOther: "Moilan is wide awake at his post.";
-	],
+],
 orders [w;
 	Attack: "~Hurr! I'm not your personal basher, traveler. Do your own dirty work. Hurr!~";
 	Climb: if (noun == NGGate or NGWall)
@@ -3087,8 +2967,7 @@ orders [w;
 	Think: "~Oi' think quite often, traveler!~";
 	Where: wn = consult_from;
 		w = NextWord();
-		switch (w)
-			{
+		switch (w) {
 			'ahtha', 'builder': "~Ahtha disappeared in the quarry a while back.~";
 			'bank', 'fifth': "~Yep, I know where the bank is. It's on the other side of this gate. Hurr!~";
 			'butler', 'amoshtuff', 'widow', 'fou-llama', 'foullama': "~The widow and her butler live on their estate to the northeast.~";
@@ -3099,7 +2978,7 @@ orders [w;
 					"~Moi' cup's in the Mess Hall.~";
 				"~I don't know where my cup is right now...~";
 			'finney': "~Old Finney left for the surface a long time ago. I haven't seen him down here since. Hurr!~";
-			'fudge', 'brownie': if (MHFudge in MHTable)
+			'chocolate', 'fudge', 'brownie': if (MHFudge in MHTable)
 					"~I brought a brownie for lunch today! It's in the mess hall. Mmm...fudge.~";
 				"~No more fudge today.~ Moilan looks a little sad.";
 			'gate', 'north', 'helmet', 'spear', 'hut', 'stone', 'moilan', 'self', 'me', 'i': "~Right here, churlio!~";
@@ -3117,25 +2996,23 @@ orders [w;
 			'raccoon', 'raccoons', 'polydactyl': "~I bet they're hidin' in the quarry, waiting to trip unsuspecting innocents!~";
 			'salesmen', 'salesman', 'peddler', 'broom', 'peddlers', 'rummer': "~Nope, oi' haven't seen any down here.~";
 			'snoobar': "~He lives off to the southeast. I haven't heard from him since he locked himself in his house.~";
-			}
+		}
 	WhoWhat: wn = consult_from;
 		w = NextWord();
 		self.askAbout(w);
 		rtrue;
-	default: switch (verb_word)
-			{
+	default: switch (verb_word) {
 			'hello', 'hi', 'howdy': "~G'day to you, traveler!~";
 			'kill': "~Hurr! I'm not your personal basher, traveler. Do your own dirty work. Hurr!~";
 			'goodbye', 'bye', 'aloha': "Moilan taps his helmet at your departure.";
 			'yes', 'y//': "~Yes? Hurr, what do ye mean by that?~";
 			'no', 'n//': "~No? Hurr, what do ye mean by that?~";
 			'maybe': "~Maybe? Hurr, what do ye mean by that?~";
-			}
+		}
 		"Moilan dismisses your words. ~Stop speakin' yer bloody nonsense here. Bourr!~";
-	],
+],
 askAbout [w;
-	switch (w)
-		{
+	switch (w) {
 		'ahtha', 'builder': "~Ahtha was a good friend o' mine. The only problem was that 'e never took my advice to fix oop the elevator in the quarry. Then one day he's going aboot his business and he's never heard from again. I bet it's that elevator that did him in, burr!~";
 		'bank', 'fifth': "~The bank is beyond this here gate, traveler. It's my job to guard it, and ye aren't gonna get through on moi' watch. Rules are rules.~";
 		'bear', 'bears', 'grizzly': "~Poont 'ad a bear once. Not sure what ever became of it.~";
@@ -3164,34 +3041,33 @@ askAbout [w;
 		'salesmen', 'salesman', 'peddler', 'broom', 'peddlers', 'rummer': "Moilan thinks back, and shakes his head. ~No...I never saw any salesmen down 'ere. Topside was a different story, hurr!~";
 		'snoobar': "~I never met Snoobar too often... he lived in the valley beyond the maze. Oi' don't like mazes too much.~";
 		'squiggy': "Moilan nods. ~Squiggy lived up in this end o' Nolava. 'e teleported into a wall one day, and we never heard aboot him since then.~";
-		}
+	}
 	"Moilan shrugs. ~I don't know aboot that, so it must not be too important.~";
-	],
+],
 has	~firstTime 	! Never met / met
 	~general	! Unaware of mud / Aware of mud
 	proper;	! Moilan, not a Moilan
 
 NPC Mullog "Mullog" MullogsLair
-with	name "man" "little" "mullog" "hunchback" "dirty" "petite" "hunchbacked",
+with name "man" "little" "mullog" "hunchback" "dirty" "petite" "hunchbacked",
 initial [;
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		give self firstTime;
 		print "Over by the stairway, a dirty little man looks up as you enter. ~Mullog sees ring? No, he doesn't. No, he doesn't.~ He squints a bit and studies you. ~Mullog sees traveler who ";
 		if (ML2Rocks in location)
 			print "dropped big rocks in Mullog's pretty home and ";
 		"tried to flood Mullog's pretty home with rain and blew up Mullog's wall. Not fun for Mullog, no.~";
-		}
+	}
 	if (self has flag)
 		"Mullog is crouched in the corner fawning over a gold ring.";
 	"Mullog is pacing back and forth near the stairway, mumbling to himself.";	
-	],
+],
 description [;
 	print "Mullog is a petite hunchbacked man who resembles a cross between an elf and a muscle-bound lemur. Years of living underground have lent him an albino appearance, although it is offset by several layers of accumulated dust and dirt. ";
 	if (self has flag)
 		"He is crouched in the corner fawning over a gold ring.";
 	"He paces back and forth near the stairway, mumbling to himself.";
-	],
+],
 before [;
 	Colour: "You play a melody brimming with runs and arpeggios. The world around you seems a little brighter but nothing else happens.";
 	Eat: "Mullog really doesn't look very appetizing.";
@@ -3206,77 +3082,68 @@ before [;
 	Smell: "He smells of musty toffees and granite dust.";
 	Talk: "You'll have to specify what you want to say.";
 	Taste: "That's not the most appealing thing to do right now.";
-	],
+],
 each_turn [;
-	if (random(100) < 20)
-		{
+	if (random(100) < 20) {
 		if (self has flag)					! Mullog has the ring.
 			print_ret (string) random("^Mullog shines his ring happily.", "^Mullog spins the ring on his finger. ~Mullog happy. Yes he is.~ ", "^Mullog admires his ring and sighs contentedly. ");
 		if (self has general && self hasnt flag)		! Mullog knows about ring.
 			print_ret (string) random("^Mullog eyes you greedily and mumbles something about the gold ring.", "Mullog frowns impatiently. ~Mullog wants his gold ring. Yes he does.~ ");
 		if (self hasnt general && self hasnt flag) 	! Mullog is clueless about ring.
 			print_ret (string) random("^Mullog produces a toffee from somewhere on his person and scarfs it down.", "^Mullog watches you from his perch by the stairs.", "^Mullog makes furrows in the dust at his feet. ");
-		}
+	}
 	rtrue;
-	],
+],
 life [;
-	Answer: switch (noun)
-			{
+	Answer: switch (noun) {
 			'hello', 'hi', 'howdy': "~Mullog sees traveler. Yes he does.~";
 			'goodbye', 'bye', 'aloha': "~Mullog staying here. That's what he'll do. Bye bye.~";
 			'yes', 'y//': "~Yes, yes.~";
 			'no', 'n//': "~Of course not. No, says Mullog to traveler, no.~ Mullog shakes his head.";
 			'maybe': "~Maybe Mullog will turn into a pumpkin. Maybe.~";
-			}
+		}
 		"Mullog just shrugs.";
 	Ask: self.askAbout(second);
 		rtrue;
 	Attack: "Even though you're bigger than he is, you're not sure you could best him in a fight. You are just a trumpeter, after all.";
-	Give: switch (noun)
-			{
+	Give: switch (noun) {
 			cup, cupWater, cupMud: "~Mullog doesn't want a cup. Mullog has no lemons to make lemonade.~";
 			doorKey: "~Mullog doesn't like silver, no he doesn't. Mullog has gold!~";
 			endDoor: "~Door? Mullog could put door in yawning crevice, yes yes. But Mullog has no hinges. No door for Mullog.~";
-			lostRing: if (self hasnt flag)
-					{
+			lostRing: if (self hasnt flag) {
 					give self flag;
 					move lostRing to location;
 					give lostRing scenery;
 					give lostRing static;
 					score = score + 1;
-					if (self hasnt general)
-						{
+					if (self hasnt general) {
 						give self general;
 						print "Mullog looks at the ring with wide eyes. ~Mullog spies something gold! It is his ring, yes it is!~";
-						}
+					}
 					else
 						print "Mullog claps at your offering.";					
 					" Gleefully, he accepts the ring and slips it on his finger.^^[Your score has gone up by one point for Stomaching the Requisite Cliched Fantasy Reference.] ";
-					}
+				}
 			mirror: "Mullog traces out his reflection on the mirror. ~Shiny, but not mine, no, not mine.~";
-			}
+		}
 		"Mullog doesn't seem interested in that.";
 	Kiss: "Mullog edges away from you. ~Mullog not that kind of guy. No, he isn't.~";
 	Order: "~Mullog won't do that. No, he won't. No, he won't.~";
-	Show: switch (noun)
-			{
+	Show: switch (noun) {
 			cup, cupWater, cupMud: "~Mullog doesn't want a cup. Mullog has no lemons to make lemonade.~";
 			doorKey: "~Mullog doesn't like silver, no he doesn't. Mullog has gold!~";
 			endDoor: "~Door? Mullog could put door in yawning crevice, yes yes. But Mullog has no hinges. No door for Mullog.~";
-			lostRing: if (self hasnt flag)
-					{
-					if (self hasnt general)
-						{
+			lostRing: if (self hasnt flag) {
+					if (self hasnt general) {
 						give self general;
 						"Mullog looks at the ring with wide eyes. ~Mullog spies something gold! It is his ring, yes it is!~";
-						}
-					"Mullog nods impatiently. ~Yes yes, that is Mullog's ring! Mullog wants his ring, yes he does!~";
 					}
+					"Mullog nods impatiently. ~Yes yes, that is Mullog's ring! Mullog wants his ring, yes he does!~";
+				}
 			mirror: "Mullog traces out his reflection on the mirror. ~Shiny, but not mine, no, not mine.~";
-			}
+		}
 		"Mullog peers at ", (the) noun, " and shakes his head. ~Not what I want. Not what I want.~";
-	Tell: switch (second)
-			{
+	Tell: switch (second) {
 			'ahtha': "You tell Mullog about Ahtha's untimely death in the quarry. He seems visibly happier about the news.";
 			'ring', 'gold': if (self has flag)
 					"Mullog seems happy to know that Ahtha lost the ring after taking it away from the cave. ~Mullog likes ring away from Ahtha. Good to be in statue parts, but better to be on Mullog!~";
@@ -3288,18 +3155,17 @@ life [;
 			'rock', 'pile', 'rocks': if (ML2Rocks in location)
 					"Mullog glares at you. ~Not very nice of traveler. Mullog will drop rocks in your chimney someday.~";
 				"Mullog scratches his head and shrugs.";
-			}
+		}
 		"Mullog doesn't seem at all interested.";
 	ThrowAt: move noun to location;
-		if (noun == cupWater or cupMud)
-			{
+		if (noun == cupWater or cupMud) {
 			remove noun;
 			move cup to location;
 			print "The cup spills its contents onto the ground. ";
-			}
+		}
 		"Mullog scurries out of the way.";
 	WakeOther: "Mullog is not sleeping.";
-	],
+],
 orders [w;
 	Attack: "~Mullog is not feeling aggressive right now.~";
 	Climb, Enter: if (noun == TTStairs)
@@ -3328,19 +3194,17 @@ orders [w;
 		w = NextWord();
 		self.askAbout(w);
 		rtrue;
-	default: switch (verb_word)
-			{
+	default: switch (verb_word) {
 			'hello', 'hi', 'howdy': "~Mullog sees traveler. Yes he does.~";
 			'goodbye', 'bye', 'aloha': "~Mullog staying here. That's what he'll do. Bye bye.~";
 			'yes', 'y//': "~Yes, yes.~";
 			'no', 'n//': "~Of course not. No, says Mullog to traveler, no.~ Mullog shakes his head.";
 			'maybe': "~Maybe Mullog will turn into a pumpkin. Maybe.~";
-			}
+		}
 		"~Mullog won't do that. No, he won't. No, he won't.~";
-	],
+],
 askAbout [w;
-	switch (w)
-		{
+	switch (w) {
 		'ahtha': print "Mullog scowls at the mention of Ahtha. ~Mullog does not like Ahtha. Ahtha took rocks from Mullog's cave. Now Mullog's cave too big for Mullog. Then Ahtha stole Mullog's ring!~";
 			if (self has flag)
 				" Mullog brightens. ~But Mullog has ring back now!~";
@@ -3365,16 +3229,16 @@ askAbout [w;
 				"Mullog frowns. ~Bad traveler dropped rocks in hole in quarry. Now Mullog has more rocks for neighbours.~";
 			"Mullog scratches his head and shrugs.";
 		'squiggy', 'tower': "Mullog turns and points at the stairs. ~Squiggy lives up there. Mullog keeps basement clean in exchange for toffees.~";
-		}
+	}
 	print_ret (string) random("Mullog just shrugs.", "Mullog looks at you cluelessly.", "Mullog scratches his head and shrugs. ");
-	],
+],
 has	~firstTime	! Never met / met
 	~flag		! No ring / has ring
 	~general	! Unaware of ring / aware of ring
 	proper;	! Mullog, not a Mullog
 
 NPC pitGuards "Jim and Rob" FallingPit
-with	name "guard" "guards" "jim" "rob" "hook" "nose" "hooked",
+with name "guard" "guards" "jim" "rob" "hook" "nose" "hooked",
 	randomCount 0,			! Random quips
 description [;
 	if (turns == 2)
@@ -3383,7 +3247,7 @@ description [;
 	if (player in FallingPit)
 		"watching you as you fall.";
 	print_ret (string) random("watching you intently.", "making jokes at your expense. ");
-	],
+],
 before [;
 	Bribe: "The hook-nosed guard frowns. ~Even if ye had any money, which you don't since we took it all, it's not proper to bribe us!~";
 
@@ -3395,7 +3259,7 @@ before [;
 	Take: "You can't reach them from here.";
 	Talk: "You'll have to specify what you want to say.";
 	Touch: "You can't seem to reach the guards from here.";
-	],
+],
 life [;
 	Answer: "One of the guards leans over the edge and cups a hand to his ear, playing dumb. ~What's that? We're havin' trouble hearin' ye up here.~";
 	Ask: "The guard with the hooked nose scratches his head, puzzled. ~We're just doin' our jobs, ye see?~";
@@ -3410,7 +3274,7 @@ life [;
 	Show: "The two guards squint at ", (the) noun, ". The more verbose of the two calls down, ~So what?~";
 	Tell: "It's a bit late to talk your way out of this sentence.";
 	WakeOther: "The guards are already awake.";
-	],
+],
 orders [;
 	Climb, Enter: if (noun == PBSides)
 			"The guards laugh. ~Why would we want to go down there?~";
@@ -3418,51 +3282,46 @@ orders [;
 	Jump: "One of the guards salutes you mockingly. ~Yes sir! How high sir?~";
 	Look, LookDown: "~We see you down there!~";
 	NotUnderstood: "One of the guards leans over the edge and cups a hand to his ear dramatically. ~What's that? We're havin' trouble hearin' ye up here.~ Obviously it isn't true since you can hear every word clearly.";
-	default: switch (verb_word)
-			{
+	default: switch (verb_word) {
 			'hello', 'hi', 'howdy': "Your greeting doesn't make it to the top of the pit, so you wave instead. The hook-nosed guard waves back. ~Hello!~";
 			'goodbye', 'bye', 'aloha': "The hook-nose guard calls down, ~Why are you saying goodbye? There's nowhere to go, unless you're about to end up on in a monster's belly!~";
 			'yes', 'y//': "Both guards nod vigorously. ~Yes indeed! There's no doubt about it!~ The guard with the hooked nose blinks. ~What are ye talking about?~";
 			'no', 'n//': "~I can see why ye'd protest to this sentence, being the subject of it and all, but there isn't much you can do now.~ The hook-nosed guard rubs his nose.";
 			'maybe': "Both guards nod vigorously. ~Indeed! There's a distinct possibility!~ The guard with the hooked nose blinks. ~What are ye talking about?~";
-			}
+		}
 		"The two guards share a chuckle and one calls down, ~Now you're not our boss, are ye? 'Cause if ye were, we wouldn't have just thrown ye down this here pit!~";
-	],
+],
 bottomQuip [count;
-	switch (count)
-		{
+	switch (count) {
 		0: "^^Jim grimaces and sucks his tooth. ~Ouch! That had to sting...~ He cups his mouth and shouts down to you, ~You're lucky, old pal! A few people have been known to break all of their limbs with that drop!~ He elbows Rob and snickers. ~But then, it wouldn't be much of an experience if he up and died so quickly, eh?~ Rob nods. ~Indeed...~^^By some trick of acoustics, you can still hear the guards' banter quite clearly.";
 		1: "^Up above, Jim holds a whispered conversation with Rob before disappearing from view. He returns a few moments later with a large oblong case. ~We almost forgot to give ye your trumpet back!~ With a grunt, he tosses the case into the pit and it begins the downward journey you just finished.";
 		3: "^Jim calls down again, ~Mind that ye watch out for the lurkin' sea monsters down in all of that mud! They're hungry little devils, they are, and it'd be a shame to see ye eaten up.~ He puts a gloved hand to his mouth and stage-whispers sideways to Rob. ~Though that's what usually happens to 'em all, isn't it, Rob?~ The other guard nods agreeably. ~Quite right...~^^The trumpet case continues to fall. Luckily, the clasps seem to have stayed latched despite the beating it is taking on the way down.";
 		default: self.randomQuip();
-		}
-	],
+	}
+],
 downQuip [count;
-	switch (count)
-		{
+	switch (count) {
 		1: "The guard with the hooked nose calls down, ~There's no need to be impatient about it! Ye'll get there soon enough, I'd say...~ He snickers into a glove.";
 		2: "The hook-nosed guard cups his hands to his mouth. ~If I recall my schoolin', the great physicist Yodelus Eggplant said, 'If you're already goin' down, you'll keep goin' down' ...or somesuch.~ He nods sagely.";
 		3: "Jim scratches his chin. ~Hmmm, or perhaps it was, 'Physical NPCs with kinetic energy have a tendency to, err, keep doin' what they want.' ~ He waves a glove airily. ~Whatever...	It sounded very intelligent-like when I read it before...~";
 		4: "Jim waves to get your attention. ~But point of the matter is, old pal, ye'll be hittin' the bottom of this 'ere pit before very long anyhow, so why not just sit back and enjoy the ride?~";
 		5: "~Look at him, Rob, the poor fellow's gone mad!~ The hook-nosed guard gestures to his companion who looks up from the scroll. ~The way he's rushin' to get to the bottom, you'd think he'd never been thrown in a pit before!~ ~Indeed...~ muses Rob.";
-		}
-	],
+	}
+],
 fallQuip [count;
-	switch (count)
-		{
+	switch (count) {
 		1: "^Up above, the guard with the hooked nose nudges his companion. ~Hey Rob, aren't ye supposed to read the fellow his sentence?~ The other guard blinks and nods. ~Quite right, Jim...~ He searches for the scroll in the pockets of his tights for a few seconds before realizing that they have no pockets. ~One moment...It's around here somewhere.~ He disappears from view.^";
 		2: move FPScroll to FallingPit;
 			"^Rob the Guard returns to the edge of the pit carrying a scroll. He unrolls it and begins to read as the wind whips past your ears. ~Whereas today is the day after yesterday and the day before tomorrow, and whereas I, King Goosen of Papoosen have set to this document my seal, and whereas my seal ran off in search of fish, requiring me to get another...~ The hook-nosed guard elbows Rob. ~Skip to the end, Rob. Poor fellow's goin' to hit the bottom soon.~^";
 		3: "^~Good point there...~ Rob the Guard clears his throat, searching for a good spot to continue from. ~And when in the course of human events, eh, so and so and so and so...Ah, here we are!~ He moves further down the scroll and resumes his proclamation. ~...and since I, King Goosen, did not like his performance of 'Ode to a Duck', feeling that it was inflammatory, I hereby banish him from my realm to spend the rest of his days in Orchestra Pit, unless he should die from the fall, as most people tend to do.~^";
 		4: "^Rob the Guard adjusts his spectacles. ~And should he, in that time, learn to play better, it shall not matter, since there is no way back out of the Pit. This I hereby put to paper as my word is the law when the law is my word, when it is heard. Indeed. Thus I spake. Er, spoke. Alright, scribe, stop your dictating now.~ Finishing, Rob rolls up the scroll and puts it away.^^With a loud SHLURP, you land in the mud at the bottom of the pit...";
-		}
-	],
+	}
+],
 randomQuip [;
 	if (random(100) < 60)
 		rtrue;
 	self.randomCount++;
-	switch (self.randomCount)
-		{
+	switch (self.randomCount) {
 		1: "^Rob whispers something to Jim and they both laugh.";
 		2: "^Rob calls down, ~Hallo down there! Are ye bored yet? It must get pretty tedious explorin' a room with no exits in any of the four cardinal directions but it wouldn't be much of a prison otherwise, eh? It's not like we promised ye a beach resort!~";
 		3: "^Rob squints against the sun. ~Hey, what are ye doin' down there? I hope ye aren't tryin' to escape, since there's no way out of Orchestra Pit. Just be a good fellow and wait for the sea monsters to come eat ye.~";
@@ -3473,27 +3332,26 @@ randomQuip [;
 		6: "^~Nothin' personal, but it's always fun watchin' poor fellows like yourself gettin' munched on by the sea monsters!~ Jim nods vigorously and Rob agrees. ~Indeed...~";
 		default: if (random(100) < 20)
 				print_ret (string) random("^The two guards chuckle at some unheard joke.", "^Jim polishes his spectacles. ");
-		}
-	],
+	}
+],
 has	scenery	! initial in PitBottom, prevent double descriptions
 	proper		! Jim and Rob, not a Jim and Rob
 	pluralname;	! They not He.
 
 NPC theWidow "widow Fou-llama" DrawingRoom
-with	name "widow" "fou" "llama" "fou-llama" "foullama" "lady" "woman" "madam",
+with name "widow" "fou" "llama" "fou-llama" "foullama" "lady" "woman" "madam",
 	timer 0,
 	article "the",
 initial [;
-	if (self hasnt firstTime)
-		{
+	if (self hasnt firstTime) {
 		StartDaemon(self);
 		give self firstTime;
 		"A woman sitting on a divan looks up from her book as you enter. ~Well, it is a new face!~ She studies you closely and relaxes when she sees that you carry no brooms. ~I am the widow Fou-llama and this is my cottage.~ Requisite introductions accomplished, she buries her head in the book and continues reading.";
-		}
+	}
 	if (self has general)
 		"Widow Fou-llama is here, deeply engrossed in a gripping passage of her novel.";
 	"Widow Fou-llama is here, sitting on the divan and reading.";
-	],
+],
 description "Widow she may be, but the lady doesn't look a day over thirty-two. Her wardrobe is proper to the point of being uptight and her hair is pinned up in a bun. The widow sits on the divan, engrossed in a book.",
 before [;
 	Colour: "You play a melody brimming with runs and arpeggios. The world around you seems a little brighter but nothing else happens.";
@@ -3507,16 +3365,15 @@ before [;
 	Smell: "The widow smells of clean towels and perfume.";
 	Take: "The widow clucks her tongue. ~Keep your hands to yourself.~";
 	Talk: "You'll have to specify what you want to say.";
-	],
+],
 life [;
-	Answer: switch (noun)
-			{
+	Answer: switch (noun) {
 			'hello', 'hi', 'howdy': "The widow greets you without missing a word of her novel. ~Good day.~";
 			'goodbye', 'bye', 'aloha': "~Come again.~ The widow continues to read.";
 			'yes', 'y//': "The widow looks confused. ~What are you agreeing with?~";
 			'no', 'n//': "The widow looks confused. ~What are you disagreeing with?~";
 			'maybe': "The widow looks confused. ~What are you hinting at?~";
-			}
+		}
 		"The widow just shrugs and continues her voracious reading.";
 	Ask: if (self has general)
 			"~Not right now, this is a very interesting passage!~";
@@ -3525,12 +3382,11 @@ life [;
 	Attack: "That wouldn't be proper at all!";
 	Give: 	if (self has general)
 			"~Not right now, this is a very interesting passage!~";
-		switch (noun)
-			{
+		switch (noun) {
 			cupWater: "~Thank you, traveler, but I am not thirsty.~";
 			herring: "The widow shoos the fish away. ~Get that smelly thing out of my house!~";
 			lostRing: "~Oh, that is much too expensive a gift for me!~";
-			}
+		}
 		"The widow declines. ~No thank you.~";
 	Kiss: "The widow fends off your advances. ~I barely know you!~";
 	Order: if (self has general)
@@ -3539,20 +3395,17 @@ life [;
 	Show: "The widow just ignores your display and continues reading.";
 	Tell: 	if (self has general)
 			"~Not right now, this is a very interesting passage!~";
-		switch (second)
-			{
-			'diary', 'journal', 'book': if (diary has flag)
-				{
+		switch (second) {
+			'diary', 'journal', 'book': if (diary has flag) {
 				if (theButler in location)
 					"You think it might be prudent to wait until the butler leaves before talking about him.";
-				if (self hasnt flag)
-					{
+				if (self hasnt flag) {
 					give self flag;
 					score = score + 2;
 					"The widow sets down her book for a moment and looks at you in surprise. ~My butler?~ She stares off into space. ~I never knew that...you know, he does look somewhat fetching in that tuxedo of his.~ She giggles and returns to reading.^^[You have gained two points for Meddling.] ";
-					}
-				"~Yes, I know. Strange to think that I missed it for some many years. I shall have to see how he acts next time we have dinner.~";
 				}
+				"~Yes, I know. Strange to think that I missed it for some many years. I shall have to see how he acts next time we have dinner.~";
+			}
 			'butler', 'amoshtuff': if (theButler in location)
 					"You think it might be prudent to wait until the butler leaves before talking about him.";
 				if (diary has flag && self hasnt flag)
@@ -3564,11 +3417,11 @@ life [;
 					"~My butler is in love with me?~ The widow snorts. ~You're putting me on...where's your proof?~";
 				if (diary has flag && self has flag)
 					"~How very peculiar that I didn't notice before!~";
-			}
+		}
 		"The widow nods absently. ~Very nice. Okay.~";
 	ThrowAt: "That would not be very polite.";
 	WakeOther: "The widow is awake already.";
-	],
+],
 orders [w;
 	if (self has general)
 		"~Not right now, this is a very interesting passage!~";
@@ -3595,8 +3448,7 @@ orders [w;
 		"The widow sniffs. ~I don't smell anything.~";
 	Where: wn = consult_from;
 		w = NextWord();
-		switch (w)
-			{
+		switch (w) {
 			'amoshtuff', 'butler': if (theButler notin location)
 					"~He is probably out in his cottage. He tends to stay out there unless I call for him.~";
 				"~He's right there!~";
@@ -3609,62 +3461,55 @@ orders [w;
 			'me', 'i//': "~Are you still here? I thought so.~";
 			'potted', 'pot', 'fern': "~It's in the corner behind you.~";
 			'widow', 'fou', 'you', 'llama', 'fou-llama', 'self': "~I'm right here, traveler.~";
-			}
+		}
 		"The widow just shrugs and continues her voracious reading.";
 	WhoWhat: wn = consult_from;
 		w = NextWord();
 		self.askAbout(w);
 		rtrue;
-	default: switch (verb_word)
-			{
+	default: switch (verb_word) {
 			'hello', 'hi', 'howdy': "The widow greets you without missing a word of her novel. ~Good day.~";
 			'goodbye', 'bye', 'aloha': "~Come again.~ The widow continues to read.";
 			'kill': "~Certainly not! Violence isn't the answer.~";
 			'yes', 'y//': "The widow looks confused. ~What are you agreeing with?~";
 			'no', 'n//': "The widow looks confused. ~What are you disagreeing with?~";
 			'maybe': "The widow looks confused. ~What are you hinting at?~";
-			}
+		}
 		"The widow glares at you. ~Don't presume to order me around.~";
-	],
+],
 daemon [;
 	self.timer++;
-	switch (self.timer)
-		{
+	switch (self.timer) {
 		1, 2, 3: if (random(100) < 20 && player in DrawingRoom)
 				print_ret (string) random("^The widow turns a page.", "^The widow mumbles as she reads her novel.", "^Widow Fou-llama continues to read. ");
 		4: give self general;
-			if (player in DrawingRoom)
-				{
+			if (player in DrawingRoom) {
 				print (string) random("^~Fascinating!~ ", "^~Amazing!~ ", "^~My goodness!~ ");
 				"The widow becomes enthralled in a passage and reads in her own little world, seemingly cut off from real life.";
-				}
+			}
 		7: give self ~general;
-			if (player in DrawingRoom)
-				{
+			if (player in DrawingRoom) {
 				print "^The widow looks up from her book. ~That was an exceedingly ";
 				print (string) random("well-written passage!~ ", "well-contrived plot twist!~ ", "well-done passage!~ ");
-				}
-			if (DRPlant has flag)
-				{
+			}
+			if (DRPlant has flag) {
 				StartDaemon(theButler);
-				if (player in DrawingRoom)
-					{
+				if (player in DrawingRoom) {
 					print "^^She spies the upset fern in the corner and gasps. ~Butler Amoshtuff!~ she cries. ~There's a mess in here for you to clean!~ She gives you a dirty look.";
 					if (DRPlant.count == 10)
 						" ~You just can't leave the damn fern alone can you?~^";
-					}
 				}
+			}
 			if (player in DrawingRoom)
 				"";
 		9, 10: if (random(100) < 20 && player in DrawingRoom)
 				print_ret (string) random("^The widow turns a page.", "^The widow mumbles as she reads her novel.", "^Widow Fou-llama continues to read.");
 		11: self.timer = 0;
-		}
+	}
 	rtrue;
-	],
+],
 askAbout [w;
-	switch (w)
-		{
+	switch (w) {
 		'amoshtuff', 'butler': print "~Butler Amoshtuff has been my faithful caretaker for years.~";
 			if (self has flag)
 				" She stops and thinks for a moment. ~Strange that I never realized he was in love with me.~";
@@ -3682,10 +3527,11 @@ askAbout [w;
 		'love', 'springtime': "~Bah, who needs it?~";
 		'potted', 'pot', 'fern': "~It doesn't seem to thrive down here. I try to keep it healthy though.~";
 		'widow', 'fou', 'llama', 'fou-llama', 'self', 'herself': "The widow smiles at you. ~That is me. I moved to the Community in 1/07.~";
-		}
+	}
 	"The widow just shrugs and continues her voracious reading.";
-	],
+],
 has	proper
+	female		! Is a woman
 	~firstTime	! Never met / met
 	~flag		! Unaware / Aware of love
 	~general;	! Undistracted / distracted
