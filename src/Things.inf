@@ -1618,7 +1618,7 @@ topics [w;
 		4, 'bank', 'fifth', 'trap', 'safe', 'communal': "The Fifth Bank of Nolava 3/05:^A wonder in modern architecture, this structure was built, not surprisingly, from granite. The bank houses a communal safe used by every resident of the Odd Community. This safe is protected by a devious trap! Amazingly few bank tellers have lost their lives, undoubtedly due to the fact that there never were any to begin with.  This safe ended up being rarely used, since most Oddsmen found their own homes to be more secure than the bank. Poont and Leonine were both known to use the safe on occasion, although all of the first five Oddsmen had keys. By the time the widow entered the community, the bank had fallen into disuse.";
 		5, 'bear', 'bears', 'grizzly': "Bears:^Grizzly bear dens are usually found within the mountains, at elevations around 7300 feet. In this region, there is typically high precipitation and snowfall, and the growing season is brief. A natural chamber such as a cave or hollow tree may once in a while be used as a bear den, however, grizzlies almost always dig their own dens.^^Dens are usually dug horizontally into slopes, where the bear flings an incredible shower of rock and rubble out between its legs and down the mountainside. Each den contains a tunnel and a chamber, the chamber is larger in height and width than the tunnel. The chamber of most dens are shallow cup-shaped beds, lined with fir boughs, grass or small twigs.";
 		6, 'camel', 'camels': "Camels:^Camels need very little water if their regular diet contains good, moisture-rich pasture. Although camels can withstand severe dehydration, a large animal can drink as much as twenty-one gallons in ten minutes. Such an amount would kill another mammal, but the camel's unique metabolism enables the animal to store the water in its bloodstream.";
-		7, 'camelkian', 'toffees', 'toffee': "Camelkian Toffees:^Considered a delicacy in some parts of Papoosen, these almond toffees are actually quite repulsive in taste, and rare is the fellow who can eat more than two at a time without feeling nauseated.";
+		7, 'camelkia', 'camelkian', 'toffees', 'toffee': "Camelkian Toffees:^Considered a delicacy in some parts of Papoosen, these almond toffees are actually quite repulsive in taste, and rare is the fellow who can eat more than two at a time without feeling nauseated.";
 		8, 'community', 'odd', 'nolava': "Nolava Odd Community 1/05:^Our community, founded by Leonine, is a wonderful enclave of truly ~odd~ folk. Created to escape the absurdities of the common people up above, the Community is both an experiment in creative granite uses and habitation of a supposedly dormant volcano.^^It should be noted that the original nom de plume of the community was ~Avalon~. But because of intellectual property disputes with the Papoosen Legend Outfit, the more fitting ~Nolava~ was chosen.";
 		9, 'company', 'rock': "Papoosen Rock Company:^The Papoosen Rock Company holds monopoly over all the rocks and minerals found on the surface. However, the poor construction quality of bituminous shale and river pebbles has led most of the buildings in Papoosen to be made from wood or other byproducts. Ever since the Nolava Odd Community discovered granite on their property, trading up to the Rock Company has been a lucrative trade.";
 		10, 'doofa', 'board', 'certification', 'certified': "Doofa and Doofa-Certified Products:^Doofa - a veritable genius of the last century. When Doofa entered the realm of commercial ventures, he saw men all around him scrambling for control and dominance in every market from clocks to toffees. Realizing he could never compete with such fierce competition, Doofa instead formed the Doofa Certification Board, a stringent one-person committee which requires ~every product ever made and everything else~ to be thoroughly inspected before distribution. His ~monopoly on monopolies~ has since earned him great wealth, and Doofa certification is a household term, even years after his death.";
@@ -2895,9 +2895,8 @@ life [;
 			cup: "~That be moi' cup. But I've got another, if ye'd like to have a spot o' spirits in that. Keep it for awhile!~";
 			cupWater: "~No thank'ee, traveler. I'm not a bit parched right now.~";
 			cupMud: remove self;
+				move NGResearch to location;
 				remove cupMud;
-				move cup to location;
-				move NGSick to location;
 				remove Moilan;
 				remove NGSpear;
 				remove NGHelmet;
@@ -2906,9 +2905,10 @@ life [;
 					give self general;	
 					print "Moilan's eyes bug out. ~Oooh! That thar looks like some creamy rich fudge!~ ";
 				}
-				print "He greedily accepts the cup from you and downs it in two successive gulps. Smacking his lips, the guard's expression suddenly contorts. ~Hurr hurr, it never tasted like that before!~ Further conversation is cut short as he throws down the cup and runs to his hut, retching. The door slams shut behind him but you can hear a groan of sickness from inside.^^[You have earned two points for Creative Recipes.] ";
+				print "He greedily accepts the cup from you and inhales deeply. A curious expression appears on his face as he muses, ~Hurr hurr, I'm getting an earthy bouquet from this fudge. Was it imported from Camelkia? I'd better look this up in my Fudges of the World guide!~ ";
+				print "Further conversation is cut short as he runs to his hut. The door slams shut behind him but you can hear excited murmurs from inside.^^[You have earned two points for Creative Recipes.] ";
 				if (Leonine in location)
-					"^^Leonine claps his hands. ~Good trick! He'll be fine tomorrow though.~";
+					"^^Leonine claps his hands. ~Nice distraction!~";
 				"";
 			lostRing: "Moilan pushes the ring away. ~That is too expensive a gift for ye to be giving, burr burr!~";
 		}

@@ -169,7 +169,7 @@
 !	NGHelmet
 !	NGHut
 !	NGPlaque
-!	NGSick
+!	NGResearch
 !	NGSpear
 !	NGWall
 ! OfficeDark (OD)
@@ -3887,26 +3887,26 @@ has ~flag;		! Cutscene not viewed / Cutscene viewed
 
 	RoomObj NGHut "stone hut" NorthGate
 	with name "stone" "hut" "door" "wooden",
-	description "The hut lacks the grandiloquence of the gate which it stands next too. There are no windows, just a plain wooden door on the front.",
+	description "The hut lacks the grandiloquence of the gate which it stands next too. There are no windows, just a plain wooden door on the front and a burnished plaque.",
 	before [;
 		Attack, Burn, Climb, Cut, Enter, JumpOver, Lift, Open, Pull, Push, Search, Touch: if (Moilan in location)
 				"The guard waves you away. ~Hurr! Offa me hoose, ya loon!~";
-			"A sickly voice comes from inside the hut. ~Boour! I hear you out thar. Get away from me hoose, ya loon!~ Moilan still sounds sick, but he should be just fine in a little while.";
+			"A distracted voice comes from inside the hut. ~Boour! I hear you out thar. Watch the gate for me while I identify this fudge!~";
 	];
 
-	Plaque NGPlaque "bronze plaque on hut" NorthGate
-	with name "plaque" "on" "hut",
-	description "The plaque resembles others scattered throughout the community.^^NORTH GATE^Nolava Odd Community^Building Code #048 ";
+	Plaque NGPlaque "burnished plaque" NorthGate
+	with name "burnished",
+	description "The plaque on the hut resembles others scattered throughout the community.^^NORTH GATE^Nolava Odd Community^Building Code #048 ";
 
-	RoomObj NGSick "Moilan"
+	RoomObj NGResearch "Moilan"
 	with name "moilan" "guard" "bearded" "beard" "man",
-	description "You can't see Moilan anywhere, but you can hear him inside the stone hut.",
+	description "You can't see Moilan anywhere, but you can hear him inside the stone hut muttering about piquant aromas.",
 	before [;
 		Examine: rfalse;
 		default: <<Examine self>>;
 	],
 	orders [;
-		"A sickly voice comes from inside the hut. ~Boour! Get away from me hoose, ya loon!~ Moilan still sounds sick, but he should be just fine in a little while.";
+		"A distracted voice comes from inside the hut. ~Boour! I hear you out thar. Watch the gate for me while I identify this fudge!~";
 	],
 	has talkable proper;
 

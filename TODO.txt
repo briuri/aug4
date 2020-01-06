@@ -1,11 +1,11 @@
 Release 4 Updates:
-- Evaluate inclusion of alternate solution for Moilan
 - Add 20 Year Retrospective
 - Update Comments / Release Notes
 - Retest end-to-end
+- Update art / walkthrough.
 
 Release 4 Distribution:
 - IF Archive
 - URI! Zone
-- IFDB Entry
+- IFDB / IFWiki Entry
 - Forum Announcements
