@@ -5881,7 +5881,7 @@ cant_go "The only doorway in this room is to the northwest.";
 	description "From here, you can see the window high up in the foyer. It is almost directly across from the round study window. A fresh breeze blows in from the outside.",
 	before [;
 		Climb, Close, Cut, Enlarge, Enter, Jump, Open: "There's no way to reach the foyer window from here.";
-		Receive, ThrownAt: <<ThrowAt noun SWindow>>;
+		Receive, ThrownAt: "The outer window is too far away from here.";
 		Search: "You can't see much detail from here.";
 	];
 
