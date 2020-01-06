@@ -4893,7 +4893,7 @@ with name "privatealley",
 description [;
 	print "Enclosed in this ~high-class~ area of the Community are three buildings of varied architecture. To the west is a smooth granite tower,";
 	print " two stories high, without doors or windows. To the north is the Fifth Bank of Nolava, and a solid black house is to the east.";
-	" Each of the buildings has a plaque affixed to it. The massive gate is the only exit from this area, leading southeast.";
+	" The massive gate is the only exit from this area, leading southeast.";
 ],
 before [;
 	Colour: if (PAHouse has flag) {
@@ -4942,15 +4942,15 @@ has novisit;
 
 	RoomObj PABank "Fifth Bank" PrivateAlley
 	with name "fifth" "bank" "of" "nolava",
-	description "The bank is the sleek-looking building to the north. Its doorway looks invitingly open and a plaque is affixed by the entrance.",
+	description "The bank is the sleek-looking building to the north. Its doorway looks invitingly open and a shiny plaque is affixed by the entrance.",
 	before [;
 		Enter: <<Go n_obj>>;
 	],
 	has proper;
 
-	Plaque PABankPlaque "bank plaque" PrivateAlley
-	with name "bank",
-	description "The bronze sign reads:^^FIFTH BANK OF NOLAVA^Nolava Odd Community^Building Code #045 ";
+	Plaque PABankPlaque "shiny plaque" PrivateAlley
+	with name "shiny",
+	description "The shiny bronze sign reads:^^FIFTH BANK OF NOLAVA^Nolava Odd Community^Building Code #045 ";
 
 	RoomObj PACleft "small cleft" PrivateAlley
 	with name "cleft" "small" "niche" "hole",
@@ -5053,16 +5053,16 @@ has novisit;
 
 	RoomObj PAHouse "Poont's house" PrivateAlley
 	with name "poont" "poont^s" "house" "black",
-	description "This austere house is painted completely black and only has a single black door. The house is only a single-story but extends fairly far towards the wall of the volcano.",
+	description "This austere house is painted completely black and only has a single black door. The house is only a single-story but extends fairly far towards the wall of the volcano. A dull plaque is affixed next to the door.",
 	before [;
 		Climb: "You see no reason to climb onto the roof of the house. There is no chimney to climb down.";
 		Enter: <<go e_obj>>;
 	],
 	has proper;
 
-	Plaque PAHousePlaque "house plaque" PrivateAlley
-	with name "house",
-	description "The plaque on the house says:^^POONT'S LAB^Nolava Odd Community^Building Code #059, 062 ";
+	Plaque PAHousePlaque "dull plaque" PrivateAlley
+	with name "dull",
+	description "The dull plaque on the house says:^^POONT'S LAB^Nolava Odd Community^Building Code #059, 062 ";
 
 	RoomObj PATower "tall tower" PrivateAlley
 	class	GraniteObj,
@@ -5070,8 +5070,9 @@ has novisit;
 	description [;
 		print "The tower rises several stories into the air and very nearly brushes the side of the volcano at the top. There are no doors or windows visible to the naked eye...perhaps the occupant knew how to fly. At the base of the tower, there is a";
 		if (PACleft in location)
-			" small cleft in the rocks.";
-		" yawning crevice in the ground.";
+			" small cleft in the rocks. ";
+		" yawning crevice in the ground. ";
+		" A tiny plaque is affixed at eye level.";
 	],
 	before [;
 		Climb: "You manage to shimmy a few feet up before running out of handholds.";
@@ -5084,8 +5085,8 @@ has novisit;
 			}
 	];
 
-	Plaque PATowerPlaque "tower plaque" PrivateAlley
-	with name "tower",
+	Plaque PATowerPlaque "tiny plaque" PrivateAlley
+	with name "tiny",
 	description "The plaque on the tower reads:^^SQUIGGY'S TOWER^Nolava Odd Community^Building Code #071 ";
 
 ! ############################
