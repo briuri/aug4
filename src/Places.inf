@@ -5068,11 +5068,11 @@ has novisit;
 	class	GraniteObj,
 	with name "tower" "tall",
 	description [;
-		print "The tower rises several stories into the air and very nearly brushes the side of the volcano at the top. There are no doors or windows visible to the naked eye...perhaps the occupant knew how to fly. At the base of the tower, there is a";
+		print "The tower rises several stories into the air and very nearly brushes the side of the volcano at the top. ";
+		print "A tiny plaque is affixed at eye level. There are no doors or windows visible to the naked eye...perhaps the occupant knew how to fly. At the base of the tower, there is a";
 		if (PACleft in location)
 			" small cleft in the rocks. ";
 		" yawning crevice in the ground. ";
-		" A tiny plaque is affixed at eye level.";
 	],
 	before [;
 		Climb: "You manage to shimmy a few feet up before running out of handholds.";
