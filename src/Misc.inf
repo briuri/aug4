@@ -45,9 +45,9 @@ Array CText string 128;			! Used for centering text
 
 Array HelpPoints table			! Array used in the Help Menu
 [;
-	"Playing Augmented Fourth";
-	"Summary of Commands";
+	"How to Play";
 	"About Augmented Fourth";
+	"Acknowledgements";
 ];
 
 Array InstPoints table			! Array used in Instructions Menu
@@ -55,10 +55,10 @@ Array InstPoints table			! Array used in Instructions Menu
 	"Introduction to Interactive Fiction";
 	"Moving Around and Talking";
 	"Manipulating Things";
-	"Miscellaneous Commands";
-	"Commands Specific to Augmented Fourth";
+	"Unique Commands in This Game";
+	"Command Summary";
 ];
-
+		
 ! ##########################################################################################################
 ! Methods
 ! 
@@ -278,67 +278,37 @@ Array InstPoints table			! Array used in Instructions Menu
 	switch (menu_item) {
 		1: DoMenu(InstPrint, InstMenu, InstInfo);
 			return 2;
-		2: print "These commands do nothing in the world of Augmented Fourth, but affect how the world is presented to you, or shows your status. ";
-			print "Some commands, like ~brief~ have a synonym or abbreviation that will also work.^";
-			font off;
-			print "^brief/normal      Standard room descriptions
-				^long/verbose      (default) Always show long room descriptions
-				^short/superbrief  Always show short room descriptions
-				^^inventory/i	      Show what you are carrying
-				^score             Show your current score
-				^^save	             Save your progress to a file
-				^restore           Restore one of your saved games
-				^restart           Start the game again from the beginning
-				^quit/q/die        Exit the game
-				^^script on/off     Start and stop transcription to a file
-				^verify            Check that the story file is undamaged
-				^version           Give version and release numbers^";
-			font on;
-			print "^These are a few of the commands that affect the world of Augmented Fourth:^";
-			font off;
-			print "^again/g           Repeat your last command
-				^oops/o <word>     Correct a mistake in your last command
-				^undo              Cancel your last command, if possible^
-				^ask    attack    blow     bribe   climb 
-				^close  consult   cut      dig     drink
-				^drop   eat       enlarge  enter   examine/x
-				^fill   get/take  give     listen  lower
-				^look   open      play     pull    push
-				^put    remove    smell    taste   think
-				^touch  tune      unlock   wait
-				^^north,south,east,west/n,s,e,w
-				^northeast,northwest,southeast,southwest/ne,nw,se,sw
-				^up,down/u,d          in,out^";
-			font on;
-			print "^Of course, this list isn't definitive. If a command makes sense during the game, it is fairly likely that the game will understand it.^";
-		3: style bold;	print "Augmented Fourth^";		style roman;
-			print "by Brian Uri!, brian@@64urizone.net^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. ";
-			print "Thanks go to Graham Nelson for Inform and the rec.arts.int-fiction crowd for answering my cornucopia of questions. ";
-			print "A pat on the back goes out to Michael Gentry as well, for his first IF effort, Anchorhead. ";
-			print "Seeing and testing it made me realize that even big games can be completed with a little patience and effort. ";
-			print "Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^";
-			print "Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski ";
-			print "for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, ";
-			print "Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, gamma-testers, Vincent Lynch and ";
-			print "Phil Swinbank, and dedicated players such as Roger Durrant, without whom this piece of IF would not be nearly as polished as it is. ";
-			print "All remaining bugs are my own fault.^^";
-			print "The Augmented Fourth story file and source code are copyright (c) 2000-2013 by Brian Uri!. They may be freely distributed; however, ";
-			print "they are NOT Public Domain. Consider this game commentware: if you would like to reimburse me, please send any and all constructive ";
-			print "criticism or comments about the game (including bugs) to the email address above.^^";
+		2: style bold;	print "About Augmented Fourth^";	style roman;
+			print "by Brian Uri!, brian@@64urizone.net^https://www.urizone.net/aug4.uri^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. ";
+			print "It was nominated for two XYZZY Awards in 2000 (including Best Puzzles, and Best Non-Player Character for King Papoosen) and is featured on Jimmy Maher's list of Suggested Works of Modern IF.^^";
 			print "Augmented Fourth has no in-game hint system per se. If you need a vague nudge, help can be found by thinking, reading the materials in ";
 			print "the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail ";
-			print "me at the above address; I will usually respond within a day or so. The price for unlimited hints is a promise to send me a little feedback ";
-			print "about the game once you've completed it.^";
-			style bold;		print "^About the Author^";		style roman;
-			print "When Augmented Fourth was created, the author was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. ";
-			print "As of 2013, he is a software engineer employed in Reston, Virginia. His next work of interactive fiction will be a musical comedy based on the life of Genghis Khan.^";
+			print "me at the above address; I will usually respond within a day or so.^^";	
+			print "The Augmented Fourth story file and source code are copyright (c) 2000-2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. ";
+			print "Consider this game commentware: if you would like to reimburse me, please send constructive criticism about the game (including bugs) to the email address above.^";
+			style bold;		print "^20th Anniversary Retrospective^";		style roman;
+			print "When Augmented Fourth was created, I was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. ";
+			print "Development was a two-year-odyssey of waxing and waning motivation and the game was quietly received by the IF community. ";
+			print "I immediately started a 2nd game, Robin Caruso, with a more mature theme and story (story-driven IF was the new rage back then!). ";
+			print "This project ground to a halt (at about 65% completion) after it became clear that it would seem like a pale imitation next to the pop culture embrace of Fight Club and Castaway, two movies that explored similar themes.^^";
+			print "Over the past 20 years, I've worked as a software engineer, a solutions architect, and a proposal writer. I now live in northern Virginia with a delightful wife and a two-year-old daughter whose vocabulary is gradually outpacing the Infocom parser. ";
+			print "My skills in both IF and music have withered on the vine, but I still get a kick out of hearing from new players who have just finished the game.^";
 			style bold;		print "^Release Notes^";		style roman;
-			print "Augmented Fourth was originally released on April 1, 2000 (Release 1). That year, it was a finalist in two categories of XYZZY Awards: ";
-			print "Best Puzzles and Best NPC (The King). Reviews of the game have been collected at the author's site: http://www.urizone.net/^^";
-			print "Release 2 (July 21, 2009) corrected a few minor bugs that always irritated the author, but not enough to render him willing to fix them ";
-			print "during the previous nine years.^^";
-			print "Release 3 (July 2, 2013) fixes a couple bugs related to the Lively Jig that were identified by the most recent generation of avid players.^^";
-			print "Release 4 (April 1, 2020) TODO.^^";
+			style underline;	print "Release 1 (April 1, 2000)";		style roman;
+			print ": The first public release.^^";
+			style underline;	print "Release 2 (July 21, 2009)";		style roman;
+			print ": A bug-fix release to address issues that always irritated me, but not enough to render me willing to fix them during the previous nine years.^^";
+			style underline;	print "Release 3 (July 2, 2013)";		style roman;
+			print ": A bug-fix release to address issues related to the Lively Jig, identified by the most recent generation of avid players.^^";
+			style underline;	print "Release 4 (April 1, 2020)";		style roman;
+			print ": A nostalgic update that corrects minor bugs and adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty.^^";
+		3: style bold;	print "Acknowledgements^";			style roman;
+			print "Thanks to my amazing beta testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and my inexorable gamma testers, Vincent Lynch and Phil Swinbank. ";
+			print "They are the reason that Augmented Fourth is as polished as it is. All remaining bugs are my own fault.^^";
+			print "Thanks to Graham Nelson for creating Inform. Thanks to David A. Cornelson, Irene Callaci, L. Ross Raszewski, and Gareth Rees for the groundwork upon which I built my library modifications. Thanks to the rec.arts.int-fiction crowd for answering my endless Inform questions in the late 90s.^^";
+			print "Thanks to Michael Gentry for letting me beta-test Anchorhead. Seeing it come to life made me realize that even big games can be completed with a little patience.^^";
+			print "Thanks to Rikard Peterson for creating the game's cover art in 2008. I loved the simplicity and light-heartedness of his artwork and though it fit the game very well.^^";
+			print "Thanks to everyone (such as Roger Durrant) who has sent feedback and bug reports over the past 20 years. Knowing that people are still enjoying my ancient game is a wonderful feeling.^";
 	}
 ];
 
@@ -346,9 +316,9 @@ Array InstPoints table			! Array used in Instructions Menu
 	switch (menu_item) {
 		0: item_width = 13;	item_name = "Augmented Fourth Game Menu";
 			return 3;
-		1: item_width = 12;	item_name = "Playing Augmented Fourth"; 
-		2: item_width = 8;	item_name = "Command Summary";
-		3: item_width = 11;	item_name = "About Augmented Fourth";
+		1: item_width =  6;	item_name = "How to Play"; 
+		2: item_width = 11;	item_name = "About Augmented Fourth";
+		3: item_width =  8; item_name = "Acknowledgements";
 	}
 ];
 
@@ -376,16 +346,16 @@ Array InstPoints table			! Array used in Instructions Menu
 [InstInfo;
 	switch (menu_item) {
 		1: print "Most Interactive Fiction (IF) is a combination of a second-person story and a puzzle-solving game. ";
-			print "It presents you with text descriptions that put you in the position of the story's protagonist, and invites you to type in commands. ";
+			print "It presents you with text descriptions that put you in the position of the story's protagonist and invites you to type in commands. ";
 			print "For example, a game might start like this:^";
 			font off;
 			print "^	You are standing in an empty room. Sunlight shines through a window.^	>^";
 			font on;
-			print "^The prompt invites you to type something. You respond with an imperative command and the game attempts to understand what you wish to do. For example, you might type^";
+			print "^The prompt invites you to type something. You respond with an imperative command and the game attempts to understand what you wish to do. For example, you might type:^";
 			font off;
 			print "^	> open the window^";
 			font on;
-			print "^and the game might respond^";
+			print "^and the game might respond:^";
 			font off;
 			print "^	Years of accumulated grime have jammed the window shut.^	>^";
 			font on;
@@ -403,29 +373,29 @@ Array InstPoints table			! Array used in Instructions Menu
 			font off;
 			print "^	> enter cage^	> stand on platform^	> sit in chair^";
 			font on;
-			print "^To leave these objects, you might type ~exit~, or ~get off~ or ~stand up~^^";
-			print "To say a single word, or a few words, to someone, you can use commands like^";
+			print "^To leave these objects, you might type ~exit~, or ~get off~ or ~stand up~.^^";
+			print "To say a single word, or a few words, to someone, you can type commands like:^";
 			font off;
 			print "^	ask wizard about fudge^	wizard, where is fudge^	say hello to man^	tell widow about bear^";
 			font on;
-			print "^To order someone about, you can use commands like^";
+			print "^To order someone about, you can type commands like:^";
 			font off;
 			print "^	wizard, give me the fudge^	hypnotized man, go east^";
 			font on;
-			print "^though, of course, they are not guaranteed to obey you!^";
+			print "^Of course, they are not guaranteed to obey you!^";
 		3: print "You can try to pick something up with ~get thing~ and try to put it down with ~drop thing~. ";
 			print "The command ~inventory~, or ~i~ for short, gives you a list of everything you are carrying. You can usually carry several objects at one time. ";
 			print "To look at an object more closely, ~examine~ it (~x~ for short).^";
 			print "^Objects can be manipulated in many ways: put into (or on top of) other objects, tuned, rubbed, turned, eaten, and so on. Here are some examples:^";
 			font off;
-			print "^	take the trumpet^	put squirming snake in sack^	get off the wooden platform^	look in the dark hole^	unlock birdcage with little key^";
-			print "	offer wizard the magic potion^	give gold coin to guards^	bribe guards with gold coin^	turn on the lamp^	play trumpet^";
+			print "^	take the trumpet^	get off the wooden platform^	look in the dark hole^	unlock birdcage with little key^";
+			print "	offer wizard the magic potion^	give gold coin to guards^	turn on the lamp^	play trumpet^";
 			print "	empty goldfish bowl into lake^	look under the dresser^";
 			font on;
 			print "^Some commands can act upon more than one object. ~take all~ will attempt to pick up all the items in the room;";
 			print " 	~drop all~ will drop everything you're carrying (except for any clothing you're wearing). Some examples:^";
 			font off;
-			print "^	get blue rock, red rock, and green rock^	remove everything but the red rock from the strongbox^	get all the rocks except purple, yellow, and blue^";
+			print "^	get blue rock, red rock, and green rock^	drop all the rocks except purple, yellow, and blue^";
 			font on;
 			print "^If you are not explicit enough, the game will try to deduce what you meant, and if it succeeds it will tell you the outcome of your action.";
 			print " For example, in reply to ~get blue rock, red rock, and green rock~, the game might return:^";
@@ -453,30 +423,8 @@ Array InstPoints table			! Array used in Instructions Menu
 			font off;
 			print "^	You don't need to refer to that.^";
 			font on;
-			print "^Your best course of action is to leave these non-existent objects alone.^";
-		4: print "To save the current state of your game into a file, type ~save~; to go back to a saved game, type ~restore~.";
-			print " To start ~Augmented Fourth~ again from the beginning, type ~restart~, and to stop playing, type ~quit~.^";
-			print "^If you want to save a transcript of your game for later perusal, use the command ~script on~ to start transcription";
-			print " (the game will prompt you for a file name) and ~script off~ to stop.^";
-			print "^The command ~score~ will give you your score. When your score changes, you are notified of the fact by messages like^";
-			font off;
-			print "^	[You have just gained one point in Wildlife Management.]^";
-			font on;
-			print "^Usually the game will give you a long description of a location every time you enter the room. ";
-			print "If you get bored of the long descriptions, you can turn them off with ~brief~. To restore the usual state of affairs, type ~verbose~.^";
-			print "^If you regret your last command, then you can type ~undo~ to go back to the state before you typed it (you can even type ~undo~ after you have died). ";
-			print "However, the ~undo~ command doesn't work on all interpreters, and on some, you can only undo one command.^";
-			print "^The commands described above don't cause things to happen in the game and don't take up any game time; nor do any commands you type which the game fails to understand.^";
-			print "^Some simple typing mistakes can be correct with ~oops~ followed by the word you had intended to type, for example:^";
-			font off;
-			print "^ pet the rabid igauna^ oops iguana^";
-			font on;
-			print "^You can repeat the last command you typed with ~again~, you can do nothing for a game turn by typing ~wait~,";
-			print " and you can string several commands into a single input by separating them with ~then~ (or commas, or periods), for example:^";
-			font off;
-			print "^ take coin. south. again. wait. put coin in box^	unwrap chocolate then eat it^";
-			font on;
-		5: print "Soon after you begin playing Augmented Fourth, you will find a trumpet on which music can be played.";
+			print "^Your best course of action is to leave these unimportant objects alone.^";
+		4: print "Soon after you begin playing Augmented Fourth, you will find a trumpet on which music can be played.";
 			print " Scattered throughout the area are several pieces of music, each one with the notes to a different song. To play the trumpet, simply type:^";
 			font off;
 			print "^ play trumpet^ play tpt^";
@@ -504,23 +452,57 @@ Array InstPoints table			! Array used in Instructions Menu
 			font off;
 			print "^ look up papoosen in reference book^ read about 034 in manual^";
 			font on;
+		5: print "These commands do nothing in the world of Augmented Fourth, but affect how the world is presented to you, or shows your status. ";
+			print "Some commands, like ~brief~ have a synonym or abbreviation that will also work.^";
+			font off;
+			print "^brief/normal      Standard room descriptions
+				^long/verbose      (default) Always show long room descriptions
+				^short/superbrief  Always show short room descriptions
+				^^inventory/i	      Show what you are carrying
+				^score             Show your current score
+				^^save	             Save your progress to a file
+				^restore           Restore one of your saved games
+				^restart           Start the game again from the beginning
+				^quit/q/die        Exit the game
+				^^script on/off     Start and stop recording a transcription of your commands
+				^verify            Check that the story file is undamaged
+				^version           Give version and release numbers^";
+			font on;
+			print "^These are a few of the commands that affect the world of Augmented Fourth:^";
+			font off;
+			print "^again/g           Repeat your last command
+				^oops/o <word>     Correct a mistake in your last command
+				^undo              Cancel your last command, if possible^
+				^ask    attack    blow     bribe   climb 
+				^close  consult   cut      dig     drink
+				^drop   eat       enlarge  enter   examine/x
+				^fill   get/take  give     listen  lower
+				^look   open      play     pull    push
+				^put    remove    smell    taste   think
+				^touch  tune      unlock   wait
+				^^north,south,east,west/n,s,e,w
+				^northeast,northwest,southeast,southwest/ne,nw,se,sw
+				^up,down/u,d
+				^in,out^";
+			font on;
+			print "^Of course, this list isn't definitive. If a command makes sense during the game, it is fairly likely that the game will understand it.^";
 	}
 ];
 
 [InstMenu;
 	switch (menu_item) {
-		0: item_width = 6;	item_name = "Instructions";
+		0: item_width =  6;	item_name = "How to Play";
 			return 5;
 		1: item_width = 18;	item_name = "Introduction to Interactive Fiction";
 		2: item_width = 13;	item_name = "Moving Around and Talking";
 		3: item_width = 10;	item_name = "Manipulating Things";
-		4: item_width = 11;	item_name = "Miscellaneous Commands";
-		5: item_width = 19;	item_name = "Commands Specific to Augmented Fourth";
+		4: item_width = 14;	item_name = "Unique Commands in This Game";
+		5: item_width =  8;	item_name = "Command Summary";
 	}
 ];
 
 [InstPrint;
-	print "Instructions:^";
+	print "How to Play:^";
 	PrintChoices(InstPoints);
 	new_line;
 ];
