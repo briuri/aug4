@@ -2368,7 +2368,6 @@ initial [;
 	if (self hasnt firstTime) {
 		StartDaemon(self);
 		give self firstTime;
-		print "Sitting atop the counter is a bound book entitled ~Nolava Odd Community Building Codes~.^^";
 		print "A tall bearded man in a black robe stalks into the room. Peering through the dust, he identifies you as the culprit. ~Well I'll be!";
 		print " That wall from the pit must have finally broken down... we haven't had a visitor down here in years!~";
 		print " He rushes up to you, nearly bowling you over in the process, and shakes your hand furiously.";
@@ -2377,11 +2376,13 @@ initial [;
 		print " you must be on my side of the bed! Are you odd?~^^Leonine waits for a moment but continues on before you can answer.";
 		print " ~This is the Nolava Odd Community and every permanent resident is a little odd, so if you're planning on sticking around,";
 		print " I'd suggest that you pick up some kind of idiosyncrasy, unless you just want to be mildly ill-tempered, which is just fine in my book as well.";
-		print " Of course, you won't have much company, since most of the residents are dead or moved away.~";
+		print " Of course, you won't have much company, since most of the residents are dead or moved away.~^^";
 	}
-	print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
-		"Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.",
-		"You can see Leonine here.", "Leonine is here in his black robe. ");
+	else {
+		print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
+			"Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.",
+			"You can see Leonine here.", "Leonine is here in his black robe. ");
+	}
 ],
 description "Leonine is a tall bearded man in a long black robe. His attire makes him look more like a monk than a mage, but the crazy eyes and the gentle, yet odd, disposition put him in a league of his own. He stands nearby, watching you and enjoying the scenery.",
 before [;
