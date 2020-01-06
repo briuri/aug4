@@ -1511,7 +1511,7 @@ before [x;
 					"^The melody echoes through the air and the clouds outside look a little darker. Regardless of the imminent rain, the guards are upon you, swinging their deadly halberds to the detriment of your health.";
 				3: self.count++;
 					print "^The notes take on a mystic quality and the guards' halberds suddenly drop to the ground -- dead weight. The guards look at you in disbelief and back away slowly.^^";
-					print "It dawns on you that the melody was more receptive to your playing that it ever has been. The music feels alive inside of you, flowing through your arms and trumpet.";
+					print "It dawns on you that the melody was more receptive to your playing than it ever has been. The music feels alive inside of you, flowing through your arms and trumpet.";
 					" With this mastery of skill comes the realization that you are no longer confined by the bounds of paper music! ";
 				4: deadflag = 1;
 					"^You play a lively toe-tapping gigue, which puts you in a brighter mood. The guards dance as well. They continue to dance as they cleave you in two.";
@@ -2445,7 +2445,7 @@ description [;
 	" A shimmering curtain of light hangs over the entrance to the east and there appears to be something written on the floor.";
 ],
 before [;
-	Colour: "The walls of the vault shimmering momentarily, but do not change. The owner of the house must have applied ~Purple-Forever~ on his entire abode.";
+	Colour: "The walls of the vault shimmer momentarily, but do not change. The owner of the house must have applied ~Purple-Forever~ on his entire abode.";
 	Listen: "You hear nothing.";
 	Literal: "The vault door is already gone. It's a good thing too; you wouldn't want to cause an overpopulation of hamsters.";
 	LookDown: "The floor, it seems, is much closer than the ceiling. There seems to be something written in tiny letters.";
@@ -6373,7 +6373,7 @@ Room VolcanoCenter "Center of Volcano"
 with name "volcanocenter",
 	rainCount 0,	! Intensity of rain
 description [;
-	print "You stand in the center of a small community built inside a dormant volcano. High above you, the mouth of the volcano allows a view of the outside sky and the occasional birds in flight.";
+	print "You stand in the center of a small community built inside a dormant volcano. High above you, the mouth of the volcano allows a view of the outside sky and the occasional birds in flight. ";
 	print "A paved road runs from the southwest to the east and a small well-manicured park is to the south. A dirt path crosses the paved one from the north and goes to the southeast.";
 	print " To the west, stands a small granite building with a bronze plaque by its doorway.";
 	if (self.rainCount > 3)

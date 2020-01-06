@@ -2297,7 +2297,7 @@ default [;											! Duck Default
 			DeadEnd, OldQuarry: remove self;
 				"^In a cloud of dust, the duck flaps into the air and leaves the quarry.";
 			InsideVault: remove self;
-				"^Timidly, the duck approches the shimmering curtain of light. Steeling its courage, it takes off into flight, shooting through the curtain to leave the house.";
+				"^Timidly, the duck approaches the shimmering curtain of light. Steeling its courage, it takes off into flight, shooting through the curtain to leave the house.";
 			default: remove self;
 				"^In a cloud of dust, the duck flaps into the air and disappears from view.";
 		}
