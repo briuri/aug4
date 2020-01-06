@@ -5,7 +5,7 @@
 ! ### Copyright ####
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright (c)2000 - 2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! are copyright (c) 2000 - 2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
 ! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
 ! constructive criticism or comments about the game to the above e-mail address.
 !
@@ -46,13 +46,12 @@
 !	- Cleaned up source code formatting.
 ! Release 4 (April 1, 2020):
 !	- Fixed disambiguation issues and minor bugs reported by recent players.
+!	- Cleaned up source code formatting.
 !
 ! ### Open Issues ###
 !
-!	- When using the viewscope, room descriptions still appear in the first-person (describing smells and 
-!	  such).
-!   - It would be fun to see into Moilan's house, the widow's private quarters, or the flood quarry with the
-!	  viewscope.
+!	- When using the viewscope, room descriptions still appear in the first-person (describing smells and such).
+!   - It would be fun to see into Moilan's house, the widow's private quarters, or the flood quarry with the viewscope.
 !	- If you empty the cup of mud/water indoors, it is absorbed into the ground. Also, NPCs do not notice.
 !	- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
 !
@@ -195,87 +194,87 @@ Include "Grammar";	! Inform Library
 ! ##########################################################################################################
 
 Verb meta "about"
-	*						-> Help;
+	*							-> Help;
 Verb "apologize"
-	*						-> Sorry;
+	*							-> Sorry;
 Verb "beg"
-	* "for" noun			-> Pray
-	* noun "for" noun		-> AskFor;
+	* "for" noun				-> Pray
+	* noun "for" noun			-> AskFor;
 Verb "bribe"
-	* noun					-> Bribe;
+	* noun						-> Bribe;
 Verb "bitch"
-	*						-> Strong
-	* topic					-> Strong;
+	*							-> Strong
+	* topic						-> Strong;
 Verb "build" "construct"
-	* noun					-> Construct;
+	* noun						-> Construct;
 Verb "cachinnate"
-	*						-> Cachinnate;
+	*							-> Cachinnate;
 Verb "carve" "rip" "saw" "tear" 
-	* noun					-> Cut
-	* noun "with" held		-> Cut;
+	* noun						-> Cut
+	* noun "with" held			-> Cut;
 Verb "catch"
-	* noun					-> Catch;
+	* noun						-> Catch;
 Extend "climb"
-	* "in" noun				-> Climb
-	* "on" noun				-> Climb
-	* "through" noun		-> Climb
-	* "down" noun			-> ClimbDown;
+	* "in" noun					-> Climb
+	* "on" noun					-> Climb
+	* "through" noun			-> Climb
+	* "down" noun				-> ClimbDown;
 Verb "continue"
-	* "falling"				-> KeepFall;
+	* "falling"					-> KeepFall;
 Verb "cook"
-	* noun					-> Burn;
+	* noun						-> Burn;
 Verb "count"
-	* noun					-> Count;
+	* noun						-> Count;
 Extend "cut"
 	* noun "with" held			-> Cut
 	* "down" noun "with" held	-> Cut;
 Verb "dance"
-	*						-> Dance;
+	*							-> Dance;
 Verb "dent" "kick"
-	* noun					-> Attack;
+	* noun						-> Attack;
 Extend only "die" replace
-	*						-> Suicide;
+	*							-> Suicide;
 Extend "dig" replace
-	*						-> DigRoom
-	* noun					-> Dig
-	* noun 'with' held		-> Dig
-	* "through"/"in" noun	-> Dig
-	* "hole"				-> DigRoom
-	* "hole" "in" noun		-> Dig;
+	*							-> DigRoom
+	* noun						-> Dig
+	* noun 'with' held			-> Dig
+	* "through"/"in" noun		-> Dig
+	* "hole"					-> DigRoom
+	* "hole" "in" noun			-> Dig;
 Extend "disrobe" first
-	*						-> Undress;
+	*							-> Undress;
 Extend "dive"
-	* "in" noun				-> Enter;
+	* "in" noun					-> Enter;
 Extend "drink" last
-	* "trumpet" "oil"		-> DrinkOil;
+	* "trumpet" "oil"			-> DrinkOil;
 Extend "eat" replace
-	* noun					-> Eat;
+	* noun						-> Eat;
 Verb "echo"
-	*						-> Echo;
+	*							-> Echo;
 Verb "enlarge" "widen"
-	* noun					-> Enlarge;
+	* noun						-> Enlarge;
 Extend "examine" first
-	* "me"					-> MeLook;
+	* "me"						-> MeLook;
 Verb "fall"
-	*						-> Fall;
+	*							-> Fall;
 Extend "feel" first
-	* "me"/"self"			-> MeFeel;
+	* "me"/"self"				-> MeFeel;
 Extend "fill"	
-	* noun "with" noun		-> Insert reverse;
+	* noun "with" noun			-> Insert reverse;
 Verb "fire" "launch" "shoot"
-	* noun					-> Fire
-	* noun "at" noun		-> Fire;
+	* noun						-> Fire
+	* noun "at" noun			-> Fire;
 Verb "flail"
-	*						-> Flail
-	* 'helplessly'			-> Flail;
+	*							-> Flail
+	* 'helplessly'				-> Flail;
 Verb "fly"	
-	*						-> Fly;
+	*							-> Fly;
 Verb "follow"
-	* topic					-> Follow;
+	* topic						-> Follow;
 Verb "forget"
-	* topic					-> Forget;
+	* topic						-> Forget;
 Verb "frotz" "rezrov" "plover" "zork" "abracadabra"	
-	*						-> Frotz;
+	*							-> Frotz;
 Extend "get" replace
 	* 'out'/'off'/'up'			-> Exit
 	* multi						-> Take
@@ -285,93 +284,93 @@ Extend "get" replace
 	* multiinside 'from' noun	-> Remove
 	* "out" "of" noun			-> Exit;
 Verb "glock"
-	*					-> Glock
-	* noun				-> Glock;
+	*						-> Glock
+	* noun					-> Glock;
 Extend "go"
-	* "down" noun		-> Enter
-	* "to" noun			-> Enter;
+	* "down" noun			-> Enter
+	* "to" noun				-> Enter;
 Verb "grab" "grasp"
-	* "at" noun			-> Take
-	* noun				-> Take;
+	* "at" noun				-> Take
+	* noun					-> Take;
 Verb "greet"
-	* noun				-> Greet;
+	* noun					-> Greet;
 Verb "hang"
-	* noun				-> Hang;
+	* noun					-> Hang;
 Verb "health" "diagnose"
-	*					-> Health;
+	*						-> Health;
 Verb "hello"
-	* "sailor"			-> Frotz;
+	* "sailor"				-> Frotz;
 Verb "hide"
-	*					-> Hide;
+	*						-> Hide;
 Verb "hum"
-	*					-> Hum
-	* topic				-> SingX;
+	*						-> Hum
+	* topic					-> SingX;
 Verb meta "help"
-	*					-> Help;
+	*						-> Help;
 Extend "jump"		
-	* "in"/"on" noun	-> Jump
-	* "off" noun		-> JumpOff;
+	* "in"/"on" noun		-> Jump
+	* "off" noun			-> JumpOff;
 Verb "keep"
-	* "falling"			-> KeepFall
-	* "on" "falling"	-> KeepFall;
+	* "falling"				-> KeepFall
+	* "on" "falling"		-> KeepFall;
 Verb "kw"
-	* "stop"			-> KeywordOff
-	* topic				-> Keyword;
+	* "stop"				-> KeywordOff
+	* topic					-> Keyword;
 Extend "kill" first
-	* "me"/"self"		-> Suicide;
+	* "me"/"self"			-> Suicide;
 Extend 'kill'
-	* topic				-> Attack;
+	* topic					-> Attack;
 Verb "knock"
-	* "on"/"at" noun	-> Knock;
+	* "on"/"at" noun		-> Knock;
 Extend "lock" first
-	* noun				-> LockKey;
+	* noun					-> LockKey;
 Extend "look"	first	
-	* "up"				-> LookUp
-	* "down"			-> LookDown
-	* "at" "me"/"self"	-> MeLook;
+	* "up"					-> LookUp
+	* "down"				-> LookDown
+	* "at" "me"/"self"		-> MeLook;
 Extend "look" last
-	* "on" noun			-> Examine
-	* "up" noun			-> Search
-	* "behind" noun		-> LookUnder;
+	* "on" noun				-> Examine
+	* "up" noun				-> Search
+	* "behind" noun			-> LookUnder;
 Verb "learn" "memorize" "memorise"
-	* noun				-> Learn;
+	* noun					-> Learn;
 Verb "lose"
-	*					-> Lose;
+	*						-> Lose;
 Verb "lower"	
-	* noun				-> Lower;
+	* noun					-> Lower;
 Verb "lick"
-	* noun				-> Taste;
+	* noun					-> Taste;
 Verb "lift" "raise" "elevate"
-	* noun				-> Lift
-	* "up" noun			-> Lift;
+	* noun					-> Lift
+	* "up" noun				-> Lift;
 Verb "make"
-	* noun "bigger"/"larger"	-> Enlarge
-	* noun						-> Construct
-	* topic						-> Construct
-	* "hole" "in" noun			-> Dig
-	* "hole"					-> DigRoom;
+	* noun "bigger"/"larger"-> Enlarge
+	* noun					-> Construct
+	* topic					-> Construct
+	* "hole" "in" noun		-> Dig
+	* "hole"				-> DigRoom;
 Verb "ni"
-	*				-> Ni;
+	*						-> Ni;
 Verb "nictitate"
-	*				-> Nictitate;
+	*						-> Nictitate;
 Verb "noodle"
-	* 'on' noun		-> Play;
+	* 'on' noun				-> Play;
 Extend "notify" replace
-	*				-> Notify
-	* "on"			-> Notify
-	* "off"			-> Notify;
+	*						-> Notify
+	* "on"					-> Notify
+	* "off"					-> Notify;
 Verb "nu"
-	*				-> Nu;
+	*						-> Nu;
 Verb "odysseus"
-	*				-> Odysseus;
+	*						-> Odysseus;
 Verb "pandiculate"
-	*				-> Pandiculate;
+	*						-> Pandiculate;
 Verb "peer"
-	* "in" noun		-> Search;
+	* "in" noun				-> Search;
 Verb "pet"
-	* noun			-> Touch;
+	* noun					-> Touch;
 Extend "pick" last
-	* noun			-> Pick;
+	* noun					-> Pick;
 Verb "pour"
 	* noun "on"/"in" noun	-> Insert;
 Verb "play"
@@ -397,18 +396,18 @@ Extend "read" replace
 	* "about" topic "in" noun	-> Consult
 	* topic "in" noun			-> Consult;
 Extend "remove" first
-	* "clothes"/"clothing"		-> Undress;
+	* "clothes"/"clothing"	-> Undress;
 Verb "roll"
-	* noun						-> Push
-	* noun noun					-> PushDir;
+	* noun					-> Push
+	* noun noun				-> PushDir;
 Verb "ruminate"
-	*							-> Ruminate;
+	*						-> Ruminate;
 Extend "say" first
-	* 'odysseus'				-> Odysseus;
+	* 'odysseus'			-> Odysseus;
 Verb "scream" "shriek"
-	*							-> Shout;
+	*						-> Shout;
 Verb "shake"
-	* noun						-> Wave;
+	* noun					-> Wave;
 Extend only "shout" replace
 	*						-> Shout
 	* 'at' noun				-> Shout;
