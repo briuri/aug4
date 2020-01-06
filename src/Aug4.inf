@@ -11,11 +11,10 @@
 !
 ! ### Note from the Author ###
 !
-! I'm making this code available in the hopes that it will help or inspire someone else to start
-! their own Interactive Fiction work. I learned gads by simple diving in, making mistakes, and studying
-! the coding styles of various authors in the IF Archive. However, I make no guarantees about the
-! quality or correctness of the code. Source code does not age well, especially Inform 6 source code 
-! from the only game I've ever written.
+! I'm making this code available in the hopes that it will inspire someone else to start their own Interactive 
+! Fiction work. I learned gads by simple diving in, making mistakes, and studying the coding styles of various 
+! authors in the IF Archive. However, I make no guarantees about the quality or correctness of the code. Source 
+! code does not age well, especially Inform 6 source code from the only game I've ever written.
 !
 ! The source code is split up into four separate files:
 !	- Aug4.inf contains general purpose stuff like constants, verbs, and defaults.
@@ -26,7 +25,7 @@
 ! beyond the width of the screen. I had no problems coding like this in the year 2000, but you may wish to 
 ! turn on Word Wrap.
 !
-! ### Changes Log ###
+! ### Release Notes ###
 !
 ! Release 1 (April 1, 2000):
 ! 	- This was the initial public release.
@@ -52,7 +51,6 @@
 ! ### Open Issues ###
 !
 !	- When using the viewscope, room descriptions still appear in the first-person (describing smells and such).
-!   - It would be fun to see into Moilan's house, the widow's private quarters, or the flood quarry with the viewscope.
 !	- If you empty the cup of mud/water indoors, it is absorbed into the ground. Also, NPCs do not notice.
 !	- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
 !
