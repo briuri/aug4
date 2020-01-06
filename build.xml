@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Interactive Fiction" default="compileAug4" basedir=".">
+<project name="aug4" default="compileAug4" basedir=".">
 		
 	<target name="clean" description="Removes the temporary build directories">
 		<delete quiet="true" dir="output/aug4" />
