@@ -2037,9 +2037,12 @@ cant_go "The only paths lead north and east.";
 					"You also see a duck swimming on the surface.";
 				"";
 			}
-			if (theDuck in self)
-				"There is a duck swimming on the surface of the pond.";
-			"";
+			else {
+				print "You see nothing in the water. ";
+				if (theDuck in self)
+					"There is a duck swimming on the surface of the pond.";
+				"";
+			}
 		Take: "The water slips through your fingers.";
 		Touch: "You dip your fingers into the cold pond.";
 	],

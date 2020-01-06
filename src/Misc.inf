@@ -319,8 +319,9 @@ Array InstPoints table			! Array used in Instructions Menu
 			print "Had it not been for that, I probably would have abandoned Augmented Fourth long ago to the ~Interest of the Month~ dustpile.^^";
 			print "Thanks also to Gareth Rees for the format of the Help Information, and David A. Cornelson, Irene Callaci, and L. Ross Raszewski ";
 			print "for providing the groundwork upon which I built my library modifications.^^Finally, many thanks to beta-testers, Chad Schultz, ";
-			print "Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and gamma-testers, Vincent Lynch and ";
-			print "Phil Swinbank, without whom this piece of IF would not be nearly as polished as it is. All remaining bugs are my own damned fault.^^";
+			print "Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, gamma-testers, Vincent Lynch and ";
+			print "Phil Swinbank, and dedicated players such as Roger Durrant, without whom this piece of IF would not be nearly as polished as it is. ";
+			print "All remaining bugs are my own fault.^^";
 			print "The Augmented Fourth story file and source code are copyright (c) 2000-2013 by Brian Uri!. They may be freely distributed; however, ";
 			print "they are NOT Public Domain. Consider this game commentware: if you would like to reimburse me, please send any and all constructive ";
 			print "criticism or comments about the game (including bugs) to the email address above.^^";

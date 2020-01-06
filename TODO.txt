@@ -1,6 +1,4 @@
 Release 4 Updates:
-- Correct bugs reported by Roger Durrant
-	- BTW if you SEARCH POND you get no reply.
 - Evaluate inclusion of alternate solution for Moilan
 - Add 20 Year Retrospective
 - Update Comments / Release Notes
