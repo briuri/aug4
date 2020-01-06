@@ -1,6 +1,5 @@
 Release 4 Updates:
 - Correct bugs reported by Roger Durrant
-	- In Poont’s Lab, I cannot seem to read Poont’s Experiment Book. I can take it, but the commands  READ POONT’s EXPERIMENT BOOK or READ POONT’S or READ SMALL BOOK elicit the reply “What do you want to read in?”  You are previously told that “a small book is tucked in the corner” but TAKE SMALL BOOK is not recognised.
 	- BTW if you SEARCH POND you get no reply.
 - Evaluate inclusion of alternate solution for Moilan
 - Add 20 Year Retrospective

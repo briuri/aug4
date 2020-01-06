@@ -1559,7 +1559,7 @@ consult [w;
 ];
 
 BookObj poontBook "Poont's Experiment Book" PoontLab
-with name "book" "poont" "experiments",
+with name "book" "poont" "experiments" "small",
 initial "Tucked neatly in the corner is a small book entitled ~Poont's Experiments~.",
 description "The book is neatly written and tabulated on lined paper.",
 before [;
