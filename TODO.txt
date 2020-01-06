@@ -1,6 +1,5 @@
 Release 4 Updates:
 - Correct typos reported by Roger Durrant
-- Correct disambiguation bug reported by Risujin
 - Evaluate inclusion of alternate solution for Moilan
 - Add 20 Year Retrospective
 - Update Comments / Release Notes

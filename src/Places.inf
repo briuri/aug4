@@ -3842,7 +3842,12 @@ has ~flag;		! Cutscene not viewed / Cutscene viewed
 				"The gate is open.";
 			"This gate bars any further travel to the northwest. There does not seem to be any sort of raising mechanism attached...perhaps it just swings open.";
 		}
-		"The gate is open and allows passage to the southeast.";
+		else {
+			if (self has open) {
+				"The gate is open and allows passage to the southeast.";
+			}
+			"The gate bars any further travel to the southeast.";
+		}
 	],
 	before [;
 		Attack, Burn, Cut: print "The gate is impervious to your assault. ";
