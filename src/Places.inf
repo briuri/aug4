@@ -1422,7 +1422,7 @@ with name "endgame",
 description [;
 	switch (self.count) {
 		0: StartDaemon(self);
-		print "^Chaos erupts in the throne room as you slide down the banner, landing at the foot of the dais.";
+		print "^Chaos erupts in the throne room as you slide down the banner, landing at the foot of the dais. ";
 		print "Onlookers press against the walls and the King stops his argument with the Royal Advisor, dumbfounded. Recognition registers soon after.^^";
 		print "~You're the foul trumpet player I had thrown into the Pit! How dare you have the audacity to escape!~ The King waves his sceptre in your general direction.";
 		" ~I sentence you to death...Guards! Seize the musician!~^^Two guards step forward to carry out the King's wishes, their cumbersome halberds glinting in the dusk.";
@@ -6172,7 +6172,7 @@ before [;
 			print " You come to rest on the final cadence and the strands begin to dance, whipping through the air until they cover the entire vault door.";
 			print " There is a cacophonous clatter of grating metal and suddenly the vault door is no more!";
 			print " In its place stands a blinking, and thoroughly confused hamster, which quickly takes the opportunity to run out the front door.^^";
-			"[You have earned two points for Assisting in the Population Regeneration of the Indigenous Volcano hamster.] ";
+			"[You have earned two points for Assisting in the Population Regeneration of the Indigenous Volcano Hamster.] ";
 		}
 		"You play the tune but nothing else happens.";
 	Think: if (self has flag)
