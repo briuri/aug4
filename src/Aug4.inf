@@ -65,7 +65,8 @@
 !	Extended Grammar
 ! ##########################################################################################################
 
-Release 4;	! Current Release Number
+Release 4;			! Current Release Number
+Serial "200401";	! Current Serial Number (so it can be compiled in advance of release date)
 
 ! #####################
 ! ### Abbreviations ###
