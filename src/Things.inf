@@ -2376,7 +2376,7 @@ initial [;
 		print " you must be on my side of the bed! Are you odd?~^^Leonine waits for a moment but continues on before you can answer.";
 		print " ~This is the Nolava Odd Community and every permanent resident is a little odd, so if you're planning on sticking around,";
 		print " I'd suggest that you pick up some kind of idiosyncrasy, unless you just want to be mildly ill-tempered, which is just fine in my book as well.";
-		print " Of course, you won't have much company, since most of the residents are dead or moved away.~^^";
+		print " Of course, you won't have much company, since most of the residents are dead or moved away.~^";
 	}
 	else {
 		print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
