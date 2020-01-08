@@ -3706,7 +3706,7 @@ with name "narrowpass",
 description [;
 	print "In the dim light, you see that you have entered a roughly-carved hallway running in from the north and around a sharp turn to the northeast.";
 	print " The light outlines a massive pile of uncut rocks against the south wall. In the midst of crumbled masonry, a large hole decorates the west wall,";
-	print " with stray rivulets of mud oozing from within.";
+	print " with stray rivulets of mud oozing from within like molten fudge.";
 	if (self hasnt firstTime) {
 		give self firstTime;
 		if (random(100) < 40)
@@ -4583,7 +4583,7 @@ has ~flag ~firstTime;
 		Close, Fill: "It would be counterproductive to fill the hole back up.";
 		Dig, Enlarge, Open, Push, Pull: if (self.holeSize < 5) {
 				self.holeSize++;
-				print "You pull away some mud from around the hole. ";
+				print "You pull away some fudge-coloured mud from around the hole. ";
 				switch (self.holeSize) {
 					2: "It is a little bigger now.";
 					3: "It is now fairly sizeable, but still not big enough to go through.";
@@ -4632,7 +4632,7 @@ has ~flag ~firstTime;
 	RoomObj PBPuddle "mud puddle" PitBottom
 	class	MudObj,
 	with name "mud" "puddle" "pool" "run-off",
-	description "The puddle collects run-off from the sides of the pit, and is a murky brown. It's only a couple inches deep, so you are fairly certain there are no sea monsters lurking just below the surface.",
+	description "The puddle collects run-off from the sides of the pit, and is murky brown with a fudge-like consistency. It's only a couple inches deep, so you are fairly certain there are no sea monsters lurking just below the surface.",
 	before [;
 		Dig: "You attempt to burrow through the floor, but mud simply oozes back into the hole.";
 		Drink: "You're not quite that thirsty yet. After seeing this mud, you'd sooner drink trumpet oil.";
