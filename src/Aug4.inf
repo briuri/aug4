@@ -49,9 +49,8 @@
 !	- Fixed disambiguation issues and minor bugs reported by recent players.
 !	- Cleaned up source code formatting.
 !
-! ### Open Issues ###
+! ### Known Issues ###
 !
-!	- When using the viewscope, room descriptions still appear in the first-person (describing smells and such).
 !	- If you empty the cup of mud/water indoors, it is absorbed into the ground. Also, NPCs do not notice.
 !	- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
 !

@@ -1,7 +1,5 @@
 Release 4 Updates:
 - Add new rooms to viewscope (Moilan's House, Widow's Quarters, Flooded Quarry)
-- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
-- Ability to empty mud indoors?
 - Sanity-check all puzzle clues (reverse DAG)
 
 Release 4 Distribution:
