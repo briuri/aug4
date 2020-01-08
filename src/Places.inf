@@ -157,7 +157,7 @@
 ! MusicSalon (MS)
 !	MSDoorway
 !	MSPiano
-! NarrowPass (NP
+! NarrowPass (NP)
 !	NPHole
 !	NPMasonry
 !	NPMud
@@ -4875,7 +4875,12 @@ has ~firstTime	! Herring not wasted / Herring wasted
 		j = random(i);
 		i = 0;
 		objectloop(obj ofclass Room) {
-			if (obj ofclass LetterMaze || obj == OfficeDark or FallingPit or nothing or ControlRoom or UpperBalcony or CastleLadder or Void or Endgame or PoontLab or MirrorRoom) {}
+			if (obj ofclass LetterMaze || obj == FallingPit or OfficeDark		! Hide multi-reuse rooms.
+				|| obj == nothing or Void or ControlRoom						! Hide meta locations.
+				|| obj == CastleLadder or UpperBalcony or Endgame				! Hide endgame locations.
+				|| obj == QuarryEntrance or StoneQuarry or NarrowPass			! Hide flooded rooms.
+				|| obj == PoontLab or MirrorRoom or BearsDen					! Hide local rooms.
+			) {}
 			else {
 				if (i == j) {
 					print "You peer into the viewscope and see an image in startling clarity...^^";

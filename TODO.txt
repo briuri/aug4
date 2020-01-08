@@ -1,5 +1,4 @@
 Release 4 Updates:
-- Add new rooms to viewscope (Moilan's House, Widow's Quarters, Flooded Quarry)
 - Sanity-check all puzzle clues (reverse DAG)
 
 Release 4 Distribution:
