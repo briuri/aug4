@@ -331,7 +331,7 @@ Array InstPoints table			! Array used in Instructions Menu
 [Initialise;
 	lookmode = 2;
 	TitlePage();	
-	location = Foyer;
+	location = FallingPit;
 	print "^^~In ye go!~ With a heave and shove, two burly guards in matching green tights toss you into Orchestra Pit. ";
 	print "As the earthen sides rush past you and sunlight dims, you have the sinking sensation that perhaps ~Ode to a Duck~ was not the best choice from your repertoire...^^";
 	give player light;
