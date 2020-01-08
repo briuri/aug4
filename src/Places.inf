@@ -2941,7 +2941,7 @@ each_turn [;
 
 Room LowerHall "Lower Hallway"
 with name "lowerhall",
-description "You stand at the foot of a grand double staircase which leads up to the second floor. The centerpiece of this room is a granite statue of Finney, which looks across the room from its proud pose. A smaller doorway is to the southeast and the entrance to the house is east.",
+description "You stand at the foot of a grand double staircase which leads up to the second floor. The centerpiece of this room is a granite statue of Finney, which looks across the room from its proud pose. Smaller doorways lead north and southeast, the entrance to the house is east.",
 before [;
 	Shout: "No one answers.";
 	Smell: "The air here is musty, as if no one has visited in a long time.";
@@ -2949,8 +2949,9 @@ before [;
 ],
 u_to UpstairsCorridor,
 e_to Foyer,
+n_to MusicSalon,
 se_to Workshop,
-cant_go "You can go up the stairs here, or east and southeast.";
+cant_go "You can go north, east, southeast, or up the stairs here.";
 
 	RoomObj LH2Balcony "balcony" LowerHall
 	with name "balcony" "second" "story" "landing",
@@ -3627,7 +3628,7 @@ with name "musicsalon",
 description [;
 	print "This room is small, but acoustically significant. The ceiling has been shaped to provide for the maximum benefit of the small ensembles which must have played here at one time,";
 	print " and even the smallest sound provides a rich timbre here. A Grandunk piano sits in the center of the room, just waiting to be played.";
-	" There are no windows here, but a doorway in the back of the room leads north.";
+	" There are no windows here, but a doorway in the back of the room leads south.";
 ],
 before [;
 	Listen: if (self hasnt firstTime) {
@@ -3637,15 +3638,15 @@ before [;
 		"You can hear even the faintest scuffle of your movements in here.";
 	Shout: "Your voice rings out clearly in the room.";
 ],
-n_to UpstairsCorridor,
-cant_go "The only way out is to the north.",
+s_to LowerHall,
+cant_go "The only way out is to the south.",
 has ~firstTime;		! Never Echoed / Echo
 
 	RoomObj MSDoorway "doorway" MusicSalon
 	with name "doorway",
-	description "The salon's exit is to the north.",
+	description "The salon's exit is to the south.",
 	before [;
-		Enter: <<Go n_obj>>;
+		Enter: <<Go s_obj>>;
 		Knock: "There is no door there.";
 	];
 
@@ -6095,14 +6096,13 @@ has ~flag;		! No score / Last Lousy Point scored
 
 Room UpstairsCorridor "Upstairs Corridor"
 with name "upstairscorridor",
-description "The two flights of the double staircase meet here at a balcony which overlooks the first floor of the house. Matching doorways lead southeast and south.",
+description "The two flights of the double staircase meet here at a balcony which overlooks the first floor of the house. A doorway leads southeast.",
 before [;
 	LookDown: "You have a decent view of the first floor from up here.";
 ],
 d_to LowerHall,
 se_to Study,
-s_to MusicSalon,
-cant_go "You can go down the stairs, or south and southeast.";
+cant_go "You can go down the stairs or southeast.";
 
 	RoomObj UCBalcony "balcony" UpstairsCorridor
 	with name "balcony" "landing",

@@ -301,7 +301,7 @@ Array InstPoints table			! Array used in Instructions Menu
 			style underline;	print "Release 3 (July 2, 2013)";		style roman;
 			print ": A bug-fix release to address issues related to the Lively Jig, identified by the most recent generation of avid players.^^";
 			style underline;	print "Release 4 (April 1, 2020)";		style roman;
-			print ": A nostalgic update that adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty, adjusts some exits for better map geometry, and fixes minor bugs.^";
+			print ": A nostalgic update that adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty, adjusts some rooms for better map geometry, and fixes minor bugs.^";
 		3: style bold;	print "Acknowledgements^";			style roman;
 			print "Thanks to my amazing beta testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and my inexorable gamma testers, Vincent Lynch and Phil Swinbank. ";
 			print "They are the reason that Augmented Fourth is as polished as it is. All remaining bugs are my own fault.^^";
@@ -331,7 +331,7 @@ Array InstPoints table			! Array used in Instructions Menu
 [Initialise;
 	lookmode = 2;
 	TitlePage();	
-	location = FallingPit;
+	location = Foyer;
 	print "^^~In ye go!~ With a heave and shove, two burly guards in matching green tights toss you into Orchestra Pit. ";
 	print "As the earthen sides rush past you and sunlight dims, you have the sinking sensation that perhaps ~Ode to a Duck~ was not the best choice from your repertoire...^^";
 	give player light;
