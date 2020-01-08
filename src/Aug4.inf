@@ -96,7 +96,7 @@ Constant LOVE 5;
 Constant COLOUR 6;
 Constant LITERAL 7;
 Constant MODULATE 8;
-Constant INITIAL_LOCATION MagicLab;
+Constant INITIAL_LOCATION FallingPit;
 Constant Story "Augmented Fourth";		! Game Title
 #IFDEF DEBUG;
 	! Headline with testing info
