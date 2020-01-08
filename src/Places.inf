@@ -421,7 +421,7 @@ cant_go "The only exit is the main entrance to the south.";
 
 	RoomObj BSafe "communal safe" Bank
 	with name "metal" "safe" "box" "communal" "door",
-	description "The safe is a two foot cube sitting in the center of the sandstone platform. A single keyhole adorns the door of the safe.",
+	description "The safe is a two foot cube floating over the center of the sandstone platform. A single keyhole adorns the door of the safe.",
 	before [;
 		Attack, Burn, Cut: if (player in BPlatform) {
 				if (self hasnt open)
@@ -1115,10 +1115,14 @@ before [;
 			print "A pleasing suspension of major sevenths outlines this lovely melody and the butler ";
 			if (theButler.timer ~= 4)
 				print "looks up from his spot on the floor and ";
-			"casts longing eyes at the widow. She seems not to notice, however, and continues to read.";
+			"casts longing eyes at the widow. She seems unaware of his affections, though, and continues to read.";
 		}
-		if (theButler notin location && theWidow in location)
+		if (theButler notin location && theWidow in location) {
+			if (theWidow has flag) {
+				"A pleasing suspension of major sevenths outlines this lovely melody. The widow smiles and looks towards the door to the west, but nothing else happens.";
+			}
 			"The widow gives you a grudging smile. ~Pretty music.~";
+		}
 	Shout: if (theWidow in location)
 		"~Keep your voice down, you!~ The widow peers at you over the top of her book.";
 	Smell: "The air is thick and smells of perfume.";
