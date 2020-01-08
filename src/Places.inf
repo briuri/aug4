@@ -3536,7 +3536,7 @@ has ~firstTime;		! Never glowed blue / Trumpet glowed blue
 
 Room MullogsLair "Mullog's Lair"
 with name "mullogslair",
-description "The smell of mildew and toffees permeates this subterranean lair. A grimy chute exits the south wall and a yawning crevice in the east wall leads back to the surface. The other end of the lair is much cleaner and finished, with a winding staircase leading up into the tower above you.",
+description "The smell of mildew and toffees permeates this subterranean lair. A grimy chute exits the south wall and a yawning crevice in the north wall leads back to the surface. The western end of the lair is much cleaner and finished, with a winding staircase leading up into the tower above you.",
 before [;
 	Colour, Duck, Heavy, Jig, Literal, Love, Modulate, Rain: "Mullog pulls the trumpet away from your lips before you can complete the song. ~Too piercing!~";
 	Listen: "All you hear is Mullog mumbling to himself.";
@@ -3550,12 +3550,15 @@ u_to [;
 		return (TowerTop);
 	"With a silent shake of his head, Mullog pushes you away from the stairway. ~Not today, not today...~";
 ],
-out_to [;
-	<<Go e_obj>>;
+w_to [;
+	<<Go u_obj>>;
 ],
-e_to PrivateAlley,
+out_to [;
+	<<Go n_obj>>;
+],
+n_to PrivateAlley,
 s_to "The chute is too high up on the wall to climb into. You can't seem to get enough leverage from down here.",
-cant_go "You can leave the lair to the east or climb the stairs into the tower.";
+cant_go "You can leave the lair to the north or climb the stairs into the tower.";
 
 	RoomObj ML2Chute "grimy chute" MullogsLair
 	with name "grimy" "chute",
@@ -3567,9 +3570,9 @@ cant_go "You can leave the lair to the east or climb the stairs into the tower."
 
 	RoomObj ML2Hole "yawning crevice" MullogsLair
 	with name "yawning" "crevice" "hole" "exit",
-	description "A large hole to the east provides a route to the surface; courtesy of an unstable herring.",
+	description "A large hole to the north provides a route to the surface; courtesy of an unstable herring.",
 	before [;
-		Climb, Enter: <<go e_obj>>;
+		Climb, Enter: <<go n_obj>>;
 		Dig: "There is already a ready-made hole here.";
 		Enlarge: "The hole is in rocky earth. It would be very hard to enlarge it.";
 	];

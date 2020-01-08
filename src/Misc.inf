@@ -301,7 +301,7 @@ Array InstPoints table			! Array used in Instructions Menu
 			style underline;	print "Release 3 (July 2, 2013)";		style roman;
 			print ": A bug-fix release to address issues related to the Lively Jig, identified by the most recent generation of avid players.^^";
 			style underline;	print "Release 4 (April 1, 2020)";		style roman;
-			print ": A nostalgic update that corrects minor bugs and adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty.^";
+			print ": A nostalgic update that adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty, adjusts some exits for better map geometry, and fixes minor bugs.^";
 		3: style bold;	print "Acknowledgements^";			style roman;
 			print "Thanks to my amazing beta testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and my inexorable gamma testers, Vincent Lynch and Phil Swinbank. ";
 			print "They are the reason that Augmented Fourth is as polished as it is. All remaining bugs are my own fault.^^";

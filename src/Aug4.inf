@@ -45,6 +45,7 @@
 !	- Cleaned up source code formatting.
 ! Release 4 (April 1, 2020):
 !	- Updated interactions with Moilan to avoid unnecessary NPC cruelty.
+!	- Adjusted exits in Mullog's Lair for better map geometry.
 !	- Fixed disambiguation issues and minor bugs reported by recent players.
 !	- Cleaned up source code formatting.
 !
@@ -67,6 +68,8 @@
 
 Release 4;			! Current Release Number
 Serial "200401";	! Current Serial Number (so it can be compiled in advance of release date)
+
+Constant DEBUG;
 
 ! #####################
 ! ### Abbreviations ###
