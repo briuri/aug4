@@ -858,8 +858,7 @@ add [;
 		5: "have gained a +1 bonus in Vandalism.] ";
 		6: "have lost ~an eighth~ for Petty Vandalism.] ";
 		7: "have now engaged in seven acts of Petty Vandalism.] ";
-		8: "have earned the rank of ~Serial Vandal~.] ";
-		9: "have attained the highest possible rank of Supreme Vandal.] ";
+		8: "have attained the highest possible rank of Supreme Vandal.] ";
 	}
 ];
 

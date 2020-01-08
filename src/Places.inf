@@ -126,10 +126,10 @@
 !	LLRocks		(found_in LibraryLane LeonineHouse PavedRoad MazeEntrance VolcanoCenter EastHouse 	FinneyHouse FishPond)
 !	LLSkylight
 ! LowerHall (LH2)
-!	LH2Balcony
 !	LH2Staircase
 !	LH2Statue
 !	LH2StatueArm
+!	LH2Study
 ! MagicLab (ML)
 !	MLDoor
 !	MLDoorway
@@ -259,9 +259,12 @@
 !	SQScale
 ! Study (S)
 !	SDesk
+!	SFloor
 !	SFoyer
 !	SFurniture
 !	SShelves
+!	SStaircase
+!	SStatue
 !	SWindow
 !	SWindow2
 ! TowerTop (TT)
@@ -274,11 +277,6 @@
 !	UBHangings
 !	UBTapestry
 !	UBTrumpets
-! UpstairsCorridor (UC)
-!	UCBalcony
-!	UCFloor
-!	UCStaircase
-!	UCStatue
 ! VaultDoor (VD)
 !	VDDoor
 !	VDRemains
@@ -2945,26 +2943,18 @@ description "You stand at the foot of a grand double staircase which leads up to
 before [;
 	Shout: "No one answers.";
 	Smell: "The air here is musty, as if no one has visited in a long time.";
-	LookUp: "Above you, you can see the balcony on the second floor.";
+	LookUp: "Above you, you can see the study on the second floor.";
 ],
-u_to UpstairsCorridor,
+u_to Study,
 e_to Foyer,
 n_to MusicSalon,
 se_to Workshop,
 cant_go "You can go north, east, southeast, or up the stairs here.";
 
-	RoomObj LH2Balcony "balcony" LowerHall
-	with name "balcony" "second" "story" "landing",
-	description "The balcony is built at the landing of the double staircase and overlooks the granite statue.",
-	before [;
-		Climb: "Just go up the stairs.";
-		Cut: "You can't reach the balcony from here.";
-	];
-
 	RoomObj LH2Staircase "double staircase" LowerHall
 	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights" "grand",
 	description [;
-		print "The staircase is very artistically designed, with two separate flights on either side of the statue meeting at a landing on the second floor.";
+		print "The staircase is very artistically designed, with two separate flights on either side of the statue meeting at a study on the second floor.";
 		if (self has flag)
 			" There are some odd scratches on some of the stairs.";
 		"";
@@ -3025,6 +3015,14 @@ cant_go "You can go north, east, southeast, or up the stairs here.";
 		Take: "You can't seem to remove the arm or the granite mallets from the rest of the statue.";
 	];
 
+	RoomObj LH2Study "study" LowerHall
+	with name "study" "second" "story" "landing",
+	description "Finney's study is at the top of the double staircase.",
+	before [;
+		Climb: "Just go up the stairs.";
+		Cut: "You can't reach the study from here.";
+	];
+	
 ! ######################
 ! ### Magic Lab (ML) ###
 ! ######################
@@ -5714,15 +5712,16 @@ Room Study "Study"
 with name "study",
 description [;
 	print "The study is a richly furnished room where Finney must have spent many of his days. A mahogany bookshelf fills up the entire north wall,";
-	print " its shelves lined with all manner of books and treatises. A round window is set in the east wall and Finney's writing desk sits in the center of the room,";
-	" nestled in a wide array of furniture. The only exit is to the northwest.";
+	print " its shelves lined with all manner of books and treatises. A round window is set in the east wall over Finney's writing desk,";
+	" nestled in a wide array of furniture. A double staircase descends from the middle of the room down to the first floor.";
 ],
 before [;
 	Listen: "The study is very quiet. Perhaps Finney engineered this room to reduce background noise.";
+	LookDown: "You have a decent view of the first floor from up here.";
 	Smell: "The air is a bit sweeter here than in other rooms.";
 ],
-nw_to UpstairsCorridor,
-cant_go "The only doorway in this room is to the northwest.";
+d_to LowerHall,
+cant_go "The double staircase down is the only exit in this room.";
 
 	RoomObj SDesk "writing desk" Study
 	with name "writing" "desk" "table",
@@ -5732,9 +5731,9 @@ cant_go "The only doorway in this room is to the northwest.";
 			print "scratched ";
 		else
 			print "slanted ";
-		print "and sits in the middle of the room.";
+		print "and sits on the side of the room.";
 		if (child(self) ~= nothing) {
-			print "On top of the desk, you see ";
+			print " On top of the desk, you see ";
 			WriteListFrom(child(self), ENGLISH_BIT); ".";
 		}
 		"";
@@ -5762,6 +5761,13 @@ cant_go "The only doorway in this room is to the northwest.";
 	],
 	has supporter ~flag;	! Whole / Vandalized
 
+	RoomObj SFloor "first floor" Study
+	with name "first" "floor" "ground",
+	description "The first floor can be seen below you at the bottom of the stairs.",
+	before [;
+		Enter: <<Go d_obj>>;
+	];
+	
 	RoomObj SFoyer "foyer" Study
 	with name "foyer",
 	description [;
@@ -5854,6 +5860,22 @@ cant_go "The only doorway in this room is to the northwest.";
 	has container open ~openable pluralname
 		~flag;		! Whole / Vandalized
 
+	RoomObj SStaircase "double staircase" Study
+	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights",
+	description "The staircase is very artistically designed, with two separate flights splitting apart from the study and descending to the first floor.",
+	before [;
+		Climb, ClimbDown: <<Go d_obj>>;
+		Cut: <<Cut LH2Staircase>>;
+	];
+
+	RoomObj SStatue "statue" Study
+	class	GraniteObj,
+	with name "statue" "finney" "granite" "centerpiece",
+	description "The statue is at the bottom of the stairs. You should probably go downstairs if you want to get a closer look.",
+	before [;
+		Attack, Burn, Catch, Climb, Cut, Knock, Lift, Pull, Push, Search, Smell, Take, Taste, Tie, Touch, Turn: "You cannot reach the statue from here.";
+	];
+	
 	RoomObj SWindow "round window" Study
 	with name "window" "round" "east",
 		description "The window is about the size of a Piddle ball and looks to be used for air circulation in the room. It overlooks the foyer downstairs.",
@@ -6089,69 +6111,6 @@ has ~flag;		! No score / Last Lousy Point scored
 		default: "You are too far away.";
 	],
 	has animate;
-
-! ##############################
-! ### Upstairs Corridor (UC) ###
-! ##############################
-
-Room UpstairsCorridor "Upstairs Corridor"
-with name "upstairscorridor",
-description "The two flights of the double staircase meet here at a balcony which overlooks the first floor of the house. A doorway leads southeast.",
-before [;
-	LookDown: "You have a decent view of the first floor from up here.";
-],
-d_to LowerHall,
-se_to Study,
-cant_go "You can go down the stairs or southeast.";
-
-	RoomObj UCBalcony "balcony" UpstairsCorridor
-	with name "balcony" "landing",
-	description [;
-		print "The balcony is about twenty feet across and looks out over the statue on the first floor.";
-		if (self has flag)
-			" It shows signs of your jigsaw handiwork.";
-		"";
-	],
-	before [;
-		Cut: if (second == jigSaw) {
-				if (self has flag)
-					"There's no need to damage the balcony further.";
-				give self flag;
-				print "You test the edge of the jigsaw on the woodwork of the balcony.";
-				Vandal.add();
-				rtrue;
-			}
-			if (jigSaw in player) {
-				print "(with the jigsaw)^";
-				<<Cut UCBalcony jigSaw>>;
-			}
-			"You can't cut the balcony with your bare hands.";
-		JumpOff: print "You take a deep breath and a running leap, landing athletically on the floor below.^";
-			<<Go d_obj>>;
-	];
-
-	RoomObj UCFloor "first floor" UpstairsCorridor
-	with name "first" "floor" "ground",
-	description "The first floor can be seen below you at the bottom of the stairs.",
-	before [;
-		Enter: <<Go d_obj>>;
-	];
-
-	RoomObj UCStaircase "double staircase" UpstairsCorridor
-	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights",
-	description "The staircase is very artistically designed, with two separate flights splitting apart from the balcony and descending to the first floor.",
-	before [;
-		Climb, ClimbDown: <<Go d_obj>>;
-		Cut: <<Cut LH2Staircase>>;
-	];
-
-	RoomObj UCStatue "statue" UpstairsCorridor
-	class	GraniteObj,
-	with name "statue" "finney" "granite" "centerpiece",
-	description "The statue at the bottom of the stairs. You should probably go downstairs if you want to get a closer look.",
-	before [;
-		Attack, Burn, Catch, Climb, Cut, Knock, Lift, Pull, Push, Search, Smell, Take, Taste, Tie, Touch, Turn: "You cannot reach the statue from here.";
-	];
 
 ! #######################
 ! ### Vault Door (VD) ###
