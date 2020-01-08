@@ -2505,6 +2505,9 @@ orders [w;
 			self.askRainy();
 			rtrue;
 		}
+		if (noun == boxKey) {
+			"Leonine pats his volumnious black robe. ~I would loan it to you if I could find it, but this robe has several thousand magical pockets!~";
+		}
 	Go: "~I don't feel like going anywhere right now. But you can come along next time I do!~";
 	Jump: "Leonine jumps in place. ~Whee!~";
 	JumpOver: if (location == FishPond && noun == FPPond)
