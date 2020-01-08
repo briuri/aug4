@@ -312,14 +312,13 @@ Room Bank "Fifth Bank of Nolava"
 with name "bank",
 description [;
 	print "Were it not for the sign out front, you would have no idea as to the purpose of this building. Unlike most banks, there are no teller windows, no potted plants,";
-	" and not even the token lollipop jar. The far end of the room is dominated by a suspicious-looking sandstone platform. In the middle of the platform is a metal safe.";
+	" and not even the token lollipop jar. The far end of the room is dominated by a suspicious-looking sandstone platform. A metal safe hovers over the middle of the platform.";
 ],
 before [;
 	Colour: if (BPortrait hasnt flag)
 			"The man in the portrait disappears from view and then reappears a moment later. Nothing else seems to happen.";
 	Heavy: if (child(BPlatform) == nothing) {
-			print "The safe presses down noticeably against the sandstone platform, but nothing else happens.";
-			" Perhaps the area of the platform directly underneath the safe is sturdier and less suspicious than the rest of it.";
+			"The hovering safe drift down an inch or two, but nothing else happens.";
 		}	
 		if (BPlatform has flag)
 			"There is a clicking sound in the walls, but evidently the trap was never supposed to be set off more than once.";
@@ -388,7 +387,7 @@ cant_go "The only exit is the main entrance to the south.";
 	RoomObj BPlatform "sandstone platform" Bank
 	with name "sandstone" "platform",
 	description [;
-		print "The sandstone platform dominates much of the room and a metal safe sits in the center of it. You have a bad feeling about it. ";
+		print "The sandstone platform dominates much of the room and a metal safe floats over the center of it. You have a bad feeling about it. ";
 		if (child(self) ~= nothing) {
 			print "On the platform you see ";
 			WriteListFrom(child(self), ENGLISH_BIT); ".";
