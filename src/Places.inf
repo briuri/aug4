@@ -2777,7 +2777,7 @@ cant_go "The only exit is to the northeast.";
 	has container open ~openable transparent;
 
 	RoomObj LBoxPamphlets "pamphlets" LBox
-	with name "pamphlets" "pamphlet" "leaflets" "leaflet",
+	with name "pamphlets" "pamphlet" "leaflets" "leaflet" "timeline",
 	description "The pamphlets are titled ~A BRIEF TIMELINE OF THE ILLUSTRIOUS HISTORY OF THE NOLAVA ODD COMMUNITY~.",
 	before [;
 		Consult: if (pamphlet in player)

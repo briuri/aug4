@@ -742,7 +742,7 @@ before [;
 				print "Leonine ";
 			give Leonine flag;
 			print "cackles gleefully. ~What didja think? That you could get outta here without your standard 'Find-the-Key-to-The-Locked-Door' puzzle?~";
-			" He slaps you heartily on the back and wheezes. ~I think old Finney had the key last, though I could be wrong. Sniveling snails! The easiest thing fer you to do would be to check the history books down at the library.~";
+			" He slaps you heartily on the back and wheezes. ~I think old Finney kept the key in the Opera Hall, though I could be wrong!~";
 		}
 	Knock: if (self notin RWDepression)
 			"You knock on the door and then answer it from the other side.";
@@ -1590,7 +1590,7 @@ consult [ok w1 w2 w3;
 	w3 = NextWord();
 	if (w1 == 'random') {
 		print "You flip to a random page...^^";
-		w1 = random(69);
+		w1 = random(71);
 	}
 	else
 		print "You thumb through the book looking for an entry...^^";
@@ -1683,6 +1683,7 @@ topics [w;
 		68, 'control', 'room': "Control Room:^Hmm...this entry has been purged.";
 		69, 'maze', 'dread': "Maze of Dread:^This maze separates Snoobar's house from the rest of the community. Tales have been told of people entering and never returning, although most tales are probably tall, given the lack of visitors to the community.";
 		70, 'catkins', 'diet': "Catkins Diet:^A weight-loss solution which involves food prepared by the brothers and sisters of a kitten, but only on alternating days.";
+		71, 'door', 'surface': "Door to the Surface:^The door to the surface was removed in Year 7 and given to Snoobar for safekeeping.";
 	}
 ];
 
@@ -2597,7 +2598,7 @@ daemon [;
 			2: "^Leonine looks you over critically. ~Now if you're going to live here, you'll need to clean up those clothes...~ Leonine, in a deep and resonant voice, speaks the word ~Fresh!~^^When nothing immediately happens, he slaps his forehead. ~That one removes dirt from produce...~ He tries again. ~Clean Clothes!~^^The mud on your clothes disappears and you feel refreshed.";
 			3: give trumpet flag;
 				"^Next, Leonine takes a look at the trumpet and sniggers. ~If you're going to play a musical instrument, you should have a better instrument than that!~ Before you can protest that you like your trumpet, the magician mumbles something under his breath.^^Thankfully, your trumpet remains intact, but the bell now glows with magic. ~Heh heh, you'll have fun playing that trumpet now, neighbour!~";
-			4: "^Leonine gives you the once-over and frowns. ~You don't seem to be very happy to be a new member of the Nolava Odd Community... You don't really want to go back up to the surface do you?~ Leonine thinks about this. ~Damn foolery if you ask me, but to each his own I guess. Well, if you really want to get out, there's a ladder to the surface inside a rock spire near the old South Plaza. I can't recall what we did with the door though...or the key for that matter.~ Leonine brightens. ~You could go check at the library! There should be records...but stay awhile and be an acquaintance, hey?~";
+			4: "^Leonine gives you the once-over and frowns. ~You don't seem to be very happy to be a new member of the Nolava Odd Community... You don't really want to go back up to the surface do you?~ Leonine thinks about this. ~Damn foolery if you ask me, but to each his own I guess. Well, if you really want to get out, there's a ladder to the surface inside a rock spire near the old South Plaza. I can't recall what we did with the door though...or the key for that matter.~ Leonine brightens. ~You could go check at the library! There should be records for everything that happened in Year 7...but stay awhile and be an acquaintance, hey?~";
 			5: move Leonine to Void;
 				give self general;
 				"^Leonine suddenly jumps two feet in the air, a feat made disturbing by the fact that he lands on your toes. ~Leapin' lemurs! I left an experiment on the stove. Come on over for tea sometime, new neighbour!~ With a snap of his fingers, Leonine vanishes.";
