@@ -47,7 +47,7 @@ Array HelpPoints table			! Array used in the Help Menu
 [;
 	"How to Play";
 	"About Augmented Fourth";
-	"Acknowledgements";
+	"20th Anniversary Retrospective";
 ];
 
 Array InstPoints table			! Array used in Instructions Menu
@@ -281,34 +281,47 @@ Array InstPoints table			! Array used in Instructions Menu
 		2: style bold;	print "About Augmented Fourth^";	style roman;
 			print "by Brian Uri!, brian@@64urizone.net^https://www.urizone.net/aug4.uri^^Augmented Fourth is a game in the vein of early traditional puzzle-based IF. ";
 			print "It was nominated for two XYZZY Awards in 2000 (including Best Puzzles, and Best Non-Player Character for King Papoosen) and is featured on Jimmy Maher's list of Suggested Works of Modern IF.^^";
-			print "Augmented Fourth has no in-game hint system but you can download a game map and walkthrough separately. If you need a vague nudge, help can be found by thinking, reading the materials in ";
-			print "the Library, the books in various peoples' homes, or asking other characters in the game. If you are still stuck, you are welcome to e-mail ";
-			print "me at the above address; I will usually respond within a day or so.^^";	
-			print "The Augmented Fourth story file and source code are copyright (c) 2000-2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. ";
-			print "Consider this game commentware: if you would like to reimburse me, please send constructive criticism about the game (including bugs) to the email address above.^";
-			style bold;		print "^20th Anniversary Retrospective^";		style roman;
-			print "When Augmented Fourth was released, I was a fourth-year student at Virginia Tech, double majoring in Music Composition and Computer Science. ";
-			print "Development was a two-year-odyssey of waxing and waning motivation and the game was quietly received by the IF community. ";
-			print "I immediately started a 2nd game, Robin Caruso, with a more mature theme and story (story-driven IF was the hot new thing back then!). ";
-			print "I cancelled the project at about 65% completion after it became clear that it would seem like a pale imitation of both Fight Club and Castaway, two movies that explored similar themes.^^";
-			print "Over the past 20 years, I've worked as a software engineer, a solutions architect, and a proposal writer. I now live in northern Virginia with a delightful wife and a two-year-old daughter whose vocabulary is rapidly outpacing the Infocom parser. ";
-			print "My skills in both IF and music have withered on the vine, but I still get a kick out of hearing from new players who have just finished the game.^";
+			print "Augmented Fourth has no in-game hint system but you can download a game map and walkthrough separately. If you need a vague nudge, help can be found by THINKing, READing the books in ";
+			print "the Library or peoples' homes, or ASKing other characters. If you are still stuck, you are welcome to e-mail me.^";	
 			style bold;		print "^Release Notes^";		style roman;
 			style underline;	print "Release 1 (April 1, 2000)";		style roman;
 			print ": The first public release.^^";
 			style underline;	print "Release 2 (July 21, 2009)";		style roman;
-			print ": A bug-fix release to address issues that always irritated me, but not enough to render me willing to fix them during the previous nine years.^^";
+			print ": This release includes bug fixes and several quality-of-life changes based on player feedback.^^";
 			style underline;	print "Release 3 (July 2, 2013)";		style roman;
-			print ": A bug-fix release to address issues related to the Lively Jig, identified by the most recent generation of avid players.^^";
+			print ": This release fixed a bug in the Lively Jig puzzle, identified by the most recent generation of avid players.^^";
 			style underline;	print "Release 4 (April 1, 2020)";		style roman;
-			print ": A nostalgia update that adjusts the puzzle involving Moilan to reduce unnecessary NPC cruelty, adjusts some rooms for better map geometry, adds more gentle hints, and fixes minor bugs.^";
-		3: style bold;	print "Acknowledgements^";			style roman;
+			print ": Riding a wave of nostalgia, this release fixes minor bugs, adjusts some rooms for better map geometry, adds more gentle hints, and reduces the amount of NPC abuse required to beat the game.^^";
+			style bold;	print "Acknowledgements^";			style roman;
 			print "Thanks to my amazing beta testers, Chad Schultz, Carsten Sorensen, Douglas McNeil, Christian Baker, Tom of Scotland, Patty Jerrell, and Al, and my inexorable gamma testers, Vincent Lynch and Phil Swinbank. ";
 			print "They are the reason that Augmented Fourth is as polished as it is. All remaining bugs are my own fault.^^";
 			print "Thanks to Graham Nelson for creating Inform. Thanks to David A. Cornelson, Irene Callaci, L. Ross Raszewski, and Gareth Rees for the groundwork upon which I built my library modifications. Thanks to the rec.arts.int-fiction crowd for answering my endless Inform questions in the late 90s.^^";
 			print "Thanks to Michael Gentry for letting me beta-test Anchorhead. Seeing it come to life made me realize that even big games can be completed with a little patience.^^";
-			print "Thanks to Rikard Peterson for creating the game's cover art in 2008. I loved the simplicity and light-heartedness of his artwork and though it fit the game very well.^^";
-			print "Thanks to everyone (such as Roger Durrant) who has sent feedback and bug reports over the past 20 years. Knowing that people are still enjoying my ancient game is a wonderful feeling.^";
+			print "Thanks to Rikard Peterson for creating the game's cover art in 2008. I loved the simplicity and light-heartedness of his artwork and thought it fit the game very well.^^";
+			print "Thanks to everyone (such as Roger Durrant) who has sent feedback and bug reports over the past 20 years. Knowing that people are still enjoying my ancient game is a wonderful feeling.^^";
+			style bold;	print "Copyright^";			style roman;
+			print "The Augmented Fourth story file and source code are copyright (c) 2000-2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public Domain. ";
+			print "Consider this game commentware: if you would like to reimburse me, please send constructive criticism about the game (including bugs) to the email address above.^";
+		3: style bold;		print "^20th Anniversary Retrospective^";		style roman;
+			style underline;	print "1986";		style roman;
+			print ": My exposure to Interactive Fiction began in first grade when my parents purchased Zork I for our monochrome 8086. ";
+			print "Captivated, I created my own text adventure, only to learn that typing out a game transcript in WordPerfect 4.2 did not actually result in a playable game. ";
+			print "My parents then introduced me to BASIC, which I used to write three awful fantasy games that borrowed heavily from the tropes of the Enchanter series.^^";
+			style underline;	print "1998";		style roman;
+			print ": It was only fitting that I rediscover IF through the rec.arts.int-fiction newsgroup as a college student pursuing a double major in Music Composition and Computer Science. ";
+			print "I started coding Augmented Fourth in January but soon got distracted playing and testing other peoples' games.^^";
+			style underline;	print "2000";		style roman;
+			print ": Development was a two-year odyssey of waxing and waning motivation until the game was finally finished, tested, and released in April 2000. ";
+			print "Meanwhile, I was on the lookout for the next big idea -- something SERIOUSLY SERIOUS and STORY-DRIVEN! ";
+			print "The IF world was a different place back then: Galatea was a few weeks away from release, and many folks were still buzzing about Photopia. ";
+			print "I initially considered exploring the dynamic between the player and the parser as an NPC (an idea that was done far better than I ever could have by Paul O'Brian in LASH a few months later). ";
+			print "I finally came up with the idea of a player character (Robin Caruso) who becomes so lonely after a shipwreck that he actually invents an NPC.^^";
+			print "After writing 386KB of Inform 6 source code, a post (by Lucien P. Smith if I recall correctly) appeared on the newsgroup discussing the new movie, Fight Club, and the idea of a disenfranchised loner creating an alter-ego for comfort. ";
+			print "It hit me that this whole ~neat~ idea that I'd ~invented~ had already been done in a different medium. I wasn't sure if my version was unique enough to stand on its own, especially given the high profile of that movie at the time. ";
+			print "The project's fate was sealed on December 7, 2000, when Tom Hanks talked to Wilson the Volleyball in Cast Away. I relegated the source code to a junk drawer ZIP file and never worked on it again.^^";
+			style underline;	print "2020";		style roman;
+			print ": I've been a grad student, a software engineer, and a solutions architect over the past 20 years. I now live in northern Virginia with a delightful wife and a two-year-old daughter whose vocabulary is rapidly outpacing the Infocom parser. ";
+			print "My skills in both IF and music have withered on the vine, but I still get a kick out of hearing from new players who have just finished the game!^";
 	}
 ];
 
@@ -318,7 +331,7 @@ Array InstPoints table			! Array used in Instructions Menu
 			return 3;
 		1: item_width =  6;	item_name = "How to Play"; 
 		2: item_width = 11;	item_name = "About Augmented Fourth";
-		3: item_width =  8; item_name = "Acknowledgements";
+		3: item_width = 15;	item_name = "20th Anniversary Retrospective";
 	}
 ];
 
