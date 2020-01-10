@@ -9,7 +9,7 @@
 ! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
 ! constructive criticism or comments about the game to the above e-mail address.
 !
-! See Aug4.inf for a note from the author and the changes log.
+! See Aug4.inf for an overview and Release Notes.
 !
 ! ### Misc.inf File Contents ###
 !
@@ -145,17 +145,20 @@ Array InstPoints table			! Array used in Instructions Menu
 	print "Did you try...^ Saying XYZZY? Several Times? ^ Searching the debris in the Stone Quarry more than five times? ^";
 	print " Dropping rocks in the Stone Quarry Hole and then visiting Mullog? ^ Spelling other things in the Letter Maze? ^";
 	print " Reading about all of the Building Codes? ^ Attaining the rank of Supreme Vandal? ^ DIE? ^ Beating the Piddle Ball team with ";
-	if (Endgame hasnt flag)
+	if (Endgame hasnt flag) {
 		print "Lively Jig of Modulation?^";
-	else
+	}
+	else {
 		print "Heavy Love?^";
+	}
 ];
 
 [BeforeParsing i;
 	! CONSULT Mode
 	if (gMode == 1) {
-		for (i = (buffer -> 1) + 1: i >= 2 : i--)
+		for (i = (buffer -> 1) + 1: i >= 2 : i--) {
 			buffer -> (i + 3) = buffer -> i;
+		}
 		buffer -> 2 = 'k';
 		buffer -> 3 = 'w';
 		buffer -> 4 = ' ';
@@ -184,39 +187,47 @@ Array InstPoints table			! Array used in Instructions Menu
 	font off;
 	spaces(i);
 	if (text ofclass string) {
-		if (x == 1)
+		if (x == 1) {
 			style bold;
+		}
 		print (string) text;
-		if (x == 1)
+		if (x == 1) {
 			style roman;
+		}
 	}
 	font on;
 ];
 
 [ChooseObjects obj code;
 	if (action_to_be == ##Consult) {
-		if (obj ofclass BookObj && obj in player)
+		if (obj ofclass BookObj && obj in player) {
 			return 3;
-		if (obj ofclass BookObj && obj notin player)
+		}
+		if (obj ofclass BookObj && obj notin player) {
 			return 2;
+		}
 		return 1;
 	}
 	if (code < 2) {
 		if (obj ofclass InvObj || obj ofclass BookObj) {
-			if (action_to_be == ##Take && obj notin player)
+			if (action_to_be == ##Take && obj notin player) {
 				return 1;
+			}
 		}
-		if (obj has scenery)
+		if (obj has scenery) {
 			return 2;
+		}
 		rfalse;
 	}
 	if (action_to_be == ##Take) {
-		if (obj notin player)
+		if (obj notin player) {
 			return 2;
+		}
 		return 1;
 	}
-	if (obj hasnt scenery)
+	if (obj hasnt scenery) {
 		return 2;
+	}
 	return 1;
 ];
 
@@ -237,10 +248,12 @@ Array InstPoints table			! Array used in Instructions Menu
 	width = 0 -> 33;
 	posa = width - 26;
 	posb = width - 15;
-	if (width < 61)
+	if (width < 61) {
 		i = 2;
-	else
+	}
+	else {
 		i = 1;
+	}
 	@split_window i;
 	@set_window 1;
 	@set_cursor 1 1;
@@ -250,10 +263,12 @@ Array InstPoints table			! Array used in Instructions Menu
 	spaces width;
 	@set_cursor 1 2;
 	FindVisibilityLevels();
-	if (visibility_ceiling == location)
+	if (visibility_ceiling == location) {
 		print (name) location;
-	else
+	}
+	else {
 		print (The) visibility_ceiling;
+	}
 	if ((0 -> 1) & 2 == 0) {
 		@set_cursor i posa;
 		print (string) SCORE__TX, sline1;
@@ -312,13 +327,13 @@ Array InstPoints table			! Array used in Instructions Menu
 			print "I started coding Augmented Fourth in January but soon got distracted playing and testing other peoples' games.^^";
 			style underline;	print "2000";		style roman;
 			print ": Development was a two-year odyssey of waxing and waning motivation until the game was finally finished, tested, and released on April 1. ";
-			print "Meanwhile, I was on the lookout for the next big idea -- something SERIOUSLY SERIOUS and STORY-DRIVEN! ";
-			print "The IF world was a different place back then: Galatea was a few weeks away from release, and many folks were still buzzing about Photopia. ";
+			print "Meanwhile, I was on the lookout for the next big idea -- something SERIOUSLY SERIOUS and STORY-DRIVEN without any duck jokes. ";
+			print "The IF world was a different place back then: Galatea was a few weeks away from release and many folks were still buzzing about Photopia. ";
 			print "I initially considered exploring the dynamic between the player and the parser as an NPC (an idea that was done far better than I ever could have by Paul O'Brian in LASH a few months later). ";
 			print "I finally came up with the idea of a player character (Robin Caruso) who becomes so lonely after a shipwreck that he actually invents an NPC.^^";
 			print "After writing 386KB of Inform 6 source code, a post (by Lucien P. Smith if I recall correctly) appeared on the newsgroup discussing the new movie, Fight Club, and the idea of a disenfranchised loner creating an alter-ego for comfort. ";
 			print "It hit me that this whole ~neat~ idea that I'd ~invented~ had already been done in a different medium. I wasn't sure if my version was unique enough to stand on its own, especially given the high profile of that movie at the time. ";
-			print "The project's fate was sealed on December 7, 2000, when Tom Hanks talked to Wilson the Volleyball in Cast Away. I relegated the source code to a junk drawer ZIP file and never worked on it again.^^";
+			print "The project's fate was sealed on December 7, 2000, when Tom Hanks talked to Wilson the Volleyball in Cast Away. I relegated the source code to a junk drawer ZIP file and never finished it.^^";
 			style underline;	print "2020";		style roman;
 			print ": I've been a grad student, a software engineer, and a solutions architect over the past 20 years. I now live in northern Virginia with a delightful wife and a two-year-old daughter whose vocabulary is rapidly outpacing the Infocom parser. ";
 			print "My skills in both IF and music have withered on the vine, but I still get a kick out of hearing from new players who have just finished the game!^";
@@ -522,24 +537,27 @@ Array InstPoints table			! Array used in Instructions Menu
 
 [IsAmAre w;
 	w = NextWord();
-	if (w == 'is' or 'am' or 'are' or 'were' or 'was')
+	if (w == 'is' or 'am' or 'are' or 'were' or 'was') {
 		return 0;
+	}
 	return -1;
 ];
 
 [NPCinRoom obj;
 	objectloop (obj ofclass NPC) {
 		if (obj in location || parent(obj) in location) {
-			if (obj hasnt asleep)	! Asleep NPCs are unaffected by songs
+			if (obj hasnt asleep) {		! Asleep NPCs are unaffected by songs
 				rtrue;
+			}
 		}
 	}
 	rfalse;
 ];
 
 [PrintChoices choices i;
-	for (i = 0: i < choices --> 0: i++)
+	for (i = 0: i < choices --> 0: i++) {
 		print "^      ", (string) choices --> (i + 1);
+	}
 ];
 
 [PrintRank;
@@ -573,10 +591,12 @@ Array InstPoints table			! Array used in Instructions Menu
 ];
 
 [ValidExit obj;
-	if (ZRegion(obj) == 1 && obj hasnt novisit)
+	if (ZRegion(obj) == 1 && obj hasnt novisit) {
 		rtrue;
-	if (ZRegion(obj) == 2)
+	}
+	if (ZRegion(obj) == 2) {
 		rtrue;
+	}
 	rfalse;
 ];
 
@@ -714,8 +734,9 @@ playScene [;
 Object LetterTracker
 with MazeLength 0,
 addLetter [letter;
-	if (self.MazeLength == 15)
+	if (self.MazeLength == 15) {
 		self.MazeLength = 0;
+	}
 	self.MazeLength++;
 	MazePath -> self.MazeLength = letter;
 ],
@@ -726,17 +747,20 @@ checkPath [;
 		LM18.closeArch();
 		"A baritone voice whispers, ~Fou-llama...~ and an exit appears in the north wall.^^[You have gained two points in Crazy Fauna.] ";
 	}
-	if (self.comparePath(Amoshtuff) && theButler hasnt general)
+	if (self.comparePath(Amoshtuff) && theButler hasnt general) {
 		"^You hear static and then an expectant pause, as if the baritone voice is about to speak. However, nothing happens after all. Odd.";
+	}
 	if (self.comparePath(Amoshtuff) && theButler has general) {
 		LM2.closeArch();
 		remove FYArch;
 		LM18.openArch();
 		print "^A baritone voice whispers, ~Amoshtuff...~ and an exit appears ";
-		if (player in LM18)
+		if (player in LM18) {
 			print "to the southwest.";
-		else
+		}
+		else {
 			print "in the land plot to the west.";
+		}
 		print "^^[You have gained ";
 		if (lostRing in ButlerCottage or FrontYard or DrawingRoom || parent(lostRing) == nothing) {
 			score = score + 1;
@@ -801,15 +825,17 @@ checkPath [;
 ],
 comparePath [str i;
 	for (i = 1: i <= MazePath -> 0: i++) {
-		if (MazePath -> i ~= str -> i)
+		if (MazePath -> i ~= str -> i) {
 			rfalse;
+		}
 	}
 	rtrue;
 ],
 resetPath [i;
 	self.MazeLength = 0;
-	for (i = 1: i <= MazePath -> 0: i++)
+	for (i = 1: i <= MazePath -> 0: i++) {
 		MazePath -> i = 'x';
+	}
 ],
 has	novisit;
 
@@ -818,33 +844,41 @@ with waitCount 0,
 	salonCount 0,
 	nounCount 0,
 before [;
-	Prompt: if (gMode)
+	Prompt: if (gMode) {
 			print "^>>";
-		else
+		}
+		else {
 			print "^>";
+		}
 		rtrue;
-	Miscellany: if (lm_n == 37)
+	Miscellany: if (lm_n == 37) {
 			"You can only do that to something alive.";
-		if (lm_n == 10)
-			"The trumpeters who excel have the confidence to make decisions.";
+		}
+		if (lm_n == 10) {
+			print_ret (string) random("The trumpeters who excel have the confidence to make decisions.", "What would you like to do?");
+		}
 	Fill: "That wouldn't accomplish anything.";
-	Jump: if (heavyRock in player)
+	Jump: if (heavyRock in player) {
 			"It's a little hard to jump with this rock in your hands.";
-		print_ret (string) random("You execute a flawless standing jump.", "You jump in place.", "You jump mightily but gravity reverses your upwards acceleration. ");
+		}
+		print_ret (string) random("You execute a flawless standing jump.", "You jump in place.", "You jump mightily but gravity reverses your upwards acceleration.");
 	No: "Denial won't help you here.";
-	Pray: print_ret (string) random("You pray desperately but nothing comes of it.", "You mumble a quick prayer.", "Prayer won't help you. ");
-	Rub: if (lm_o == player && trumpet hasnt flag)
+	Pray: print_ret (string) random("You pray desperately but nothing comes of it.", "You mumble a quick prayer.", "Prayer won't help you.");
+	Rub: if (lm_o == player && trumpet hasnt flag) {
 			"You try to clean yourself up, but don't do much good.";
-	Sing: print_ret (string) random("You sing a few pitches, slightly off-key.", "Singing was never your forte. ");
+		}
+	Sing: print_ret (string) random("You sing a few pitches, slightly off-key.", "Singing was never your forte.");
 	Smell: "You don't smell any strong odours. ";
 	Sorry: "Not a problem.";
-	Strong: print_ret (string) random("Only people of the action game generation would stoop to such language.", "^[You have just lost three index points of intelligence.] ", "Indeed! ");
-	Take: if (lm_n == 12 && heavyRock in player)
+	Strong: print_ret (string) random("Only people of the action game generation would stoop to such language.", "^[You have just lost three index points of intelligence.] ", "Indeed!");
+	Take: if (lm_n == 12 && heavyRock in player) {
 			"The rock is too big to carry anything else.";
-	Think: print_ret (string) random("Hmmm.", "Fascinating.", "You exist. ");
-	Wake: print_ret (string) random("The truth is, this isn't a dream.", "You aren't sleeping.",	 "You are already awake. ");
-	Wait: if (player in FallingPit)
+		}
+	Think: print_ret (string) random("Hmmm.", "Fascinating.", "You exist.");
+	Wake: print_ret (string) random("The truth is, this isn't a dream.", "You aren't sleeping.", "You are already awake.");
+	Wait: if (player in FallingPit) {
 			"Time passes...";
+		}
 		self.waitCount++;
 		switch (self.waitCount) {
 			4: "Winter changes into spring...eventually of course.";
@@ -1004,10 +1038,12 @@ class InvObj,
 with
 before [;
 	Eat: "The key should be safe enough without resorting to swallowing it. ";
-	Insert: if (second == RWKeyhole)
+	Insert: if (second == RWKeyhole) {
 			<<Unlock second self>>; 
-	PutUnder: if (second == theDuck)
+		}
+	PutUnder: if (second == theDuck) {
 			"The duck would probably resent being used as a paperweight.";
+		}
 	Swing, Wave: "You wave the key around. ";
 ];
 
@@ -1076,16 +1112,19 @@ before [x;
 		}
 		"You need to be holding the music to memorize it. ";
 	Listen: "The sheet music is silent. Perhaps it needs a performer. ";
-	Play: if (trumpet notin player)
+	Play: if (trumpet notin player) {
 			"You need to be carrying your trumpet to play music.";
+		}
 		if (SongBag --> (self.songNum - 1)) {
 			trumpet.playPick(self.songNum);
 			rtrue;
 		}
-		if (self notin player)
+		if (self notin player) {
 			"You need to be holding the sheet music, or have learned it, before you can play it. ";
-	PutUnder: if (second == theDuck)
+		}
+	PutUnder: if (second == theDuck) {
 			"The duck would probably resent being used as a paperweight.";
+		}
 	Smell: "The sheet music smells faintly of vellum. ";
 	Take: if (self notin player) {
 			x = self.songNum - 1;
@@ -1102,13 +1141,15 @@ Class PuzzlePiece
 class InvObj,
 with slot,
 before [;
-	PutUnder: if (second == theDuck)
-			"The duck would probably resent being used as a paperweight.";
+	PutUnder: if (second == theDuck) {
+		"The duck would probably resent being used as a paperweight.";
+		}
 	Smell: "You detect no unique aromas from the piece. ";
 	Eat, Taste: "You lick the puzzle piece. It tastes papery. ";
 	Touch: "The puzzle piece is smooth to the touch. ";
-	Turn: if (self notin WDeviceBlackSlot or WDeviceWhiteSlot)
+	Turn: if (self notin WDeviceBlackSlot or WDeviceWhiteSlot) {
 			"You rotate the puzzle piece exactly 360 degrees. ";
+		}
 		"You can't turn the piece when it's in the device.";
 ],
 has	~scenery ~firstTime;
