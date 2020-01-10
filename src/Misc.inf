@@ -311,7 +311,7 @@ Array InstPoints table			! Array used in Instructions Menu
 			print ": It was only fitting that I rediscover IF through the rec.arts.int-fiction newsgroup as a college student pursuing a double major in Music Composition and Computer Science. ";
 			print "I started coding Augmented Fourth in January but soon got distracted playing and testing other peoples' games.^^";
 			style underline;	print "2000";		style roman;
-			print ": Development was a two-year odyssey of waxing and waning motivation until the game was finally finished, tested, and released in April 2000. ";
+			print ": Development was a two-year odyssey of waxing and waning motivation until the game was finally finished, tested, and released on April 1. ";
 			print "Meanwhile, I was on the lookout for the next big idea -- something SERIOUSLY SERIOUS and STORY-DRIVEN! ";
 			print "The IF world was a different place back then: Galatea was a few weeks away from release, and many folks were still buzzing about Photopia. ";
 			print "I initially considered exploring the dynamic between the player and the parser as an NPC (an idea that was done far better than I ever could have by Paul O'Brian in LASH a few months later). ";
