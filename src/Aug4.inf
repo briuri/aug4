@@ -486,12 +486,10 @@ Verb "yell"
 	*							-> Shout;
 Verb "xyzzy"
 	*							-> Xyzzy;
-IFDEF DEBUG;
+
+IFDEF DEBUG;				! Cheat command should only compile in DEBUG mode
 	Verb meta "cheat"
 		* topic						-> Cheat;
-ENDIF;
-
-IFDEF DEBUG;		! Cheat command should only compile in DEBUG mode
 	[CheatSub w;
 		wn = consult_from;
 		w = NextWord();
@@ -548,12 +546,10 @@ ENDIF;
 ];
 
 [ColourSub;
-	if (NPCinRoom()) {
+	if (NPCinRoom())
 		(AffectNPC(COLOUR));
-	}
-	else {
+	else
 		"You play a melody brimming with runs and arpeggios. The world around you seems a little brighter but nothing else happens.";
-	}
 ];
 
 [ConstructSub;
@@ -561,9 +557,8 @@ ENDIF;
 ];
 
 [ConsultSub;
-	if (~~(noun ofclass BookObj)) {
+	if (~~(noun ofclass BookObj))
 		"You can't look things up in there.";
-	}
 	noun.consult();
 	rtrue;
 ];
@@ -585,12 +580,10 @@ ENDIF;
 ];
 
 [DuckSub;
-	if (theDuck in location || parent(theDuck) in location) {
+	if (theDuck in location || parent(theDuck) in location)
 		"The melody echoes through the air but nothing happens.";
-	}
-	if (fishBomb in location || fishBomb in player) {
+	if (fishBomb in location || fishBomb in player)
 		"Oddly, no ducks arrive at your call. Perhaps self-preservation ranks higher than magical summoning.";
-	}
 	give theDuck ~asleep;
 	move theDuck to location;
 	"As soon as you sound the final cadence, a duck appears in front of you.";
@@ -609,9 +602,8 @@ ENDIF;
 ];
 
 [FireSub;
-	if (noun == player) {
+	if (noun == player)
 		"You cannot shoot yourself.";
-	}
 	"", (The) noun, " cannot be fired.";
 ];
 
@@ -642,9 +634,8 @@ ENDIF;
 		'song', 'songs', 'music', 'tune', 'tunes': "There's no reason to forget any music.";
 		default: "You don't know that particular ditty.";
 	}
-	if (SongBag --> (song - 1) || (song == JIG && JigMusic in player)) {
+	if (SongBag --> (song - 1) || (song == JIG && JigMusic in player))
 		"You've always had a hard time forgetting music after learning it. Today is no exception.";
-	}
 	"You don't know that particular ditty.";
 ];
 
@@ -667,9 +658,8 @@ ENDIF;
 [HealthSub;
 	switch (location) {
 		FallingPit: "You feel a little gravitationally inclined at the moment.";
-		PitBottom: if (PitBottom hasnt flag) {
+		PitBottom: if (PitBottom hasnt flag)
 				"Other than being a little sore, you are thankfully unharmed.";
-			}
 		Maze: "You feel disoriented and confused.";
 		default: print_ret (string) random("You are feeling fine. A serious wound from a gold-tined pitchfork could probably kill you. ", 
 			"You are feeling pretty good at the moment. ", "You feel pretty good. ");
@@ -677,12 +667,10 @@ ENDIF;
 ];
 
 [HeavySub;
-	if (NPCinRoom()) {
+	if (NPCinRoom())
 		AffectNPC(HEAVY);
-	}
-	else {
+	else
 		"The threnody seems to weigh upon your soul, but no physical effects can be seen.";
-	}
 ];
 
 [HelpSub;
@@ -690,9 +678,8 @@ ENDIF;
 ];
 
 [HideSub;
-	if (NPCinRoom()) {
+	if (NPCinRoom())
 		"You can't hide while someone's watching.";
-	}
 	"There's nobody to hide from.";
 ];
 
@@ -705,12 +692,10 @@ ENDIF;
 ];
 
 [JigSub;
-	if (NPCinRoom()) {
+	if (NPCinRoom())
 		AffectNPC(JIG);
-	}
-	else {
+	else
 		"You play a lively toe-tapping gigue, which puts you in a brighter mood. However, nothing else happens.";
-	}
 ];
 
 [JumpOffSub;
@@ -723,12 +708,10 @@ ENDIF;
 
 [KeywordSub;
 	wn = consult_from;
-	if (NextWord() == 'close' && NextWord() == 'book') {
+	if (NextWord() == 'close' && NextWord() == 'book')
 		gBook.endConsult();
-	}
-	else {
+	else
 		gBook.consult();
-	}
 ];
 
 [KeywordOffSub;
@@ -736,9 +719,8 @@ ENDIF;
 ];
 
 [KnockSub;
-	if (noun has animate) {
+	if (noun has animate)
 		"That wouldn't be very courteous.";
-	}
 	"You rap on ", (the) noun, ". There is no reply.";
 ];
 
@@ -751,8 +733,7 @@ ENDIF;
 ];
 
 [LiteralSub;
-	print "The marcato accents of the song jar your thoughts but nothing seems to happen. ";
-	"Perhaps you should play it near one of the many large purple vault doors in the area.";
+	"The marcato accents of the song jar your thoughts but nothing seems to happen. Perhaps you should play it near one of the many large purple vault doors in the area.";
 ];
 
 [LockKeySub;
@@ -761,24 +742,19 @@ ENDIF;
 			print "(with the copper key)^";
 			<<Lock BSafe boxKey>>;
 		}
-		else {
+		else
 			"You don't seem to have the proper key.";
-		}
 	}
 	else if (noun == endDoor) {
-		if (doorKey in player) {
+		if (doorKey in player)
 			"The door is already locked.";
-		}
-		else {
+		else
 			"The keyhole seems to have disappeared.";
-		}
 	}
-	else if (noun == PADoor) {
+	else if (noun == PADoor)
 		<<Lock PADoor>>;
-	}
-	else {
+	else
 		"That doesn't seem to be something you can lock.";
-	}
 ];
 
 [LookUpSub;
@@ -797,12 +773,10 @@ ENDIF;
 ];
 
 [LoveSub;
-	if (NPCinRoom()) {
+	if (NPCinRoom())
 		AffectNPC(LOVE);
-	}
-	else {
+	else
 		"A pleasing suspension of major sevenths outlines this lovely melody. Nothing happens though.";
-	}
 ];
 
 [LowerSub;
@@ -818,12 +792,10 @@ ENDIF;
 ];
 
 [MeLookSub;
-	if (player in OfficeDark) {
+	if (player in OfficeDark)
 		"You can't see yourself.";
-	}
-	if (player in FallingPit or PitBottom or NarrowPass or StoneQuarry or QuarryEntrance) {
+	if (player in FallingPit or PitBottom or NarrowPass or StoneQuarry or QuarryEntrance)
 		"You're looking a bit worse for the wear.";
-	}
 	"You're looking quite spiffy today.";
 ];
 
@@ -832,8 +804,7 @@ ENDIF;
 ];
 
 [ModulateSub;
-	print "The melody jumps from E major to Bb minor and back again, providing a welcome change of pace from dull diatonic dances. ";
-	"However, nothing seems to have been affected.";
+	"The melody jumps from E major to Bb minor and back again, providing a welcome change of pace from dull diatonic dances. However, nothing seems to have been affected.";
 ];
 
 [NiSub;
@@ -849,8 +820,8 @@ ENDIF;
 ];
 
 [NotifySub;
-	print "Notify is now set to ~", (string) random("Only When Scored", "Papoosen-Controlled", "Grey Platypus", "Flannel Hat", 
-		"Squinky the Orangutan", "Might Be On/Might Be Off", "You'll Never Know", "Dit-Dah-Dit");
+	print "Notify is now set to ~", (string) random("Only When Scored", "Papoosen-Controlled", "Grey Platypus", "Flannel Hat", "Squinky the Orangutan", 
+		"Might Be On/Might Be Off", "You'll Never Know", "Dit-Dah-Dit");
 	"~ mode.";
 ];
 
@@ -867,26 +838,21 @@ ENDIF;
 ];
 
 [PracticeSub;
-	if ((noun == trumpet && trumpet in player) || (noun == nothing && trumpet in player)) {
+	if ((noun == trumpet && trumpet in player) || (noun == nothing && trumpet in player))
 		"You practice on the trumpet for a few minutes.";
-	}
-	if (noun == trumpet && trumpet notin player) {
+	if (noun == trumpet && trumpet notin player)
 		"You aren't holding the trumpet.";
-	}
-	if (noun == OHXylophone or MSPiano) {
+	if (noun == OHXylophone or MSPiano)
 		"You wouldn't know where to begin.";
-	}
-	if (noun == nothing) {
+	if (noun == nothing)
 		"You'll have to specify what you want to practice.";
-	}
 	"You can't practice that.";
 ];
 
 [PronounSub;
 	LibraryMessages.nounCount++;
-	if (LibraryMessages.nounCount == 1) {
-		print "Pronouns: pl. n. A group of nouns which have scored more than fifty points.^^";
-	}
+	if (LibraryMessages.nounCount == 1)
+		print "Pronouns: pl. n. A group of nouns which have scored more than fifty points.^";
 	<<Pronouns>>;
 ];
 
@@ -895,12 +861,10 @@ ENDIF;
 ];
 
 [PlayXSub song w;
-	if (trumpet notin player) {
+	if (trumpet notin player)
 		"You can't play a song without your trumpet.";
-	}
-	if (player in Endgame or UpperBalcony) {
+	if (player in Endgame or UpperBalcony)
 		<<Play trumpet>>;
-	}
 	wn = consult_from;
 	w = NextWord();
 	switch (w) {
@@ -915,9 +879,8 @@ ENDIF;
 		'song', 'songs', 'music', 'tune', 'tunes': <<Play trumpet>>;
 		default: "You don't know that particular ditty.";
 	}
-	if (song == DUCK && trumpet.countSongs() == 1) {	! No magic before meeting Leonine
+	if (song == DUCK && trumpet.countSongs() == 1)		! No magic before meeting Leonine
 		<<Play trumpet>>;
-	}
 	trumpet.playPick(song);
 ];
 
@@ -930,9 +893,8 @@ ENDIF;
 ];
 
 [QuackSub topic;
-	if (theDuck notin location && parent(theDuck) ~= location) {
+	if (theDuck notin location && parent(theDuck) ~= location)
 		"You quack, feeling foolish.";
-	}
 	topic = 'quack';
 	<<Answer topic theDuck>>;
 ];
@@ -997,9 +959,8 @@ ENDIF;
 
 [SuicideSub;
 	deadflag = 1;
-	print "With great determination, you will yourself to die. ";
-	print "As your life ebbs away, your last thought is one of amazement at the power of the human mind. ";
-	"You wonder if you could just have easily won by thinking about it...";
+	print "With great determination, you will yourself to die. As your life ebbs away, your last thought is one of amazement at the power of the human mind.";
+	" You wonder if you could just have easily won by thinking about it...";
 ];
 
 [TalkSub;
@@ -1026,21 +987,16 @@ ENDIF;
 ];
 
 [TurnSub;
-	if (ObjectIsUntouchable(noun)) {
+	if (ObjectIsUntouchable(noun))
 		return;
-	}
-	if (noun has static) {
+	if (noun has static)
 		return L__M(##Turn,1,noun);
-	}
-	if (noun has scenery) {
+	if (noun has scenery)
 		"There's no reason to turn ", (the) noun, ".";
-	}
-	if (noun == player) {
+	if (noun == player)
 		"You turn around.";
-	}
-	if (noun has animate) {
+	if (noun has animate)
 		return L__M(##Pull,4,noun);
-	}
 	L__M(##Turn,3,noun);
 ];
 
@@ -1058,25 +1014,21 @@ ENDIF;
 			print "(with the copper key)^";
 			<<Unlock BSafe boxKey>>;
 		}
-		else {
+		else
 			"You don't seem to have the proper key.";
-		}
 	}
 	else if (noun == endDoor && endDoor has lockable) {
 		if (doorKey in player) {
 			print "(with the silver key)^";
 			<<Unlock endDoor doorKey>>;
 		}
-		else {
+		else
 			"You don't seem to have the proper key.";
-		}
 	}
-	else if (noun == PADoor) {
+	else if (noun == PADoor)
 		<<Open PADoor>>;
-	}
-	else {
+	else
 		"That doesn't seem to be something you can unlock.";
-	}
 ];
 
 [WhereSub;
@@ -1104,13 +1056,11 @@ ENDIF;
 		ControlRoom.visits++;
 		"Nothing happens. But a hollow voice in the back of your mind, which sounds suspiciously like Lenny the Head Gnome mutters, ~Heh...fool.~ ";
 	}
-	else if (ControlRoom.visits > 10) {
-		"A hollow voice in the back of your mind mutters, ~Heh...fool.~ ";
-	}
-	else {
-		print "You feel a tugging sensation at the tips of your toes. Without warning, you suddenly wink out of existence...^";
-		PlayerTo(ControlRoom);
-	}
+	else
+		if (ControlRoom.visits > 10)
+			"A hollow voice in the back of your mind mutters, ~Heh...fool.~ ";
+	print "You feel a tugging sensation at the tips of your toes. Without warning, you suddenly wink out of existence...^";
+	PlayerTo(ControlRoom);
 ];
 
 [YawnSub;
