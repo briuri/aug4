@@ -1,21 +1,20 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian AT urizone.net
-! Release 3								Inform 6.21 / 6/10 Libraries
+! Release 4								Inform 6.21 / 6/10 Libraries
 !
 ! ### Copyright ####
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! are copyright (c) 2000 - 2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
 ! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
 ! constructive criticism or comments about the game to the above e-mail address.
 !
-! ### Note from the Author ###
+! ### About This Source Code ###
 !
-! I'm making this code available in the hopes that it will help or inspire someone else to start
-! their own Interactive Fiction work. I learned gads by simple diving in, making mistakes, and studying
-! the coding styles of various authors in the IF Archive. However, I make no guarantees about the
-! quality or correctness of the code. Source code does not age well, especially Inform 6 source code 
-! from the only game I've ever written.
+! I'm making this code available in the hopes that it will inspire someone else to start their own Interactive 
+! Fiction work. I learned gads by simple diving in, making mistakes, and studying the coding styles of various 
+! authors in the IF Archive. However, I make no guarantees about quality or correctness -- source code does 
+! not age well, especially Inform 6 source code from the only game I've ever written.
 !
 ! The source code is split up into four separate files:
 !	- Aug4.inf contains general purpose stuff like constants, verbs, and defaults.
@@ -23,10 +22,10 @@
 ! 	- Places.inf contains all of the rooms and scenery objects.
 !	- Things.inf contains inventory, books, and NPCs. 
 ! To keep routine structure visible, I grouped some strings into single calls, which often extended for miles
-! beyond the width of the screen. I had no problems coding like this in the year 2000, but you may wish to 
+! beyond the width of the screen. I had no problems coding like this in the year 1998, but you may wish to 
 ! turn on Word Wrap.
 !
-! ### Changes Log ###
+! ### Release Notes ###
 !
 ! Release 1 (April 1, 2000):
 ! 	- This was the initial public release.
@@ -44,13 +43,15 @@
 !	- Added a few more gentle hints to the Silver Key puzzle.
 !	- Added a gentle hint to the Bank puzzle.
 !	- Cleaned up source code formatting.
+! Release 4 (April 1, 2020):
+!	- Updated interactions with Moilan to avoid unnecessary NPC cruelty.
+!	- Adjusted various room exits for better map geometry.
+!	- Added a few more gentle hints to various obtuse puzzles.
+!	- Fixed disambiguation issues and minor bugs reported by recent players.
+!	- Cleaned up source code formatting.
 !
-! ### Open Issues ###
+! ### Known Issues ###
 !
-!	- When using the viewscope, room descriptions still appear in the first-person (describing smells and 
-!	  such).
-!   - It would be fun to see into Moilan's house, the widow's private quarters, or the flood quarry with the
-!	  viewscope.
 !	- If you empty the cup of mud/water indoors, it is absorbed into the ground. Also, NPCs do not notice.
 !	- TAKE ALL in the Mess Hall doesn't take the fudge, since it is tied to a cutscene.
 !
@@ -65,7 +66,8 @@
 !	Extended Grammar
 ! ##########################################################################################################
 
-Release 3;					! Current Release Number
+Release 4;			! Current Release Number
+Serial "200401";	! Current Serial Number (so it can be compiled in advance of release date)
 
 ! #####################
 ! ### Abbreviations ###
@@ -94,13 +96,13 @@ Constant LOVE 5;
 Constant COLOUR 6;
 Constant LITERAL 7;
 Constant MODULATE 8;
+Constant INITIAL_LOCATION FallingPit;
+
 Constant Story "Augmented Fourth";		! Game Title
 #IFDEF DEBUG;
-	! Headline with testing info
-	Constant Headline "^^DEBUG IS ENABLED!!!^^";	
+	Constant Headline "^^DEBUG IS ENABLED!!!^^";
 #IFNOT;
-	! Headling without testing info
-	Constant Headline "^An Interactive Performance^(c) 2000-2013 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^";
+	Constant Headline "^An Interactive Performance^(c) 2000-2020 by Brian Uri!, http://www.urizone.net/^Type ~help~ at any time for game information.^";
 #ENDIF;
 
 ! ###############
@@ -146,6 +148,7 @@ Include "Grammar";	! Inform Library
 
 ! ##########################################################################################################
 ! LIST OF VERBS BY CATEGORY: Verbs to consider when making a new object
+!
 ! Room Verbs
 !	Colour, DigRoom, Duck, Heavy, Jig, Listen, Literal, LookDown, LookUp, Love, Modulate, Rain, Shout, 
 !	Sleep, Smell, Think
@@ -159,14 +162,17 @@ Include "Grammar";	! Inform Library
 !	Answer, Ask, AskFor, Attack, Bribe, Colour, Cut, Duck, Fill, Give, Greet, Heavy, Jig, Jump, JumpOver,
 !	Kiss, Lift, Listen, Literal, Love, Lower, Modulate, Pull, Push, Rain, Rub, Show, SingX, Smell, 
 !	Squeeze, Talk, Taste, Tie, Touch, WakeOther, Where, WhoWhat
-! # Less Commonly Called Verbs (at least in Aug4)
+! Less Commonly Called Verbs (at least in Aug4)
 !	Buy, Cachinnate, ClimbDown, Dance, Disrobe, DrinkOil, DuckX, Echo, Fall, Fire, Flail, Follow, 
 !	Forget, Frotz, Glock, Go, GoIn, Hang, Health, Help, Hide, Hum, Inv, InvTall, InvWide, KeepFall, KW., 
 !	Look, Lose, Mild, Ni, Nictitate, No, Nu, Odysseus, Pandiculate, Pick, PlayX, Plugh, Pray, Ruminate, 
 !	Set, SetTo, Sing, Sleep, Sorry, Strong, StopFall, Swim, SwitchOff, SwitchOn, Time, Transfer, 
 !	Ululate, Undress, Wait, Wake, WaveHands, Wear, Whistle, Yawn, Yes
-!
+! ##########################################################################################################
+
+! ##########################################################################################################
 ! LIST OF ALL VERBS: Every verb in the vocabulary
+!
 ! New Verbs
 !	About, Beta, Bribe, Cachinnate, Catch, Cheat, ClimbDown, Count, Dance, DigRoom, DrinkOil, DuckX, Echo, 
 !	Enlarge, Fall, Fire, Flail, Follow, Frotz, Forget, Glock, Greet, Health, Help, Hide, Hum, Irrigate, JumpOff, 
@@ -193,87 +199,87 @@ Include "Grammar";	! Inform Library
 ! ##########################################################################################################
 
 Verb meta "about"
-	*						-> Help;
+	*							-> Help;
 Verb "apologize"
-	*						-> Sorry;
+	*							-> Sorry;
 Verb "beg"
-	* "for" noun			-> Pray
-	* noun "for" noun		-> AskFor;
+	* "for" noun				-> Pray
+	* noun "for" noun			-> AskFor;
 Verb "bribe"
-	* noun					-> Bribe;
+	* noun						-> Bribe;
 Verb "bitch"
-	*						-> Strong
-	* topic					-> Strong;
+	*							-> Strong
+	* topic						-> Strong;
 Verb "build" "construct"
-	* noun					-> Construct;
+	* noun						-> Construct;
 Verb "cachinnate"
-	*						-> Cachinnate;
+	*							-> Cachinnate;
 Verb "carve" "rip" "saw" "tear" 
-	* noun					-> Cut
-	* noun "with" held		-> Cut;
+	* noun						-> Cut
+	* noun "with" held			-> Cut;
 Verb "catch"
-	* noun					-> Catch;
+	* noun						-> Catch;
 Extend "climb"
-	* "in" noun				-> Climb
-	* "on" noun				-> Climb
-	* "through" noun		-> Climb
-	* "down" noun			-> ClimbDown;
+	* "in" noun					-> Climb
+	* "on" noun					-> Climb
+	* "through" noun			-> Climb
+	* "down" noun				-> ClimbDown;
 Verb "continue"
-	* "falling"				-> KeepFall;
+	* "falling"					-> KeepFall;
 Verb "cook"
-	* noun					-> Burn;
+	* noun						-> Burn;
 Verb "count"
-	* noun					-> Count;
+	* noun						-> Count;
 Extend "cut"
 	* noun "with" held			-> Cut
 	* "down" noun "with" held	-> Cut;
 Verb "dance"
-	*						-> Dance;
+	*							-> Dance;
 Verb "dent" "kick"
-	* noun					-> Attack;
+	* noun						-> Attack;
 Extend only "die" replace
-	*						-> Suicide;
+	*							-> Suicide;
 Extend "dig" replace
-	*						-> DigRoom
-	* noun					-> Dig
-	* noun 'with' held		-> Dig
-	* "through"/"in" noun	-> Dig
-	* "hole"				-> DigRoom
-	* "hole" "in" noun		-> Dig;
+	*							-> DigRoom
+	* noun						-> Dig
+	* noun 'with' held			-> Dig
+	* "through"/"in" noun		-> Dig
+	* "hole"					-> DigRoom
+	* "hole" "in" noun			-> Dig;
 Extend "disrobe" first
-	*						-> Undress;
+	*							-> Undress;
 Extend "dive"
-	* "in" noun				-> Enter;
+	* "in" noun					-> Enter;
 Extend "drink" last
-	* "trumpet" "oil"		-> DrinkOil;
+	* "trumpet" "oil"			-> DrinkOil;
 Extend "eat" replace
-	* noun					-> Eat;
+	* noun						-> Eat;
 Verb "echo"
-	*						-> Echo;
+	*							-> Echo;
 Verb "enlarge" "widen"
-	* noun					-> Enlarge;
+	* noun						-> Enlarge;
 Extend "examine" first
-	* "me"					-> MeLook;
+	* "me"						-> MeLook;
 Verb "fall"
-	*						-> Fall;
+	*							-> Fall;
 Extend "feel" first
-	* "me"/"self"			-> MeFeel;
+	* "me"/"self"				-> MeFeel;
 Extend "fill"	
-	* noun "with" noun		-> Insert reverse;
+	* noun "with" noun			-> Insert reverse;
 Verb "fire" "launch" "shoot"
-	* noun					-> Fire
-	* noun "at" noun		-> Fire;
+	* noun						-> Fire
+	* noun "at" noun			-> Fire;
 Verb "flail"
-	*						-> Flail
-	* 'helplessly'			-> Flail;
+	*							-> Flail
+	* 'helplessly'				-> Flail;
 Verb "fly"	
-	*						-> Fly;
+	*							-> Fly;
 Verb "follow"
-	* topic					-> Follow;
+	* topic						-> Follow;
 Verb "forget"
-	* topic					-> Forget;
+	* topic						-> Forget;
 Verb "frotz" "rezrov" "plover" "zork" "abracadabra"	
-	*						-> Frotz;
+	*							-> Frotz;
 Extend "get" replace
 	* 'out'/'off'/'up'			-> Exit
 	* multi						-> Take
@@ -283,65 +289,65 @@ Extend "get" replace
 	* multiinside 'from' noun	-> Remove
 	* "out" "of" noun			-> Exit;
 Verb "glock"
-	*					-> Glock
-	* noun				-> Glock;
+	*							-> Glock
+	* noun						-> Glock;
 Extend "go"
-	* "down" noun		-> Enter
-	* "to" noun			-> Enter;
+	* "down" noun				-> Enter
+	* "to" noun					-> Enter;
 Verb "grab" "grasp"
-	* "at" noun			-> Take
-	* noun				-> Take;
+	* "at" noun					-> Take
+	* noun						-> Take;
 Verb "greet"
-	* noun				-> Greet;
+	* noun						-> Greet;
 Verb "hang"
-	* noun				-> Hang;
+	* noun						-> Hang;
 Verb "health" "diagnose"
-	*					-> Health;
+	*							-> Health;
 Verb "hello"
-	* "sailor"			-> Frotz;
+	* "sailor"					-> Frotz;
 Verb "hide"
-	*					-> Hide;
+	*							-> Hide;
 Verb "hum"
-	*					-> Hum
-	* topic				-> SingX;
+	*							-> Hum
+	* topic						-> SingX;
 Verb meta "help"
-	*					-> Help;
+	*							-> Help;
 Extend "jump"		
-	* "in"/"on" noun	-> Jump
-	* "off" noun		-> JumpOff;
+	* "in"/"on" noun			-> Jump
+	* "off" noun				-> JumpOff;
 Verb "keep"
-	* "falling"			-> KeepFall
-	* "on" "falling"	-> KeepFall;
+	* "falling"					-> KeepFall
+	* "on" "falling"			-> KeepFall;
 Verb "kw"
-	* "stop"			-> KeywordOff
-	* topic				-> Keyword;
+	* "stop"					-> KeywordOff
+	* topic						-> Keyword;
 Extend "kill" first
-	* "me"/"self"		-> Suicide;
+	* "me"/"self"				-> Suicide;
 Extend 'kill'
-	* topic				-> Attack;
+	* topic						-> Attack;
 Verb "knock"
-	* "on"/"at" noun	-> Knock;
+	* "on"/"at" noun			-> Knock;
 Extend "lock" first
-	* noun				-> LockKey;
+	* noun						-> LockKey;
 Extend "look"	first	
-	* "up"				-> LookUp
-	* "down"			-> LookDown
-	* "at" "me"/"self"	-> MeLook;
+	* "up"						-> LookUp
+	* "down"					-> LookDown
+	* "at" "me"/"self"			-> MeLook;
 Extend "look" last
-	* "on" noun			-> Examine
-	* "up" noun			-> Search
-	* "behind" noun		-> LookUnder;
+	* "on" noun					-> Examine
+	* "up" noun					-> Search
+	* "behind" noun				-> LookUnder;
 Verb "learn" "memorize" "memorise"
-	* noun				-> Learn;
+	* noun						-> Learn;
 Verb "lose"
-	*					-> Lose;
+	*							-> Lose;
 Verb "lower"	
-	* noun				-> Lower;
+	* noun						-> Lower;
 Verb "lick"
-	* noun				-> Taste;
+	* noun						-> Taste;
 Verb "lift" "raise" "elevate"
-	* noun				-> Lift
-	* "up" noun			-> Lift;
+	* noun						-> Lift
+	* "up" noun					-> Lift;
 Verb "make"
 	* noun "bigger"/"larger"	-> Enlarge
 	* noun						-> Construct
@@ -349,47 +355,47 @@ Verb "make"
 	* "hole" "in" noun			-> Dig
 	* "hole"					-> DigRoom;
 Verb "ni"
-	*				-> Ni;
+	*							-> Ni;
 Verb "nictitate"
-	*				-> Nictitate;
+	*							-> Nictitate;
 Verb "noodle"
-	* 'on' noun		-> Play;
+	* 'on' noun					-> Play;
 Extend "notify" replace
-	*				-> Notify
-	* "on"			-> Notify
-	* "off"			-> Notify;
+	*							-> Notify
+	* "on"						-> Notify
+	* "off"						-> Notify;
 Verb "nu"
-	*				-> Nu;
+	*							-> Nu;
 Verb "odysseus"
-	*				-> Odysseus;
+	*							-> Odysseus;
 Verb "pandiculate"
-	*				-> Pandiculate;
+	*							-> Pandiculate;
 Verb "peer"
-	* "in" noun		-> Search;
+	* "in" noun					-> Search;
 Verb "pet"
-	* noun			-> Touch;
+	* noun						-> Touch;
 Extend "pick" last
-	* noun			-> Pick;
+	* noun						-> Pick;
 Verb "pour"
-	* noun "on"/"in" noun	-> Insert;
+	* noun "on"/"in" noun		-> Insert;
 Verb "play"
-	* noun					-> Play
-	* topic					-> PlayX;
+	* noun						-> Play
+	* topic						-> PlayX;
 Verb "plugh"
-	*						-> Plugh;
+	*							-> Plugh;
 Verb "practice" "practise"
-	*						-> Practice
-	* noun					-> Practice;
+	*							-> Practice
+	* noun						-> Practice;
 Extend "pronouns" replace
-	*						-> Pronoun;
+	*							-> Pronoun;
 Extend "put"
-	* noun "under" noun		-> PutUnder;
+	* noun "under" noun			-> PutUnder;
 Verb "quack"
-	*						-> Quack
-	* 'at' noun				-> Quack;
+	*							-> Quack
+	* 'at' noun					-> Quack;
 Verb "reach"
-	* "for" noun			-> Take
-	* 'in' noun				-> Search;
+	* "for" noun				-> Take
+	* 'in' noun					-> Search;
 Extend "read" replace
 	* noun						-> Read
 	* "about" topic "in" noun	-> Consult
@@ -408,117 +414,115 @@ Verb "scream" "shriek"
 Verb "shake"
 	* noun						-> Wave;
 Extend only "shout" replace
-	*						-> Shout
-	* 'at' noun				-> Shout;
+	*							-> Shout
+	* 'at' noun					-> Shout;
 Extend "sing" last
-	* topic					-> SingX;
+	* topic						-> SingX;
 Verb "slide"
-	* noun					-> Push
-	* noun noun				-> PushDir
-	* noun 'to' noun		-> Transfer;
+	* noun						-> Push
+	* noun noun					-> PushDir
+	* noun 'to' noun			-> Transfer;
 Extend "smell" first
-	* "me"/"self"			-> MeSmell;
+	* "me"/"self"				-> MeSmell;
 Extend "stand"
-	* "under" noun			-> StandUnder;
+	* "under" noun				-> StandUnder;
 Verb "stop"
-	* "falling"/"fall"		-> StopFall;
+	* "falling"/"fall"			-> StopFall;
 Verb "stretch"
-	* noun					-> Stretch;
+	* noun						-> Stretch;
 Extend "swim"
-	* "in" noun				-> Swim;
+	* "in" noun					-> Swim;
 Extend "take" first
-	* "off" "clothes"		-> Undress
-	* "off" "clothing"		-> Undress;
+	* "off" "clothes"			-> Undress
+	* "off" "clothing"			-> Undress;
 Verb "talk"
-	* "to" noun				-> Talk;
+	* "to" noun					-> Talk;
 Extend "taste" first
-	* "me"/"self"			-> MeEat;
+	* "me"/"self"				-> MeEat;
 Extend "think"
-	* "happy" "thoughts"	-> Think;
+	* "happy" "thoughts"		-> Think;
 Extend "throw"
-	* held "through" noun	-> ThrowAt;
+	* held "through" noun		-> ThrowAt;
 Verb "time" "hour"
-	* 						-> Time;
+	* 							-> Time;
 Verb "tip"
-	* "over" noun			-> Push;
+	* "over" noun				-> Push;
 Extend "touch" first
-	* "me"/"self"			-> MeFeel;
+	* "me"/"self"				-> MeFeel;
 Verb "tune"
-	* noun					-> Tune;
+	* noun						-> Tune;
 Verb "ululate"
-	*						-> Ululate;
+	*							-> Ululate;
 Verb "undress"
-	*						-> Undress;
+	*							-> Undress;
 Extend "unlock" first
-	* noun					-> UnlockKey;
+	* noun						-> UnlockKey;
 Verb "vandalize" "deface"
-	* noun					-> Cut
-	* noun "with" held		-> Cut;
+	* noun						-> Cut
+	* noun "with" held			-> Cut;
 Verb "wash"
-	* noun					-> Rub;
+	* noun						-> Rub;
 Verb "water"
-	* noun					-> Irrigate;
+	* noun						-> Irrigate;
 Verb "where"
-	* IsAmAre				-> Where
-	* IsAmAre topic			-> Where;
+	* IsAmAre					-> Where
+	* IsAmAre topic				-> Where;
 Verb "whistle"
-	*						-> Whistle;
+	*							-> Whistle;
 Verb "who" "what"
-	* IsAmAre				-> WhoWhat
-	* IsAmAre topic			-> WhoWhat;
+	* IsAmAre					-> WhoWhat
+	* IsAmAre topic				-> WhoWhat;
 Verb "wobble" "jiggle"
-	* noun					-> Push;
+	* noun						-> Push;
 Verb "win"
-	*						-> Win
-	* "game"				-> Win;
+	*							-> Win
+	* "game"					-> Win;
 Verb "yank"
-	* noun					-> Pull
-	* 'on' noun				-> Pull;
+	* noun						-> Pull
+	* 'on' noun					-> Pull;
 Verb "yawn"
-	*						-> Yawn;
+	*							-> Yawn;
 Verb "yell"
-	*						-> Shout;
+	*							-> Shout;
 Verb "xyzzy"
-	*						-> Xyzzy;
-IFDEF DEBUG;
-Verb meta "cheat"
-	* topic					-> Cheat;
-ENDIF;
+	*							-> Xyzzy;
 
-IFDEF DEBUG;		! Cheat command should only compile in DEBUG mode
-[CheatSub w;		! Give essential goodies to the player.
-	wn = consult_from;
-	w = NextWord();
-	switch (w) {
-		'inv': move cupMud to player;
-			move mirror to player;
-			move herring to player;
-			move lostRing to player;
-			move boxKey to player;
-			move doorKey to player;
-			move endDoor to player;
-			move rubber to player;
-			move instructions to player;
-			"Inventory Cheat.";
-		'leo': give Leonine firstTime;
-			move Leonine to Void;
-			give Leonine general;
-			StartDaemon(Leonine);
-			"Leonine Daemon started.";
-		'songs': SongBag --> 1 = 1;
-			SongBag --> 2 = 1;
-			SongBag --> 3 = 1;
-			SongBag --> 4 = 1;
-			SongBag --> 5 = 1;
-			SongBag --> 6 = 1;
-			SongBag --> 7 = 1;
-			"All songs learned.";
-		'tpt': move trumpet to player;
-			give trumpet flag;
-			"Trumpet given magic.";
-		default: "[Syntax: CHEAT xxxxx]";
-	}
-];
+IFDEF DEBUG;				! Cheat command should only compile in DEBUG mode
+	Verb meta "cheat"
+		* topic						-> Cheat;
+	[CheatSub w;
+		wn = consult_from;
+		w = NextWord();
+		switch (w) {
+			'inv': move cupMud to player;
+				move mirror to player;
+				move herring to player;
+				move lostRing to player;
+				move boxKey to player;
+				move doorKey to player;
+				move endDoor to player;
+				move rubber to player;
+				move instructions to player;
+				"Inventory Cheat.";
+			'leo': give Leonine firstTime;
+				move Leonine to Void;
+				give Leonine general;
+				StartDaemon(Leonine);
+				"Leonine Daemon started.";
+			'songs': SongBag --> 1 = 1;
+				SongBag --> 2 = 1;
+				SongBag --> 3 = 1;
+				SongBag --> 4 = 1;
+				SongBag --> 5 = 1;
+				SongBag --> 6 = 1;
+				SongBag --> 7 = 1;
+				"All songs learned.";
+			'tpt': move trumpet to player;
+				give trumpet flag;
+				"Trumpet given magic.";
+			default: "[Syntax: CHEAT xxxxx]";
+		}
+	];
 ENDIF;
 
 [BribeSub;

@@ -1,15 +1,15 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian AT urizone.net
-! Release 3								Inform 6.21 / 6/10 Libraries
+! Release 4								Inform 6.21 / 6/10 Libraries
 !
 ! ### Copyright ####
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! are copyright (c) 2000 - 2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
 ! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
 ! constructive criticism or comments about the game to the above e-mail address.
 !
-! See Aug4.inf for a note from the author and the changes log.
+! See Aug4.inf for an overview and Release Notes.
 !
 ! ### Things.inf File Contents ###
 !
@@ -742,7 +742,7 @@ before [;
 				print "Leonine ";
 			give Leonine flag;
 			print "cackles gleefully. ~What didja think? That you could get outta here without your standard 'Find-the-Key-to-The-Locked-Door' puzzle?~";
-			" He slaps you heartily on the back and wheezes. ~I think old Finney had the key last, though I could be wrong. Sniveling snails! The easiest thing fer you to do would be to check the history books down at the library.~";
+			" He slaps you heartily on the back and wheezes. ~I think old Finney kept the key in the Opera Hall, though I could be wrong!~";
 		}
 	Knock: if (self notin RWDepression)
 			"You knock on the door and then answer it from the other side.";
@@ -1559,7 +1559,7 @@ consult [w;
 ];
 
 BookObj poontBook "Poont's Experiment Book" PoontLab
-with name "book" "poont" "experiments",
+with name "book" "poont" "experiments" "small",
 initial "Tucked neatly in the corner is a small book entitled ~Poont's Experiments~.",
 description "The book is neatly written and tabulated on lined paper.",
 before [;
@@ -1590,7 +1590,7 @@ consult [ok w1 w2 w3;
 	w3 = NextWord();
 	if (w1 == 'random') {
 		print "You flip to a random page...^^";
-		w1 = random(69);
+		w1 = random(71);
 	}
 	else
 		print "You thumb through the book looking for an entry...^^";
@@ -1615,10 +1615,10 @@ topics [w;
 		1, 'ahtha', 'builder': "Ahtha the Builder 1/05:^Ahtha was hired by Leonine because of his reputation as a master stonesmith. A combination of his skill and others' magic allowed the quick construction of many structures in the Community. In his free time, the man ate Camelkian Toffees and experimented in new forms of granite shaping. Tragically, Ahtha is assumed to have perished in the quarry since nothing has been heard since then. Since Ahtha spent so much time there, the quarry was respectfully sealed off as his final resting place.";
 		2, 'amoshtuff', 'butler': "Butler Amoshtuff 1/07:^This dashing young fellow is the personal servant of Madame Fou-llama. He resides in a small cottage on the Fou-llama estate, maintaining her home and preparing her seemingly inexhaustible supply of tea.";
 		3, 'armadillo', 'armadillos': "Armadillos:^In spite of its heavy coat of armor reaching from head to end of tail, the armadillo can swim. And because it can undergo considerable exertion for six minutes without breathing, it walks submerged across the bottom of small streams and ponds. The animal is normally solitary, although several of the same sex are sometimes found in one of the four or five burrows or ledge crevices which the average animal maintains.^^The home den contains a nest made of half a bushel of dry grass and leaves, while the other burrows serve as emergency shelters. The tunnels are only 10 to 15 feet long and generally have one entrance under a stump.";
-		4, 'bank', 'fifth', 'trap', 'safe', 'communal': "The Fifth Bank of Nolava 3/05:^A wonder in modern architecture, this structure was built, not surprisingly, from granite. The bank houses a communal safe used by every resident of the Odd Community. This safe is protected by a devious trap! Amazingly few bank tellers have lost their lives, undoubtedly due to the fact that there never were any to begin with.  This safe ended up being rarely used, since most Oddsmen found their own homes to be more secure than the bank. Poont and Leonine were both known to use the safe on occasion, although all of the first five Oddsmen had keys. By the time the widow entered the community, the bank had fallen into disuse.";
+		4, 'bank', 'fifth', 'trap', 'safe', 'communal': "The Fifth Bank of Nolava 3/05:^A wonder in modern architecture, this structure was built, not surprisingly, from granite. The bank houses a communal safe used by every resident of the Odd Community. This floating safe is protected by a devious trap! Amazingly few bank tellers have lost their lives, undoubtedly due to the fact that there never were any to begin with. This safe ended up being rarely used, since most Oddsmen found their own homes to be more secure than the bank. Poont and Leonine were both known to use the safe on occasion, although all of the first five Oddsmen had keys. By the time the widow entered the community, the bank had fallen into disuse.";
 		5, 'bear', 'bears', 'grizzly': "Bears:^Grizzly bear dens are usually found within the mountains, at elevations around 7300 feet. In this region, there is typically high precipitation and snowfall, and the growing season is brief. A natural chamber such as a cave or hollow tree may once in a while be used as a bear den, however, grizzlies almost always dig their own dens.^^Dens are usually dug horizontally into slopes, where the bear flings an incredible shower of rock and rubble out between its legs and down the mountainside. Each den contains a tunnel and a chamber, the chamber is larger in height and width than the tunnel. The chamber of most dens are shallow cup-shaped beds, lined with fir boughs, grass or small twigs.";
 		6, 'camel', 'camels': "Camels:^Camels need very little water if their regular diet contains good, moisture-rich pasture. Although camels can withstand severe dehydration, a large animal can drink as much as twenty-one gallons in ten minutes. Such an amount would kill another mammal, but the camel's unique metabolism enables the animal to store the water in its bloodstream.";
-		7, 'camelkian', 'toffees', 'toffee': "Camelkian Toffees:^Considered a delicacy in some parts of Papoosen, these almond toffees are actually quite repulsive in taste, and rare is the fellow who can eat more than two at a time without feeling nauseated.";
+		7, 'camelkia', 'camelkian', 'toffees', 'toffee': "Camelkian Toffees:^Considered a delicacy in some parts of Papoosen, these almond toffees are actually quite repulsive in taste, and rare is the fellow who can eat more than two at a time without feeling nauseated.";
 		8, 'community', 'odd', 'nolava': "Nolava Odd Community 1/05:^Our community, founded by Leonine, is a wonderful enclave of truly ~odd~ folk. Created to escape the absurdities of the common people up above, the Community is both an experiment in creative granite uses and habitation of a supposedly dormant volcano.^^It should be noted that the original nom de plume of the community was ~Avalon~. But because of intellectual property disputes with the Papoosen Legend Outfit, the more fitting ~Nolava~ was chosen.";
 		9, 'company', 'rock': "Papoosen Rock Company:^The Papoosen Rock Company holds monopoly over all the rocks and minerals found on the surface. However, the poor construction quality of bituminous shale and river pebbles has led most of the buildings in Papoosen to be made from wood or other byproducts. Ever since the Nolava Odd Community discovered granite on their property, trading up to the Rock Company has been a lucrative trade.";
 		10, 'doofa', 'board', 'certification', 'certified': "Doofa and Doofa-Certified Products:^Doofa - a veritable genius of the last century. When Doofa entered the realm of commercial ventures, he saw men all around him scrambling for control and dominance in every market from clocks to toffees. Realizing he could never compete with such fierce competition, Doofa instead formed the Doofa Certification Board, a stringent one-person committee which requires ~every product ever made and everything else~ to be thoroughly inspected before distribution. His ~monopoly on monopolies~ has since earned him great wealth, and Doofa certification is a household term, even years after his death.";
@@ -1683,6 +1683,7 @@ topics [w;
 		68, 'control', 'room': "Control Room:^Hmm...this entry has been purged.";
 		69, 'maze', 'dread': "Maze of Dread:^This maze separates Snoobar's house from the rest of the community. Tales have been told of people entering and never returning, although most tales are probably tall, given the lack of visitors to the community.";
 		70, 'catkins', 'diet': "Catkins Diet:^A weight-loss solution which involves food prepared by the brothers and sisters of a kitten, but only on alternating days.";
+		71, 'door', 'surface': "Door to the Surface:^The door to the surface was removed in Year 7 and given to Snoobar for safekeeping.";
 	}
 ];
 
@@ -2297,7 +2298,7 @@ default [;											! Duck Default
 			DeadEnd, OldQuarry: remove self;
 				"^In a cloud of dust, the duck flaps into the air and leaves the quarry.";
 			InsideVault: remove self;
-				"^Timidly, the duck approches the shimmering curtain of light. Steeling its courage, it takes off into flight, shooting through the curtain to leave the house.";
+				"^Timidly, the duck approaches the shimmering curtain of light. Steeling its courage, it takes off into flight, shooting through the curtain to leave the house.";
 			default: remove self;
 				"^In a cloud of dust, the duck flaps into the air and disappears from view.";
 		}
@@ -2368,7 +2369,6 @@ initial [;
 	if (self hasnt firstTime) {
 		StartDaemon(self);
 		give self firstTime;
-		print "Sitting atop the counter is a bound book entitled ~Nolava Odd Community Building Codes~.^^";
 		print "A tall bearded man in a black robe stalks into the room. Peering through the dust, he identifies you as the culprit. ~Well I'll be!";
 		print " That wall from the pit must have finally broken down... we haven't had a visitor down here in years!~";
 		print " He rushes up to you, nearly bowling you over in the process, and shakes your hand furiously.";
@@ -2377,11 +2377,13 @@ initial [;
 		print " you must be on my side of the bed! Are you odd?~^^Leonine waits for a moment but continues on before you can answer.";
 		print " ~This is the Nolava Odd Community and every permanent resident is a little odd, so if you're planning on sticking around,";
 		print " I'd suggest that you pick up some kind of idiosyncrasy, unless you just want to be mildly ill-tempered, which is just fine in my book as well.";
-		print " Of course, you won't have much company, since most of the residents are dead or moved away.~";
+		print " Of course, you won't have much company, since most of the residents are dead or moved away.~^";
 	}
-	print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
-		"Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.",
-		"You can see Leonine here.", "Leonine is here in his black robe. ");
+	else {
+		print_ret (string) random("Leonine is standing here.", "Leonine is nearby, enjoying the scenery.", "Leonine is here, singing off-key.",
+			"Leonine is here, dusting off his robe.", "Leonine is standing here, thinking to himself.", "Leonine is here, mumbling in another language.",
+			"You can see Leonine here.", "Leonine is here in his black robe. ");
+	}
 ],
 description "Leonine is a tall bearded man in a long black robe. His attire makes him look more like a monk than a mage, but the crazy eyes and the gentle, yet odd, disposition put him in a league of his own. He stands nearby, watching you and enjoying the scenery.",
 before [;
@@ -2504,6 +2506,9 @@ orders [w;
 			self.askRainy();
 			rtrue;
 		}
+		if (noun == boxKey) {
+			"Leonine pats his volumnious black robe. ~I would loan it to you if I could find it, but this robe has several thousand magical pockets!~";
+		}
 	Go: "~I don't feel like going anywhere right now. But you can come along next time I do!~";
 	Jump: "Leonine jumps in place. ~Whee!~";
 	JumpOver: if (location == FishPond && noun == FPPond)
@@ -2593,7 +2598,7 @@ daemon [;
 			2: "^Leonine looks you over critically. ~Now if you're going to live here, you'll need to clean up those clothes...~ Leonine, in a deep and resonant voice, speaks the word ~Fresh!~^^When nothing immediately happens, he slaps his forehead. ~That one removes dirt from produce...~ He tries again. ~Clean Clothes!~^^The mud on your clothes disappears and you feel refreshed.";
 			3: give trumpet flag;
 				"^Next, Leonine takes a look at the trumpet and sniggers. ~If you're going to play a musical instrument, you should have a better instrument than that!~ Before you can protest that you like your trumpet, the magician mumbles something under his breath.^^Thankfully, your trumpet remains intact, but the bell now glows with magic. ~Heh heh, you'll have fun playing that trumpet now, neighbour!~";
-			4: "^Leonine gives you the once-over and frowns. ~You don't seem to be very happy to be a new member of the Nolava Odd Community... You don't really want to go back up to the surface do you?~ Leonine thinks about this. ~Damn foolery if you ask me, but to each his own I guess. Well, if you really want to get out, there's a ladder to the surface inside a rock spire near the old South Plaza. I can't recall what we did with the door though...or the key for that matter.~ Leonine brightens. ~You could go check at the library! There should be records...but stay awhile and be an acquaintance, hey?~";
+			4: "^Leonine gives you the once-over and frowns. ~You don't seem to be very happy to be a new member of the Nolava Odd Community... You don't really want to go back up to the surface do you?~ Leonine thinks about this. ~Damn foolery if you ask me, but to each his own I guess. Well, if you really want to get out, there's a ladder to the surface inside a rock spire near the old South Plaza. I can't recall what we did with the door though...or the key for that matter.~ Leonine brightens. ~You could go check at the library! There should be records for everything that happened in Year 7...but stay awhile and be an acquaintance, hey?~";
 			5: move Leonine to Void;
 				give self general;
 				"^Leonine suddenly jumps two feet in the air, a feat made disturbing by the fact that he lands on your toes. ~Leapin' lemurs! I left an experiment on the stove. Come on over for tea sometime, new neighbour!~ With a snap of his fingers, Leonine vanishes.";
@@ -2894,9 +2899,8 @@ life [;
 			cup: "~That be moi' cup. But I've got another, if ye'd like to have a spot o' spirits in that. Keep it for awhile!~";
 			cupWater: "~No thank'ee, traveler. I'm not a bit parched right now.~";
 			cupMud: remove self;
+				move NGResearch to location;
 				remove cupMud;
-				move cup to location;
-				move NGSick to location;
 				remove Moilan;
 				remove NGSpear;
 				remove NGHelmet;
@@ -2905,9 +2909,10 @@ life [;
 					give self general;	
 					print "Moilan's eyes bug out. ~Oooh! That thar looks like some creamy rich fudge!~ ";
 				}
-				print "He greedily accepts the cup from you and downs it in two successive gulps. Smacking his lips, the guard's expression suddenly contorts. ~Hurr hurr, it never tasted like that before!~ Further conversation is cut short as he throws down the cup and runs to his hut, retching. The door slams shut behind him but you can hear a groan of sickness from inside.^^[You have earned two points for Creative Recipes.] ";
+				print "He greedily accepts the cup from you and inhales deeply. A curious expression appears on his face as he muses, ~Hurr hurr, I'm getting an earthy bouquet from this fudge. Was it imported from Camelkia? I'd better look this up in my Fudges of the World guide!~ ";
+				print "Further conversation is cut short as he runs to his hut. The door slams shut behind him but you can hear excited murmurs from inside.^^[You have earned two points for Creative Recipes.] ";
 				if (Leonine in location)
-					"^^Leonine claps his hands. ~Good trick! He'll be fine tomorrow though.~";
+					"^^Leonine claps his hands. ~Nice distraction!~";
 				"";
 			lostRing: "Moilan pushes the ring away. ~That is too expensive a gift for ye to be giving, burr burr!~";
 		}

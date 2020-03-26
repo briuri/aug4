@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="aug4" default="compile" basedir=".">
+		
+	<target name="clean" description="Removes the temporary build directories">
+		<delete quiet="true" dir="output/aug4" />
+	</target>
+				
+	<!-- Inform flags at http://www.inform-fiction.org/manual/html/tables.html#tbl3 -->
+	<target name="compile" description="Compiles Augmented Fourth">
+		<mkdir dir="output/aug4" />
+		<exec executable="/projects/aug4/output/inform/inform-6.21.exe" dir="src">
+			<arg value="-x" />		<!-- Print # during compile -->
+			<arg value="-v8" />		<!-- Z8 Story File -->
+			<arg value="-~S" />		<!-- Strict error-checking off -->
+			<arg value="-~X" />		<!-- Exclude Infix debugger -->
+			<arg value="-e" />		<!-- Use abbreviations -->
+			<arg value="$MAX_ACTIONS=250" />
+			<arg value="+../lib" />
+			<arg value="Aug4.inf" />
+			<arg value="../output/aug4/Aug4.z8" />
+		</exec>
+		<zip destfile="output/aug4/Aug4Solution.zip" basedir="solution" />
+		<zip destfile="output/aug4/Aug4Source.zip" basedir="src" />
+	</target>
+	
+	<target name="startFrotz" description="Starts Frotz for testing">
+		<exec dir="./output/frotz" executable="cmd">
+			<arg value="/c"/>
+			<arg value="Frotz.exe ../aug4/Aug4.z8"/>
+		</exec>
+	</target>
+</project>

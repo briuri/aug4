@@ -1,15 +1,15 @@
 ! ##########################################################################################################
 ! Augmented Fourth						Brian Uri!, brian AT urizone.net
-! Release 3								Inform 6.21 / 6/10 Libraries
+! Release 4								Inform 6.21 / 6/10 Libraries
 !
 ! ### Copyright ####
 !
 ! The Augmented Fourth story file (Aug4.z8) and source code (Aug4.inf, Misc.inf, Places.inf, Things.inf) 
-! are copyright ©2000 - 2013 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
+! are copyright (c) 2000 - 2020 by Brian Uri!. They may be freely distributed; however, they are NOT Public 
 ! Domain. Consider this game commentware: if you would like to reimburse me, please send any and all 
 ! constructive criticism or comments about the game to the above e-mail address.
 !
-! See Aug4.inf for a note from the author and the changes log.
+! See Aug4.inf for an overview and Release Notes.
 !
 ! ### Places.inf File Contents ###
 !
@@ -126,10 +126,10 @@
 !	LLRocks		(found_in LibraryLane LeonineHouse PavedRoad MazeEntrance VolcanoCenter EastHouse 	FinneyHouse FishPond)
 !	LLSkylight
 ! LowerHall (LH2)
-!	LH2Balcony
 !	LH2Staircase
 !	LH2Statue
 !	LH2StatueArm
+!	LH2Study
 ! MagicLab (ML)
 !	MLDoor
 !	MLDoorway
@@ -157,7 +157,7 @@
 ! MusicSalon (MS)
 !	MSDoorway
 !	MSPiano
-! NarrowPass (NP
+! NarrowPass (NP)
 !	NPHole
 !	NPMasonry
 !	NPMud
@@ -169,7 +169,7 @@
 !	NGHelmet
 !	NGHut
 !	NGPlaque
-!	NGSick
+!	NGResearch
 !	NGSpear
 !	NGWall
 ! OfficeDark (OD)
@@ -259,9 +259,12 @@
 !	SQScale
 ! Study (S)
 !	SDesk
+!	SFloor
 !	SFoyer
 !	SFurniture
 !	SShelves
+!	SStaircase
+!	SStatue
 !	SWindow
 !	SWindow2
 ! TowerTop (TT)
@@ -274,11 +277,6 @@
 !	UBHangings
 !	UBTapestry
 !	UBTrumpets
-! UpstairsCorridor (UC)
-!	UCBalcony
-!	UCFloor
-!	UCStaircase
-!	UCStatue
 ! VaultDoor (VD)
 !	VDDoor
 !	VDRemains
@@ -314,14 +312,13 @@ Room Bank "Fifth Bank of Nolava"
 with name "bank",
 description [;
 	print "Were it not for the sign out front, you would have no idea as to the purpose of this building. Unlike most banks, there are no teller windows, no potted plants,";
-	" and not even the token lollipop jar. The far end of the room is dominated by a suspicious-looking sandstone platform. In the middle of the platform is a metal safe.";
+	" and not even the token lollipop jar. The far end of the room is dominated by a suspicious-looking sandstone platform. A metal safe hovers over the middle of the platform.";
 ],
 before [;
 	Colour: if (BPortrait hasnt flag)
 			"The man in the portrait disappears from view and then reappears a moment later. Nothing else seems to happen.";
 	Heavy: if (child(BPlatform) == nothing) {
-			print "The safe presses down noticeably against the sandstone platform, but nothing else happens.";
-			" Perhaps the area of the platform directly underneath the safe is sturdier and less suspicious than the rest of it.";
+			"The hovering safe drift down an inch or two, but nothing else happens.";
 		}	
 		if (BPlatform has flag)
 			"There is a clicking sound in the walls, but evidently the trap was never supposed to be set off more than once.";
@@ -390,7 +387,7 @@ cant_go "The only exit is the main entrance to the south.";
 	RoomObj BPlatform "sandstone platform" Bank
 	with name "sandstone" "platform",
 	description [;
-		print "The sandstone platform dominates much of the room and a metal safe sits in the center of it. You have a bad feeling about it. ";
+		print "The sandstone platform dominates much of the room and a metal safe floats over the center of it. You have a bad feeling about it. ";
 		if (child(self) ~= nothing) {
 			print "On the platform you see ";
 			WriteListFrom(child(self), ENGLISH_BIT); ".";
@@ -424,7 +421,7 @@ cant_go "The only exit is the main entrance to the south.";
 
 	RoomObj BSafe "communal safe" Bank
 	with name "metal" "safe" "box" "communal" "door",
-	description "The safe is a two foot cube sitting in the center of the sandstone platform. A single keyhole adorns the door of the safe.",
+	description "The safe is a two foot cube floating over the center of the sandstone platform. A single keyhole adorns the door of the safe.",
 	before [;
 		Attack, Burn, Cut: if (player in BPlatform) {
 				if (self hasnt open)
@@ -1118,10 +1115,14 @@ before [;
 			print "A pleasing suspension of major sevenths outlines this lovely melody and the butler ";
 			if (theButler.timer ~= 4)
 				print "looks up from his spot on the floor and ";
-			"casts longing eyes at the widow. She seems not to notice, however, and continues to read.";
+			"casts longing eyes at the widow. She seems unaware of his affections, though, and continues to read.";
 		}
-		if (theButler notin location && theWidow in location)
+		if (theButler notin location && theWidow in location) {
+			if (theWidow has flag) {
+				"A pleasing suspension of major sevenths outlines this lovely melody. The widow smiles and looks towards the door to the west, but nothing else happens.";
+			}
 			"The widow gives you a grudging smile. ~Pretty music.~";
+		}
 	Shout: if (theWidow in location)
 		"~Keep your voice down, you!~ The widow peers at you over the top of her book.";
 	Smell: "The air is thick and smells of perfume.";
@@ -1422,7 +1423,7 @@ with name "endgame",
 description [;
 	switch (self.count) {
 		0: StartDaemon(self);
-		print "^Chaos erupts in the throne room as you slide down the banner, landing at the foot of the dais.";
+		print "^Chaos erupts in the throne room as you slide down the banner, landing at the foot of the dais. ";
 		print "Onlookers press against the walls and the King stops his argument with the Royal Advisor, dumbfounded. Recognition registers soon after.^^";
 		print "~You're the foul trumpet player I had thrown into the Pit! How dare you have the audacity to escape!~ The King waves his sceptre in your general direction.";
 		" ~I sentence you to death...Guards! Seize the musician!~^^Two guards step forward to carry out the King's wishes, their cumbersome halberds glinting in the dusk.";
@@ -1511,7 +1512,7 @@ before [x;
 					"^The melody echoes through the air and the clouds outside look a little darker. Regardless of the imminent rain, the guards are upon you, swinging their deadly halberds to the detriment of your health.";
 				3: self.count++;
 					print "^The notes take on a mystic quality and the guards' halberds suddenly drop to the ground -- dead weight. The guards look at you in disbelief and back away slowly.^^";
-					print "It dawns on you that the melody was more receptive to your playing that it ever has been. The music feels alive inside of you, flowing through your arms and trumpet.";
+					print "It dawns on you that the melody was more receptive to your playing than it ever has been. The music feels alive inside of you, flowing through your arms and trumpet.";
 					" With this mastery of skill comes the realization that you are no longer confined by the bounds of paper music! ";
 				4: deadflag = 1;
 					"^You play a lively toe-tapping gigue, which puts you in a brighter mood. The guards dance as well. They continue to dance as they cleave you in two.";
@@ -2037,9 +2038,12 @@ cant_go "The only paths lead north and east.";
 					"You also see a duck swimming on the surface.";
 				"";
 			}
-			if (theDuck in self)
-				"There is a duck swimming on the surface of the pond.";
-			"";
+			else {
+				print "You see nothing in the water. ";
+				if (theDuck in self)
+					"There is a duck swimming on the surface of the pond.";
+				"";
+			}
 		Take: "The water slips through your fingers.";
 		Touch: "You dip your fingers into the cold pond.";
 	],
@@ -2445,7 +2449,7 @@ description [;
 	" A shimmering curtain of light hangs over the entrance to the east and there appears to be something written on the floor.";
 ],
 before [;
-	Colour: "The walls of the vault shimmering momentarily, but do not change. The owner of the house must have applied ~Purple-Forever~ on his entire abode.";
+	Colour: "The walls of the vault shimmer momentarily, but do not change. The owner of the house must have applied ~Purple-Forever~ on his entire abode.";
 	Listen: "You hear nothing.";
 	Literal: "The vault door is already gone. It's a good thing too; you wouldn't want to cause an overpopulation of hamsters.";
 	LookDown: "The floor, it seems, is much closer than the ceiling. There seems to be something written in tiny letters.";
@@ -2773,7 +2777,7 @@ cant_go "The only exit is to the northeast.";
 	has container open ~openable transparent;
 
 	RoomObj LBoxPamphlets "pamphlets" LBox
-	with name "pamphlets" "pamphlet" "leaflets" "leaflet",
+	with name "pamphlets" "pamphlet" "leaflets" "leaflet" "timeline",
 	description "The pamphlets are titled ~A BRIEF TIMELINE OF THE ILLUSTRIOUS HISTORY OF THE NOLAVA ODD COMMUNITY~.",
 	before [;
 		Consult: if (pamphlet in player)
@@ -2938,29 +2942,22 @@ each_turn [;
 
 Room LowerHall "Lower Hallway"
 with name "lowerhall",
-description "You stand at the foot of a grand double staircase which leads up to the second floor. The centerpiece of this room is a granite statue of Finney, which looks across the room from its proud pose. A smaller doorway is to the southeast and the entrance to the house is east.",
+description "You stand at the foot of a grand double staircase which leads up to the second floor. The centerpiece of this room is a granite statue of Finney, which looks across the room from its proud pose. Smaller doorways lead north and southeast, the entrance to the house is east.",
 before [;
 	Shout: "No one answers.";
 	Smell: "The air here is musty, as if no one has visited in a long time.";
-	LookUp: "Above you, you can see the balcony on the second floor.";
+	LookUp: "Above you, you can see the study on the second floor.";
 ],
-u_to UpstairsCorridor,
+u_to Study,
 e_to Foyer,
+n_to MusicSalon,
 se_to Workshop,
-cant_go "You can go up the stairs here, or east and southeast.";
-
-	RoomObj LH2Balcony "balcony" LowerHall
-	with name "balcony" "second" "story" "landing",
-	description "The balcony is built at the landing of the double staircase and overlooks the granite statue.",
-	before [;
-		Climb: "Just go up the stairs.";
-		Cut: "You can't reach the balcony from here.";
-	];
+cant_go "You can go north, east, southeast, or up the stairs here.";
 
 	RoomObj LH2Staircase "double staircase" LowerHall
 	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights" "grand",
 	description [;
-		print "The staircase is very artistically designed, with two separate flights on either side of the statue meeting at a landing on the second floor.";
+		print "The staircase is very artistically designed, with two separate flights on either side of the statue meeting at a study on the second floor.";
 		if (self has flag)
 			" There are some odd scratches on some of the stairs.";
 		"";
@@ -3021,6 +3018,14 @@ cant_go "You can go up the stairs here, or east and southeast.";
 		Take: "You can't seem to remove the arm or the granite mallets from the rest of the statue.";
 	];
 
+	RoomObj LH2Study "study" LowerHall
+	with name "study" "second" "story" "landing",
+	description "Finney's study is at the top of the double staircase.",
+	before [;
+		Climb: "Just go up the stairs.";
+		Cut: "You can't reach the study from here.";
+	];
+	
 ! ######################
 ! ### Magic Lab (ML) ###
 ! ######################
@@ -3533,7 +3538,7 @@ has ~firstTime;		! Never glowed blue / Trumpet glowed blue
 
 Room MullogsLair "Mullog's Lair"
 with name "mullogslair",
-description "The smell of mildew and toffees permeates this subterranean lair. A grimy chute exits the south wall and a yawning crevice in the east wall leads back to the surface. The other end of the lair is much cleaner and finished, with a winding staircase leading up into the tower above you.",
+description "The smell of mildew and toffees permeates this subterranean lair. A grimy chute exits the south wall and a yawning crevice in the north wall leads back to the surface. The western end of the lair is much cleaner and finished, with a winding staircase leading up into the tower above you.",
 before [;
 	Colour, Duck, Heavy, Jig, Literal, Love, Modulate, Rain: "Mullog pulls the trumpet away from your lips before you can complete the song. ~Too piercing!~";
 	Listen: "All you hear is Mullog mumbling to himself.";
@@ -3547,12 +3552,15 @@ u_to [;
 		return (TowerTop);
 	"With a silent shake of his head, Mullog pushes you away from the stairway. ~Not today, not today...~";
 ],
-out_to [;
-	<<Go e_obj>>;
+w_to [;
+	<<Go u_obj>>;
 ],
-e_to PrivateAlley,
+out_to [;
+	<<Go n_obj>>;
+],
+n_to PrivateAlley,
 s_to "The chute is too high up on the wall to climb into. You can't seem to get enough leverage from down here.",
-cant_go "You can leave the lair to the east or climb the stairs into the tower.";
+cant_go "You can leave the lair to the north or climb the stairs into the tower.";
 
 	RoomObj ML2Chute "grimy chute" MullogsLair
 	with name "grimy" "chute",
@@ -3564,9 +3572,9 @@ cant_go "You can leave the lair to the east or climb the stairs into the tower."
 
 	RoomObj ML2Hole "yawning crevice" MullogsLair
 	with name "yawning" "crevice" "hole" "exit",
-	description "A large hole to the east provides a route to the surface; courtesy of an unstable herring.",
+	description "A large hole to the north provides a route to the surface; courtesy of an unstable herring.",
 	before [;
-		Climb, Enter: <<go e_obj>>;
+		Climb, Enter: <<go n_obj>>;
 		Dig: "There is already a ready-made hole here.";
 		Enlarge: "The hole is in rocky earth. It would be very hard to enlarge it.";
 	];
@@ -3621,7 +3629,7 @@ with name "musicsalon",
 description [;
 	print "This room is small, but acoustically significant. The ceiling has been shaped to provide for the maximum benefit of the small ensembles which must have played here at one time,";
 	print " and even the smallest sound provides a rich timbre here. A Grandunk piano sits in the center of the room, just waiting to be played.";
-	" There are no windows here, but a doorway in the back of the room leads north.";
+	" There are no windows here, but a doorway in the back of the room leads south.";
 ],
 before [;
 	Listen: if (self hasnt firstTime) {
@@ -3631,15 +3639,15 @@ before [;
 		"You can hear even the faintest scuffle of your movements in here.";
 	Shout: "Your voice rings out clearly in the room.";
 ],
-n_to UpstairsCorridor,
-cant_go "The only way out is to the north.",
+s_to LowerHall,
+cant_go "The only way out is to the south.",
 has ~firstTime;		! Never Echoed / Echo
 
 	RoomObj MSDoorway "doorway" MusicSalon
 	with name "doorway",
-	description "The salon's exit is to the north.",
+	description "The salon's exit is to the south.",
 	before [;
-		Enter: <<Go n_obj>>;
+		Enter: <<Go s_obj>>;
 		Knock: "There is no door there.";
 	];
 
@@ -3698,7 +3706,7 @@ with name "narrowpass",
 description [;
 	print "In the dim light, you see that you have entered a roughly-carved hallway running in from the north and around a sharp turn to the northeast.";
 	print " The light outlines a massive pile of uncut rocks against the south wall. In the midst of crumbled masonry, a large hole decorates the west wall,";
-	print " with stray rivulets of mud oozing from within.";
+	print " with stray rivulets of mud oozing from within like molten fudge.";
 	if (self hasnt firstTime) {
 		give self firstTime;
 		if (random(100) < 40)
@@ -3842,7 +3850,12 @@ has ~flag;		! Cutscene not viewed / Cutscene viewed
 				"The gate is open.";
 			"This gate bars any further travel to the northwest. There does not seem to be any sort of raising mechanism attached...perhaps it just swings open.";
 		}
-		"The gate is open and allows passage to the southeast.";
+		else {
+			if (self has open) {
+				"The gate is open and allows passage to the southeast.";
+			}
+			"The gate bars any further travel to the southeast.";
+		}
 	],
 	before [;
 		Attack, Burn, Cut: print "The gate is impervious to your assault. ";
@@ -3879,26 +3892,26 @@ has ~flag;		! Cutscene not viewed / Cutscene viewed
 
 	RoomObj NGHut "stone hut" NorthGate
 	with name "stone" "hut" "door" "wooden",
-	description "The hut lacks the grandiloquence of the gate which it stands next too. There are no windows, just a plain wooden door on the front.",
+	description "The hut lacks the grandiloquence of the gate which it stands next too. There are no windows, just a plain wooden door on the front and a burnished plaque.",
 	before [;
 		Attack, Burn, Climb, Cut, Enter, JumpOver, Lift, Open, Pull, Push, Search, Touch: if (Moilan in location)
 				"The guard waves you away. ~Hurr! Offa me hoose, ya loon!~";
-			"A sickly voice comes from inside the hut. ~Boour! I hear you out thar. Get away from me hoose, ya loon!~ Moilan still sounds sick, but he should be just fine in a little while.";
+			"A distracted voice comes from inside the hut. ~Boour! I hear you out thar. Watch the gate for me while I identify this fudge!~";
 	];
 
-	Plaque NGPlaque "bronze plaque on hut" NorthGate
-	with name "plaque" "on" "hut",
-	description "The plaque resembles others scattered throughout the community.^^NORTH GATE^Nolava Odd Community^Building Code #048 ";
+	Plaque NGPlaque "burnished plaque" NorthGate
+	with name "burnished",
+	description "The plaque on the hut resembles others scattered throughout the community.^^NORTH GATE^Nolava Odd Community^Building Code #048 ";
 
-	RoomObj NGSick "Moilan"
+	RoomObj NGResearch "Moilan"
 	with name "moilan" "guard" "bearded" "beard" "man",
-	description "You can't see Moilan anywhere, but you can hear him inside the stone hut.",
+	description "You can't see Moilan anywhere, but you can hear him inside the stone hut muttering about piquant aromas.",
 	before [;
 		Examine: rfalse;
 		default: <<Examine self>>;
 	],
 	orders [;
-		"A sickly voice comes from inside the hut. ~Boour! Get away from me hoose, ya loon!~ Moilan still sounds sick, but he should be just fine in a little while.";
+		"A distracted voice comes from inside the hut. ~Boour! I hear you out thar. Watch the gate for me while I identify this fudge!~";
 	],
 	has talkable proper;
 
@@ -4570,7 +4583,7 @@ has ~flag ~firstTime;
 		Close, Fill: "It would be counterproductive to fill the hole back up.";
 		Dig, Enlarge, Open, Push, Pull: if (self.holeSize < 5) {
 				self.holeSize++;
-				print "You pull away some mud from around the hole. ";
+				print "You pull away some fudge-coloured mud from around the hole. ";
 				switch (self.holeSize) {
 					2: "It is a little bigger now.";
 					3: "It is now fairly sizeable, but still not big enough to go through.";
@@ -4619,7 +4632,7 @@ has ~flag ~firstTime;
 	RoomObj PBPuddle "mud puddle" PitBottom
 	class	MudObj,
 	with name "mud" "puddle" "pool" "run-off",
-	description "The puddle collects run-off from the sides of the pit, and is a murky brown. It's only a couple inches deep, so you are fairly certain there are no sea monsters lurking just below the surface.",
+	description "The puddle collects run-off from the sides of the pit, and is murky brown with a fudge-like consistency. It's only a couple inches deep, so you are fairly certain there are no sea monsters lurking just below the surface.",
 	before [;
 		Dig: "You attempt to burrow through the floor, but mud simply oozes back into the hole.";
 		Drink: "You're not quite that thirsty yet. After seeing this mud, you'd sooner drink trumpet oil.";
@@ -4865,7 +4878,12 @@ has ~firstTime	! Herring not wasted / Herring wasted
 		j = random(i);
 		i = 0;
 		objectloop(obj ofclass Room) {
-			if (obj ofclass LetterMaze || obj == OfficeDark or FallingPit or nothing or ControlRoom or UpperBalcony or CastleLadder or Void or Endgame or PoontLab or MirrorRoom) {}
+			if (obj ofclass LetterMaze || obj == FallingPit or OfficeDark		! Hide multi-reuse rooms.
+				|| obj == nothing or Void or ControlRoom						! Hide meta locations.
+				|| obj == CastleLadder or UpperBalcony or Endgame				! Hide endgame locations.
+				|| obj == QuarryEntrance or StoneQuarry or NarrowPass			! Hide flooded rooms.
+				|| obj == PoontLab or MirrorRoom or BearsDen					! Hide local rooms.
+			) {}
 			else {
 				if (i == j) {
 					print "You peer into the viewscope and see an image in startling clarity...^^";
@@ -4893,7 +4911,7 @@ with name "privatealley",
 description [;
 	print "Enclosed in this ~high-class~ area of the Community are three buildings of varied architecture. To the west is a smooth granite tower,";
 	print " two stories high, without doors or windows. To the north is the Fifth Bank of Nolava, and a solid black house is to the east.";
-	" Each of the buildings has a plaque affixed to it. The massive gate is the only exit from this area, leading southeast.";
+	" The massive gate is the only exit from this area, leading southeast.";
 ],
 before [;
 	Colour: if (PAHouse has flag) {
@@ -4942,15 +4960,15 @@ has novisit;
 
 	RoomObj PABank "Fifth Bank" PrivateAlley
 	with name "fifth" "bank" "of" "nolava",
-	description "The bank is the sleek-looking building to the north. Its doorway looks invitingly open and a plaque is affixed by the entrance.",
+	description "The bank is the sleek-looking building to the north. Its doorway looks invitingly open and a shiny plaque is affixed by the entrance.",
 	before [;
 		Enter: <<Go n_obj>>;
 	],
 	has proper;
 
-	Plaque PABankPlaque "bank plaque" PrivateAlley
-	with name "bank",
-	description "The bronze sign reads:^^FIFTH BANK OF NOLAVA^Nolava Odd Community^Building Code #045 ";
+	Plaque PABankPlaque "shiny plaque" PrivateAlley
+	with name "shiny",
+	description "The shiny bronze sign reads:^^FIFTH BANK OF NOLAVA^Nolava Odd Community^Building Code #045 ";
 
 	RoomObj PACleft "small cleft" PrivateAlley
 	with name "cleft" "small" "niche" "hole",
@@ -5053,25 +5071,26 @@ has novisit;
 
 	RoomObj PAHouse "Poont's house" PrivateAlley
 	with name "poont" "poont^s" "house" "black",
-	description "This austere house is painted completely black and only has a single black door. The house is only a single-story but extends fairly far towards the wall of the volcano.",
+	description "This austere house is painted completely black and only has a single black door. The house is only a single-story but extends fairly far towards the wall of the volcano. A dull plaque is affixed next to the door.",
 	before [;
 		Climb: "You see no reason to climb onto the roof of the house. There is no chimney to climb down.";
 		Enter: <<go e_obj>>;
 	],
 	has proper;
 
-	Plaque PAHousePlaque "house plaque" PrivateAlley
-	with name "house",
-	description "The plaque on the house says:^^POONT'S LAB^Nolava Odd Community^Building Code #059, 062 ";
+	Plaque PAHousePlaque "dull plaque" PrivateAlley
+	with name "dull",
+	description "The dull plaque on the house says:^^POONT'S LAB^Nolava Odd Community^Building Code #059, 062 ";
 
 	RoomObj PATower "tall tower" PrivateAlley
 	class	GraniteObj,
 	with name "tower" "tall",
 	description [;
-		print "The tower rises several stories into the air and very nearly brushes the side of the volcano at the top. There are no doors or windows visible to the naked eye...perhaps the occupant knew how to fly. At the base of the tower, there is a";
+		print "The tower rises several stories into the air and very nearly brushes the side of the volcano at the top. ";
+		print "A tiny plaque is affixed at eye level. There are no doors or windows visible to the naked eye...perhaps the occupant knew how to fly. At the base of the tower, there is a";
 		if (PACleft in location)
-			" small cleft in the rocks.";
-		" yawning crevice in the ground.";
+			" small cleft in the rocks. ";
+		" yawning crevice in the ground. ";
 	],
 	before [;
 		Climb: "You manage to shimmy a few feet up before running out of handholds.";
@@ -5084,8 +5103,8 @@ has novisit;
 			}
 	];
 
-	Plaque PATowerPlaque "tower plaque" PrivateAlley
-	with name "tower",
+	Plaque PATowerPlaque "tiny plaque" PrivateAlley
+	with name "tiny",
 	description "The plaque on the tower reads:^^SQUIGGY'S TOWER^Nolava Odd Community^Building Code #071 ";
 
 ! ############################
@@ -5701,15 +5720,16 @@ Room Study "Study"
 with name "study",
 description [;
 	print "The study is a richly furnished room where Finney must have spent many of his days. A mahogany bookshelf fills up the entire north wall,";
-	print " its shelves lined with all manner of books and treatises. A round window is set in the east wall and Finney's writing desk sits in the center of the room,";
-	" nestled in a wide array of furniture. The only exit is to the northwest.";
+	print " its shelves lined with all manner of books and treatises. A round window is set in the east wall over Finney's writing desk,";
+	" nestled in a wide array of furniture. A double staircase descends from the middle of the room down to the first floor.";
 ],
 before [;
 	Listen: "The study is very quiet. Perhaps Finney engineered this room to reduce background noise.";
+	LookDown: "You have a decent view of the first floor from up here.";
 	Smell: "The air is a bit sweeter here than in other rooms.";
 ],
-nw_to UpstairsCorridor,
-cant_go "The only doorway in this room is to the northwest.";
+d_to LowerHall,
+cant_go "The double staircase down is the only exit in this room.";
 
 	RoomObj SDesk "writing desk" Study
 	with name "writing" "desk" "table",
@@ -5719,9 +5739,9 @@ cant_go "The only doorway in this room is to the northwest.";
 			print "scratched ";
 		else
 			print "slanted ";
-		print "and sits in the middle of the room.";
+		print "and sits on the side of the room.";
 		if (child(self) ~= nothing) {
-			print "On top of the desk, you see ";
+			print " On top of the desk, you see ";
 			WriteListFrom(child(self), ENGLISH_BIT); ".";
 		}
 		"";
@@ -5749,6 +5769,13 @@ cant_go "The only doorway in this room is to the northwest.";
 	],
 	has supporter ~flag;	! Whole / Vandalized
 
+	RoomObj SFloor "first floor" Study
+	with name "first" "floor" "ground",
+	description "The first floor can be seen below you at the bottom of the stairs.",
+	before [;
+		Enter: <<Go d_obj>>;
+	];
+	
 	RoomObj SFoyer "foyer" Study
 	with name "foyer",
 	description [;
@@ -5841,6 +5868,22 @@ cant_go "The only doorway in this room is to the northwest.";
 	has container open ~openable pluralname
 		~flag;		! Whole / Vandalized
 
+	RoomObj SStaircase "double staircase" Study
+	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights",
+	description "The staircase is very artistically designed, with two separate flights splitting apart from the study and descending to the first floor.",
+	before [;
+		Climb, ClimbDown: <<Go d_obj>>;
+		Cut: <<Cut LH2Staircase>>;
+	];
+
+	RoomObj SStatue "statue" Study
+	class	GraniteObj,
+	with name "statue" "finney" "granite" "centerpiece",
+	description "The statue is at the bottom of the stairs. You should probably go downstairs if you want to get a closer look.",
+	before [;
+		Attack, Burn, Catch, Climb, Cut, Knock, Lift, Pull, Push, Search, Smell, Take, Taste, Tie, Touch, Turn: "You cannot reach the statue from here.";
+	];
+	
 	RoomObj SWindow "round window" Study
 	with name "window" "round" "east",
 		description "The window is about the size of a Piddle ball and looks to be used for air circulation in the room. It overlooks the foyer downstairs.",
@@ -5875,7 +5918,7 @@ cant_go "The only doorway in this room is to the northwest.";
 	description "From here, you can see the window high up in the foyer. It is almost directly across from the round study window. A fresh breeze blows in from the outside.",
 	before [;
 		Climb, Close, Cut, Enlarge, Enter, Jump, Open: "There's no way to reach the foyer window from here.";
-		Receive, ThrownAt: <<ThrowAt noun SWindow>>;
+		Receive, ThrownAt: "The outer window is too far away from here.";
 		Search: "You can't see much detail from here.";
 	];
 
@@ -6077,70 +6120,6 @@ has ~flag;		! No score / Last Lousy Point scored
 	],
 	has animate;
 
-! ##############################
-! ### Upstairs Corridor (UC) ###
-! ##############################
-
-Room UpstairsCorridor "Upstairs Corridor"
-with name "upstairscorridor",
-description "The two flights of the double staircase meet here at a balcony which overlooks the first floor of the house. Matching doorways lead southeast and south.",
-before [;
-	LookDown: "You have a decent view of the first floor from up here.";
-],
-d_to LowerHall,
-se_to Study,
-s_to MusicSalon,
-cant_go "You can go down the stairs, or south and southeast.";
-
-	RoomObj UCBalcony "balcony" UpstairsCorridor
-	with name "balcony" "landing",
-	description [;
-		print "The balcony is about twenty feet across and looks out over the statue on the first floor.";
-		if (self has flag)
-			" It shows signs of your jigsaw handiwork.";
-		"";
-	],
-	before [;
-		Cut: if (second == jigSaw) {
-				if (self has flag)
-					"There's no need to damage the balcony further.";
-				give self flag;
-				print "You test the edge of the jigsaw on the woodwork of the balcony.";
-				Vandal.add();
-				rtrue;
-			}
-			if (jigSaw in player) {
-				print "(with the jigsaw)^";
-				<<Cut UCBalcony jigSaw>>;
-			}
-			"You can't cut the balcony with your bare hands.";
-		JumpOff: print "You take a deep breath and a running leap, landing athletically on the floor below.^";
-			<<Go d_obj>>;
-	];
-
-	RoomObj UCFloor "first floor" UpstairsCorridor
-	with name "first" "floor" "ground",
-	description "The first floor can be seen below you at the bottom of the stairs.",
-	before [;
-		Enter: <<Go d_obj>>;
-	];
-
-	RoomObj UCStaircase "double staircase" UpstairsCorridor
-	with 	name "stairs" "staircase" "stairway" "double" "flight" "flights",
-	description "The staircase is very artistically designed, with two separate flights splitting apart from the balcony and descending to the first floor.",
-	before [;
-		Climb, ClimbDown: <<Go d_obj>>;
-		Cut: <<Cut LH2Staircase>>;
-	];
-
-	RoomObj UCStatue "statue" UpstairsCorridor
-	class	GraniteObj,
-	with name "statue" "finney" "granite" "centerpiece",
-	description "The statue at the bottom of the stairs. You should probably go downstairs if you want to get a closer look.",
-	before [;
-		Attack, Burn, Catch, Climb, Cut, Knock, Lift, Pull, Push, Search, Smell, Take, Taste, Tie, Touch, Turn: "You cannot reach the statue from here.";
-	];
-
 ! #######################
 ! ### Vault Door (VD) ###
 ! #######################
@@ -6163,7 +6142,7 @@ before [;
 			print " You come to rest on the final cadence and the strands begin to dance, whipping through the air until they cover the entire vault door.";
 			print " There is a cacophonous clatter of grating metal and suddenly the vault door is no more!";
 			print " In its place stands a blinking, and thoroughly confused hamster, which quickly takes the opportunity to run out the front door.^^";
-			"[You have earned two points for Assisting in the Population Regeneration of the Indigenous Volcano hamster.] ";
+			"[You have earned two points for Assisting in the Population Regeneration of the Indigenous Volcano Hamster.] ";
 		}
 		"You play the tune but nothing else happens.";
 	Think: if (self has flag)
@@ -6367,7 +6346,7 @@ Room VolcanoCenter "Center of Volcano"
 with name "volcanocenter",
 	rainCount 0,	! Intensity of rain
 description [;
-	print "You stand in the center of a small community built inside a dormant volcano. High above you, the mouth of the volcano allows a view of the outside sky and the occasional birds in flight.";
+	print "You stand in the center of a small community built inside a dormant volcano. High above you, the mouth of the volcano allows a view of the outside sky and the occasional birds in flight. ";
 	print "A paved road runs from the southwest to the east and a small well-manicured park is to the south. A dirt path crosses the paved one from the north and goes to the southeast.";
 	print " To the west, stands a small granite building with a bronze plaque by its doorway.";
 	if (self.rainCount > 3)
