@@ -1,6 +1,0 @@
-Release 4 Distribution:
-- IF Archive
-- URI! Zone
-- IFDB / IFWiki Entry
-- Forum Announcements
-- Email to David Welbourn on Map/Walkthrough Changes
